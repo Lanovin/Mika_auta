@@ -1,0 +1,40 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --header-height: 72px;
+  --page-gradient: radial-gradient(circle at top left, rgba(245, 158, 11, 0.12), transparent 30%), radial-gradient(circle at top right, rgba(180, 83, 9, 0.08), transparent 24%), linear-gradient(180deg, #fffdfa 0%, #f6f1e8 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--page-gradient);
+  color: #111827;
+  @apply min-h-screen antialiased;
+}
+
+.container-page {
+  @apply mx-auto w-full max-w-6xl px-4 md:px-6 lg:px-8;
+}
+
+::selection {
+  background-color: rgb(180 83 9 / 0.2);
+  color: #111827;
+}
+
+.section-kicker {
+  @apply text-[11px] font-semibold uppercase tracking-[0.28em] text-primary;
+}
+
+.card-panel {
+  @apply rounded-[28px] border border-white/70 bg-white/90 shadow-panel backdrop-blur-sm;
+}
+
+.accent-ring {
+  @apply ring-1 ring-primary/15;
+}
+

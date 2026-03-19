@@ -1,0 +1,142 @@
+{
+  "vehicles": [
+    {
+      "id": "skoda-octavia-2019-tdi",
+      "title": "Škoda Octavia Combi 2.0 TDI",
+      "make": "Škoda",
+      "model": "Octavia Combi 2.0 TDI",
+      "year": 2019,
+      "price": 389000,
+      "mileage": 124000,
+      "fuel": "nafta",
+      "transmission": "manuální",
+      "body": "kombi",
+      "powerKw": 110,
+      "location": "Praha 9 - Čakovice",
+      "description": "Prověřený rodinný vůz s jasnou historií, pravidelným servisem a velmi dobrou výbavou pro každodenní provoz.",
+      "imageUrl": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRG1XCTWM3GmMtrC22aWhJMiagqPkBtfCarjNrpZGjJIzdblHZMXp7L72sSp8nn",
+      "gallery": [
+        "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRG1XCTWM3GmMtrC22aWhJMiagqPkBtfCarjNrpZGjJIzdblHZMXp7L72sSp8nn"
+      ],
+      "published": true,
+      "featured": true,
+      "createdAt": "2026-03-16T10:00:00.000Z",
+      "updatedAt": "2026-03-16T10:00:00.000Z"
+    },
+    {
+      "id": "vw-golf-2020-tsi",
+      "title": "Volkswagen Golf 1.5 TSI",
+      "make": "Volkswagen",
+      "model": "Golf 1.5 TSI",
+      "year": 2020,
+      "price": 429000,
+      "mileage": 82000,
+      "fuel": "benzín",
+      "transmission": "manuální",
+      "body": "hatchback",
+      "powerKw": 96,
+      "location": "Praha 9 - Čakovice",
+      "description": "Úsporný a svižný hatchback ve výborném stavu, vhodný do města i na delší trasy.",
+      "imageUrl": "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1502877338535-766e1452684a?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "published": true,
+      "featured": true,
+      "createdAt": "2026-03-16T10:05:00.000Z",
+      "updatedAt": "2026-03-16T10:05:00.000Z"
+    },
+    {
+      "id": "vw-tiguan-2021-tdi-4motion",
+      "title": "Volkswagen Tiguan 2.0 TDI 4Motion",
+      "make": "Volkswagen",
+      "model": "Tiguan 2.0 TDI 4Motion",
+      "year": 2021,
+      "price": 659000,
+      "mileage": 63000,
+      "fuel": "nafta",
+      "transmission": "automatická",
+      "body": "SUV",
+      "powerKw": 147,
+      "location": "Praha 9 - Čakovice",
+      "description": "Silné SUV s pohonem 4x4, automatickou převodovkou a pohodlnou výbavou pro rodinu i podnikání.",
+      "imageUrl": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRLSq4ximrv51NTJBdnHLA_RfUkE07-5dmw-O0DnhfSMNG1ozWJ_-J0EsIESUM7",
+      "gallery": [
+        "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRLSq4ximrv51NTJBdnHLA_RfUkE07-5dmw-O0DnhfSMNG1ozWJ_-J0EsIESUM7"
+      ],
+      "published": true,
+      "featured": true,
+      "createdAt": "2026-03-16T10:10:00.000Z",
+      "updatedAt": "2026-03-16T10:10:00.000Z"
+    },
+    {
+      "id": "skoda-superb-2018-tdi",
+      "title": "Škoda Superb 2.0 TDI",
+      "make": "Škoda",
+      "model": "Superb 2.0 TDI",
+      "year": 2018,
+      "price": 449000,
+      "mileage": 148000,
+      "fuel": "nafta",
+      "transmission": "automatická",
+      "body": "liftback",
+      "powerKw": 140,
+      "location": "Praha 9 - Čakovice",
+      "description": "Reprezentativní a prostorný vůz s komfortní převodovkou DSG a bohatou výbavou.",
+      "imageUrl": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQIO-EgYJd6RfaffSNvVptMo1aRKNeRnVBUoRO9SzIt3cx5Re0Z4BqXtMsW-Mp5",
+      "gallery": [
+        "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcQIO-EgYJd6RfaffSNvVptMo1aRKNeRnVBUoRO9SzIt3cx5Re0Z4BqXtMsW-Mp5"
+      ],
+      "published": true,
+      "featured": true,
+      "createdAt": "2026-03-16T10:15:00.000Z",
+      "updatedAt": "2026-03-16T10:15:00.000Z"
+    },
+    {
+      "id": "hyundai-tucson-2022-hybrid",
+      "title": "Hyundai Tucson 1.6 T-GDI HEV",
+      "make": "Hyundai",
+      "model": "Tucson 1.6 T-GDI HEV",
+      "year": 2022,
+      "price": 799000,
+      "mileage": 38000,
+      "fuel": "hybrid",
+      "transmission": "automatická",
+      "body": "SUV",
+      "powerKw": 169,
+      "location": "Praha 9 - Čakovice",
+      "description": "Moderní hybridní SUV s nízkým nájezdem, pohodlnou automatickou převodovkou a bohatou bezpečnostní výbavou.",
+      "imageUrl": "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80",
+      "gallery": [
+        "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d?auto=format&fit=crop&w=1200&q=80"
+      ],
+      "published": true,
+      "featured": false,
+      "createdAt": "2026-03-16T10:20:00.000Z",
+      "updatedAt": "2026-03-16T10:20:00.000Z"
+    },
+    {
+      "id": "hyundai-i30-2019-tgdi",
+      "title": "Hyundai i30 1.4 T-GDI",
+      "make": "Hyundai",
+      "model": "i30 1.4 T-GDI",
+      "year": 2019,
+      "price": 289000,
+      "mileage": 111000,
+      "fuel": "benzín",
+      "transmission": "manuální",
+      "body": "hatchback",
+      "powerKw": 103,
+      "location": "Praha 9 - Čakovice",
+      "description": "Dobře vybavený hatchback s benzínovým turbomotorem a příznivými provozními náklady.",
+      "imageUrl": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRJ8CyNW0qM4c4hC9qg7jHpzlujQweM4sNkSixaI5STvmfp7T2ZmK6hTgH9xgDI",
+      "gallery": [
+        "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcRJ8CyNW0qM4c4hC9qg7jHpzlujQweM4sNkSixaI5STvmfp7T2ZmK6hTgH9xgDI"
+      ],
+      "published": true,
+      "featured": false,
+      "createdAt": "2026-03-16T10:25:00.000Z",
+      "updatedAt": "2026-03-16T10:25:00.000Z"
+    }
+  ]
+}
