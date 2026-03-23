@@ -17,17 +17,17 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
 
   return (
     <div className="container-page py-12 pb-16">
-      <div className="mx-auto max-w-4xl rounded-3xl bg-white p-8 shadow-soft ring-1 ring-slate-100">
+      <div className="mx-auto max-w-4xl rounded-3xl bg-slate-950/70 p-8 shadow-soft ring-1 ring-white/10">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">Můj účet</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Vítejte, {user.username}</h1>
-            <p className="mt-2 text-sm text-slate-600">
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-100">Vítejte, {user.username}</h1>
+            <p className="mt-2 text-sm text-secondary">
               Přihlášení proběhlo úspěšně. Odtud můžete přejít do správy účtu nebo, pokud jste administrátor, i do správy inzerátů.
             </p>
           </div>
           <form action={logoutUserAction}>
-            <button type="submit" className="inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+            <button type="submit" className="btn-secondary">
               Odhlásit se
             </button>
           </form>
@@ -46,32 +46,32 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
         ) : null}
 
         <div className="mt-8 grid gap-6 md:grid-cols-2">
-          <div className="rounded-2xl bg-slate-50 p-6">
-            <h2 className="text-lg font-semibold text-slate-900">Údaje účtu</h2>
-            <dl className="mt-4 space-y-3 text-sm text-slate-700">
+          <div className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
+            <h2 className="text-lg font-semibold text-slate-100">Údaje účtu</h2>
+            <dl className="mt-4 space-y-3 text-sm text-secondary">
               <div className="flex justify-between gap-4">
-                <dt className="text-slate-500">Uživatelské jméno</dt>
+                <dt className="text-muted">Uživatelské jméno</dt>
                 <dd className="font-medium">{user.username}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-slate-500">E-mail</dt>
+                <dt className="text-muted">E-mail</dt>
                 <dd className="font-medium">{user.email}</dd>
               </div>
               <div className="flex justify-between gap-4">
-                <dt className="text-slate-500">Role</dt>
+                <dt className="text-muted">Role</dt>
                 <dd className="font-medium">{user.role === "admin" ? "Administrátor" : "Uživatel"}</dd>
               </div>
             </dl>
           </div>
 
-          <div className="rounded-2xl bg-slate-50 p-6">
-            <h2 className="text-lg font-semibold text-slate-900">Další kroky</h2>
+          <div className="rounded-2xl bg-white/5 p-6 ring-1 ring-white/10">
+            <h2 className="text-lg font-semibold text-slate-100">Další kroky</h2>
             <div className="mt-4 flex flex-col gap-3 text-sm">
-              <Link href="/vozy" className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 font-semibold text-slate-700 transition hover:bg-white">
+              <Link href="/vozy" className="btn-secondary">
                 Projít nabídku vozů
               </Link>
               {user.role === "admin" ? (
-                <Link href="/admin" className="inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 font-semibold text-white transition hover:bg-primary-dark">
+                <Link href="/admin" className="btn-primary">
                   Otevřít správu inzerátů
                 </Link>
               ) : null}

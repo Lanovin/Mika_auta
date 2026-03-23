@@ -19,11 +19,11 @@ export function Footer() {
             <div className="font-display text-2xl font-semibold uppercase tracking-[0.08em] text-white">
               Mika Auto – váš spolehlivý autobazar
             </div>
-            <div className="mt-3 text-sm text-slate-300">
+            <div className="mt-3 text-sm text-secondary">
               Pomáháme lidem bezpečně a pohodlně koupit kvalitní ojetý vůz, který
               sedne jejich životnímu stylu i rozpočtu.
             </div>
-            <div className="mt-6 grid gap-3 text-sm text-slate-300">
+            <div className="mt-6 grid gap-3 text-sm text-secondary">
               <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
                 Garance původu a prověřený technický stav
               </div>
@@ -35,24 +35,24 @@ export function Footer() {
 
           <div>
             <div className="text-sm font-semibold text-white">Stránky</div>
-            <ul className="mt-3 space-y-2 text-sm text-slate-300">
-              <li><Link href="/" className="hover:text-white">Domů</Link></li>
-              <li><Link href="/vozy" className="hover:text-white">Nabídka vozů</Link></li>
-              <li><Link href="/sluzby" className="hover:text-white">Služby</Link></li>
-              <li><Link href="/o-nas" className="hover:text-white">O nás</Link></li>
-              <li><Link href="/kontakt" className="hover:text-white">Kontakt</Link></li>
+            <ul className="mt-3 space-y-2 text-sm text-secondary">
+              <li><Link href="/" className="nav-link">Domů</Link></li>
+              <li><Link href="/vozy" className="nav-link">Nabídka vozů</Link></li>
+              <li><Link href="/sluzby" className="nav-link">Služby</Link></li>
+              <li><Link href="/o-nas" className="nav-link">O nás</Link></li>
+              <li><Link href="/kontakt" className="nav-link">Kontakt</Link></li>
             </ul>
           </div>
 
           <div>
             <div className="text-sm font-semibold text-white">Adresa</div>
-            <div className="mt-3 text-sm text-slate-300">
+            <div className="mt-3 text-sm text-secondary">
               <div>Kostelecká 1144/85</div>
               <div>Praha 9 - Čakovice 196 00</div>
               <div>Areál nákupního centra Globus</div>
             </div>
             <div className="mt-5 text-sm font-semibold text-white">Otevírací doba</div>
-            <div className="mt-3 text-sm text-slate-300">
+            <div className="mt-3 text-sm text-secondary">
               <div>Po–Pá: 9:00–17:00</div>
               <div>So: 9:00–13:00</div>
               <div>Ne: zavřeno</div>
@@ -61,7 +61,7 @@ export function Footer() {
 
           <div>
             <div className="text-sm font-semibold text-white">Kontakt</div>
-            <div className="mt-3 text-sm text-slate-300">
+            <div className="mt-3 text-sm text-secondary">
               <div>Tel.: +420 774 333 774</div>
               <div>Email: info@mikaauto.cz</div>
             </div>
@@ -79,9 +79,9 @@ export function Footer() {
                 <input
                   type="email"
                   placeholder="Váš email"
-                  className="flex-1 rounded-l-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-slate-400 focus:border-primary focus:outline-none"
+                  className="flex-1 rounded-l-lg border border-white/10 bg-white/5 px-3 py-2 text-sm text-white placeholder:text-muted focus:border-primary focus:outline-none"
                 />
-                <button className="rounded-r-lg bg-primary px-4 py-2 text-sm font-semibold text-white hover:bg-primary/90">
+                <button className="rounded-r-lg bg-primary px-4 py-2 text-sm font-semibold text-slate-950 transition duration-200 hover:bg-primary-light active:scale-[0.99]">
                   Odebírat
                 </button>
               </div>
@@ -90,7 +90,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10 bg-slate-950 py-4">
-        <div className="container-page flex flex-col items-start gap-1 text-xs text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+        <div className="container-page flex flex-col items-start gap-1 text-xs text-muted sm:flex-row sm:items-center sm:justify-between">
           <span>© 2026 Mika Auto – férové jednání a osobní přístup ke každému zákazníkovi.</span>
           <span>Praha 9 • prověřené vozy • osobní servis</span>
         </div>

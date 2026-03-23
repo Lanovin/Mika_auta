@@ -13,10 +13,13 @@ interface HeaderClientProps {
   currentUser: CurrentUser;
 }
 
-const mainNav = [
+const leftNav = [
   { href: "/", label: "Domů" },
   { href: "/vozy", label: "Nabídka vozů" },
-  { href: "/sluzby", label: "Služby" },
+  { href: "/sluzby", label: "Služby" }
+];
+
+const rightNav = [
   { href: "/o-nas", label: "O nás" },
   { href: "/kontakt", label: "Kontakt" }
 ];
@@ -47,26 +50,14 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-white/60 bg-white/85 backdrop-blur-xl">
-      <div className="container-page flex h-[var(--header-height)] items-center justify-between gap-4 lg:gap-6">
-        <Link href="/" className="flex min-w-0 items-center gap-3" onClick={closeMenu}>
-          <img
-            src="https://www.mikaauto.cz/sites/default/files/userdata/logo_mika.png"
-            alt="Autobazar MIKA Logo"
-            className="h-9 w-auto sm:h-10"
-          />
-          <div className="min-w-0">
-            <div className="font-display text-lg font-semibold uppercase tracking-[0.06em] text-slate-950 sm:text-xl">Autobazar Mika</div>
-            <div className="text-[11px] font-medium uppercase tracking-[0.26em] text-slate-500">Praha 9</div>
-          </div>
-        </Link>
-
-        <nav className="hidden md:flex items-center gap-5 text-[15px] font-semibold text-slate-700 lg:gap-7">
-          {mainNav.map((item) => (
+    <header className="sticky top-0 z-30 border-b border-primary/20 bg-slate-950/90 backdrop-blur-xl">
+      <div className="container-page flex h-[var(--header-height)] items-center justify-between gap-4">
+        <nav className="hidden lg:flex items-center gap-8 text-[13px] font-medium uppercase tracking-[0.16em] text-slate-200">
+          {leftNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`whitespace-nowrap transition-colors hover:text-primary ${pathname === item.href ? "text-primary" : ""}`}
+              className={`nav-link ${pathname === item.href ? "text-primary" : ""}`}
             >
               <span className="relative inline-flex pb-1">
                 {item.label}
@@ -76,29 +67,51 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-3 md:flex">
+        <Link href="/" className="hidden lg:flex min-w-0 items-center justify-center" onClick={closeMenu}>
+          <img
+            src="/auto_mika_logo.png"
+            alt="Autobazar MIKA Logo"
+            className="h-16 w-auto object-contain"
+          />
+        </Link>
+
+        <div className="hidden lg:flex items-center gap-7 text-[13px] font-medium uppercase tracking-[0.16em] text-slate-200">
+          {rightNav.map((item) => (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`nav-link ${pathname === item.href ? "text-primary" : ""}`}
+            >
+              <span className="relative inline-flex pb-1">
+                {item.label}
+                {pathname === item.href ? <span className="absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-primary" /> : null}
+              </span>
+            </Link>
+          ))}
           <Link
             href="/kontakt"
-            className="inline-flex items-center whitespace-nowrap rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-primary-dark"
+            className="btn-primary whitespace-nowrap px-6 text-[13px] tracking-[0.08em]"
           >
             Domluvit prohlídku
           </Link>
-          <div className="hidden items-center gap-4 xl:flex">
-            {currentUser?.role === "admin" ? (
-              <Link href="/admin" className="text-xs font-medium text-slate-500 transition hover:text-slate-800">
-                Správa vozů
-              </Link>
-            ) : null}
-            <Link href={currentUser ? "/ucet" : "/prihlaseni"} className="text-xs font-medium text-slate-500 transition hover:text-slate-800">
-              {currentUser ? `Účet: ${currentUser.username}` : "Přihlášení"}
-            </Link>
-          </div>
         </div>
+
+        <Link href="/" className="flex min-w-0 items-center gap-2 lg:hidden" onClick={closeMenu}>
+          <img
+            src="/auto_mika_logo.png"
+            alt="Autobazar MIKA Logo"
+            className="h-10 w-auto object-contain"
+          />
+          <div className="min-w-0">
+            <div className="font-display text-lg font-semibold uppercase tracking-[0.06em] text-slate-100">Autobazar Mika</div>
+            <div className="text-muted text-[11px] font-medium uppercase tracking-[0.24em]">Praha 9</div>
+          </div>
+        </Link>
 
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-slate-200 bg-white text-slate-700 transition hover:bg-slate-50 md:hidden"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-slate-900 text-slate-100 transition hover:bg-slate-800 lg:hidden"
           aria-label={isOpen ? "Zavřít menu" : "Otevřít menu"}
           aria-expanded={isOpen}
         >
@@ -107,15 +120,15 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
       </div>
 
       {isOpen ? (
-        <div className="border-t border-slate-200 bg-white md:hidden">
+        <div className="border-t border-white/10 bg-slate-950 lg:hidden">
           <div className="container-page py-4">
             <nav className="grid gap-1 text-sm">
-              {mainNav.map((item) => (
+              {[...leftNav, ...rightNav].map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={closeMenu}
-                  className={`rounded-lg px-3 py-2 ${pathname === item.href ? "bg-primary/10 font-semibold text-primary" : "text-slate-700 hover:bg-slate-50"}`}
+                  className={`rounded-lg px-3 py-2 ${pathname === item.href ? "bg-primary/15 font-semibold text-primary" : "text-slate-200 hover:bg-white/5"}`}
                 >
                   {item.label}
                 </Link>
@@ -126,7 +139,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
               <Link
                 href="/kontakt"
                 onClick={closeMenu}
-                className="inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold text-white shadow-soft transition hover:bg-primary-dark"
+                className="btn-primary"
               >
                 Domluvit prohlídku
               </Link>
@@ -134,7 +147,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
                 <Link
                   href="/admin"
                   onClick={closeMenu}
-                  className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                  className="btn-secondary"
                 >
                   Správa vozů
                 </Link>
@@ -142,7 +155,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
               <Link
                 href={currentUser ? "/ucet" : "/prihlaseni"}
                 onClick={closeMenu}
-                className="inline-flex items-center justify-center rounded-full border border-slate-200 px-4 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50"
+                className="btn-secondary"
               >
                 {currentUser ? `Účet: ${currentUser.username}` : "Přihlášení"}
               </Link>
@@ -150,6 +163,8 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
           </div>
         </div>
       ) : null}
+
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
     </header>
   );
 }

@@ -33,7 +33,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs">
-      <body className={`${sans.variable} ${display.variable} flex min-h-screen flex-col font-sans text-slate-900`}>
+      <body className={`${sans.variable} ${display.variable} flex min-h-screen flex-col font-sans text-slate-100`}>
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

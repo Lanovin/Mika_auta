@@ -111,25 +111,25 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
             </div>
 
             <div className="mt-5 max-w-2xl">
-              <p className="text-sm text-slate-600 sm:text-base">
+              <p className="text-sm text-secondary sm:text-base">
                 Vyberte si auto během pár minut. Rychle, přehledně a bez zbytečného papírování.
               </p>
 
               <div className="mt-5 flex flex-wrap items-center gap-3">
-                <Link href="/vozy" className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-primary-dark">
+                <Link href="/vozy" className="btn-primary gap-2 px-5 py-3">
                   Projít nabídku
                   <ArrowRight className="h-4 w-4" />
                 </Link>
-                <Link href="/kontakt" className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-5 py-3 text-sm font-semibold text-slate-900 transition hover:bg-slate-50">
+                <Link href="/kontakt" className="btn-secondary gap-2 px-5 py-3">
                   Rezervovat prohlídku
                 </Link>
               </div>
             </div>
 
-            <div className="card-panel accent-ring mt-7 p-5 text-slate-900 md:p-6">
+            <div className="card-panel accent-ring mt-7 p-5 text-slate-100 md:p-6">
               <div>
                 <p className="section-kicker">Rychlé vyhledávání</p>
-                <p className="mt-2 text-sm text-slate-600">
+                <p className="mt-2 text-sm text-secondary">
                   Zadejte pár údajů a zobrazíme vám nejvhodnější vozy.
                 </p>
               </div>
@@ -139,7 +139,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
               </div>
 
               <div className="mt-5">
-                <Link href={quickSearchHref} className="inline-flex items-center gap-2 rounded-full bg-primary px-5 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-primary-dark">
+                <Link href={quickSearchHref} className="btn-primary gap-2 px-5 py-3">
                   Vyhledat
                   <ArrowRight className="h-4 w-4" />
                 </Link>
@@ -147,17 +147,17 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
             </div>
 
             <div className="mt-6 grid gap-3 sm:grid-cols-3 sm:gap-4">
-              <div className="rounded-2xl border border-slate-200/80 bg-white/85 px-5 py-4 backdrop-blur-sm">
-                <div className="text-3xl font-semibold text-slate-900">{vehicles.length}+</div>
-                <div className="mt-1 text-sm text-slate-600">vozů v nabídce</div>
+              <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-5 py-4 backdrop-blur-sm">
+                <div className="text-3xl font-semibold text-slate-100">{vehicles.length}+</div>
+                <div className="mt-1 text-sm text-secondary">vozů v nabídce</div>
               </div>
-              <div className="rounded-2xl border border-slate-200/80 bg-white/85 px-5 py-4 backdrop-blur-sm">
-                <div className="text-3xl font-semibold text-slate-900">24 h</div>
-                <div className="mt-1 text-sm text-slate-600">předběžné schválení</div>
+              <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-5 py-4 backdrop-blur-sm">
+                <div className="text-3xl font-semibold text-slate-100">24 h</div>
+                <div className="mt-1 text-sm text-secondary">předběžné schválení</div>
               </div>
-              <div className="rounded-2xl border border-slate-200/80 bg-white/85 px-5 py-4 backdrop-blur-sm">
-                <div className="text-3xl font-semibold text-slate-900">100%</div>
-                <div className="mt-1 text-sm text-slate-600">ověřený původ</div>
+              <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-5 py-4 backdrop-blur-sm">
+                <div className="text-3xl font-semibold text-slate-100">100%</div>
+                <div className="mt-1 text-sm text-secondary">ověřený původ</div>
               </div>
             </div>
           </div>
@@ -168,8 +168,8 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <p className="section-kicker">Doporučené vozy</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-900 sm:text-4xl">Nejžádanější auta v nabídce</h2>
-            <p className="mt-1 text-sm text-slate-600">
+            <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100 sm:text-4xl">Nejžádanější auta v nabídce</h2>
+            <p className="mt-1 text-sm text-secondary">
               Podívejte se na vozy, o které je u našich zákazníků největší zájem a které jsou připravené k okamžitému odběru.
             </p>
           </div>
@@ -190,8 +190,8 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
         <div className="card-panel p-6 md:p-10">
           <div className="max-w-2xl">
             <p className="section-kicker">Proč lidé volí Mika Auto</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-900 sm:text-4xl">Jasný původ, férový proces, rychlá domluva</h2>
-            <p className="mt-2 text-sm text-slate-600">
+            <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100 sm:text-4xl">Jasný původ, férový proces, rychlá domluva</h2>
+            <p className="mt-2 text-sm text-secondary">
               Neprodáváme jen auta. Pomáháme vám vybrat spolehlivého parťáka na cestách, se kterým budete spokojeni i za několik let.
             </p>
           </div>
@@ -201,8 +201,8 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <ShieldCheck className="h-5 w-5" />
               </div>
-              <div className="mt-4 text-sm font-semibold text-slate-900">Prověřený technický stav</div>
-              <p className="mt-2 text-sm text-slate-600">
+              <div className="mt-4 text-sm font-semibold text-slate-100">Prověřený technický stav</div>
+              <p className="mt-2 text-sm text-secondary">
                 Každý vůz detailně kontrolujeme včetně diagnostiky, karoserie i servisní historie. Víte přesně, do čeho sedáte.
               </p>
             </div>
@@ -210,8 +210,8 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <CircleDollarSign className="h-5 w-5" />
               </div>
-              <div className="mt-4 text-sm font-semibold text-slate-900">Férové financování</div>
-              <p className="mt-2 text-sm text-slate-600">
+              <div className="mt-4 text-sm font-semibold text-slate-100">Férové financování</div>
+              <p className="mt-2 text-sm text-secondary">
                 Společně najdeme řešení, které nezatíží váš rozpočet. Vše vám srozumitelně vysvětlíme ještě před podpisem smlouvy.
               </p>
             </div>
@@ -219,8 +219,8 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
                 <BadgeCheck className="h-5 w-5" />
               </div>
-              <div className="mt-4 text-sm font-semibold text-slate-900">Rychlý výkup a protiúčet</div>
-              <p className="mt-2 text-sm text-slate-600">
+              <div className="mt-4 text-sm font-semibold text-slate-100">Rychlý výkup a protiúčet</div>
+              <p className="mt-2 text-sm text-secondary">
                 Váš současný vůz férově oceníme a můžete ho pohodlně započítat proti novému. Bez zbytečného papírování a zdržování.
               </p>
             </div>
@@ -232,12 +232,12 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
           <div className="mt-4 space-y-5">
             {processSteps.map((step, index) => (
               <div key={step.title} className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-slate-950">
                   0{index + 1}
                 </div>
                 <div>
-                  <div className="text-sm font-semibold text-slate-900">{step.title}</div>
-                  <p className="mt-1 text-sm text-slate-600">{step.description}</p>
+                  <div className="text-sm font-semibold text-slate-100">{step.title}</div>
+                  <p className="mt-1 text-sm text-secondary">{step.description}</p>
                 </div>
               </div>
             ))}
@@ -254,7 +254,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
           <div className="flex flex-wrap items-end justify-between gap-4">
             <div>
               <p className="section-kicker">Zkušenosti zákazníků</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-900 sm:text-4xl">Důvěra nevzniká sloganem, ale průběhem obchodu</h2>
+              <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100 sm:text-4xl">Důvěra nevzniká sloganem, ale průběhem obchodu</h2>
             </div>
             <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
               <Sparkles className="h-4 w-4" />
@@ -264,9 +264,9 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
 
           <div className="mt-8 grid gap-5 lg:grid-cols-3">
             {reviews.map((review) => (
-              <article key={review.author} className="rounded-3xl bg-slate-50 px-5 py-5 ring-1 ring-slate-100">
-                <div className="text-sm leading-7 text-slate-700">“{review.text}”</div>
-                <div className="mt-5 text-sm font-semibold text-slate-900">{review.author}</div>
+              <article key={review.author} className="rounded-3xl bg-white/5 px-5 py-5 ring-1 ring-white/10">
+                <div className="text-sm leading-7 text-secondary">“{review.text}”</div>
+                <div className="mt-5 text-sm font-semibold text-slate-100">{review.author}</div>
               </article>
             ))}
           </div>

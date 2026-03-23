@@ -37,17 +37,17 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">Interní administrace</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-900">Správa nabídky vozů</h1>
-          <p className="mt-2 max-w-2xl text-sm text-slate-600">
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-100">Správa nabídky vozů</h1>
+          <p className="mt-2 max-w-2xl text-sm text-secondary">
             Odtud klient pohodlně přidá nový vůz, upraví cenu, skryje neaktuální inzerát nebo vymění fotky. Veřejné stránky se po uložení automaticky aktualizují.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
-          <Link href="/admin/novy" className="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-primary-dark">
+          <Link href="/admin/novy" className="btn-primary">
             Přidat nový vůz
           </Link>
           <form action={logoutUserAction}>
-            <button type="submit" className="inline-flex items-center justify-center rounded-full border border-slate-200 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:border-slate-300 hover:bg-slate-50">
+            <button type="submit" className="btn-secondary">
               Odhlásit se
             </button>
           </form>
@@ -66,10 +66,10 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
         </div>
       ) : null}
 
-      <section className="mt-8 overflow-hidden rounded-3xl bg-white shadow-soft ring-1 ring-slate-100">
+      <section className="mt-8 overflow-hidden rounded-3xl bg-slate-950/70 shadow-soft ring-1 ring-white/10">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-slate-100 text-sm">
-            <thead className="bg-slate-50 text-left text-xs uppercase tracking-wide text-slate-500">
+          <table className="min-w-full divide-y divide-white/10 text-sm">
+            <thead className="bg-white/5 text-left text-xs uppercase tracking-wide text-muted">
               <tr>
                 <th className="px-4 py-3 font-medium">Vůz</th>
                 <th className="px-4 py-3 font-medium">Cena</th>
@@ -78,18 +78,18 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
                 <th className="px-4 py-3 font-medium">Akce</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-slate-100">
+            <tbody className="divide-y divide-white/10">
               {vehicles.map((vehicle) => {
                 const deleteAction = deleteVehicleAction.bind(null, vehicle.id);
 
                 return (
                   <tr key={vehicle.id} className="align-top">
                     <td className="px-4 py-4">
-                      <div className="font-semibold text-slate-900">{vehicle.title}</div>
-                      <div className="mt-1 text-xs text-slate-500">{vehicle.make} · {vehicle.model} · {vehicle.location}</div>
+                      <div className="font-semibold text-slate-100">{vehicle.title}</div>
+                      <div className="mt-1 text-xs text-muted">{vehicle.make} · {vehicle.model} · {vehicle.location}</div>
                     </td>
-                    <td className="px-4 py-4 font-medium text-slate-900">{vehicle.price.toLocaleString("cs-CZ")} Kč</td>
-                    <td className="px-4 py-4 text-slate-600">{vehicle.year} · {vehicle.mileage.toLocaleString("cs-CZ")} km</td>
+                    <td className="px-4 py-4 font-medium text-slate-100">{vehicle.price.toLocaleString("cs-CZ")} Kč</td>
+                    <td className="px-4 py-4 text-secondary">{vehicle.year} · {vehicle.mileage.toLocaleString("cs-CZ")} km</td>
                     <td className="px-4 py-4">
                       <div className="flex flex-wrap gap-2 text-xs">
                         <span className={`rounded-full px-3 py-1 ${vehicle.published ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`}>
@@ -102,10 +102,10 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
                     </td>
                     <td className="px-4 py-4">
                       <div className="flex flex-wrap gap-2">
-                        <Link href={`/vozy/${vehicle.id}`} className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                        <Link href={`/vozy/${vehicle.id}`} className="btn-secondary px-3 py-1.5 text-xs">
                           Náhled
                         </Link>
-                        <Link href={`/admin/upravit/${vehicle.id}`} className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-50">
+                        <Link href={`/admin/upravit/${vehicle.id}`} className="btn-secondary px-3 py-1.5 text-xs">
                           Upravit
                         </Link>
                         <form action={deleteAction}>

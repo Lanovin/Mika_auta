@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --header-height: 72px;
-  --page-gradient: radial-gradient(circle at top left, rgba(245, 158, 11, 0.12), transparent 30%), radial-gradient(circle at top right, rgba(180, 83, 9, 0.08), transparent 24%), linear-gradient(180deg, #fffdfa 0%, #f6f1e8 100%);
+  --header-height: 92px;
+  --page-gradient: radial-gradient(circle at 8% 0%, rgba(198, 163, 74, 0.20), transparent 26%), radial-gradient(circle at 92% 18%, rgba(198, 163, 74, 0.10), transparent 20%), linear-gradient(180deg, #09090b 0%, #0f1115 56%, #0b0c10 100%);
 }
 
 html {
@@ -13,7 +13,7 @@ html {
 
 body {
   background: var(--page-gradient);
-  color: #111827;
+  color: #e2e8f0;
   @apply min-h-screen antialiased;
 }
 
@@ -22,8 +22,8 @@ body {
 }
 
 ::selection {
-  background-color: rgb(180 83 9 / 0.2);
-  color: #111827;
+  background-color: rgb(198 163 74 / 0.35);
+  color: #0b0c10;
 }
 
 .section-kicker {
@@ -31,10 +31,36 @@ body {
 }
 
 .card-panel {
-  @apply rounded-[28px] border border-white/70 bg-white/90 shadow-panel backdrop-blur-sm;
+  @apply rounded-[28px] border border-white/10 bg-slate-950/55 shadow-panel backdrop-blur-sm;
 }
 
 .accent-ring {
   @apply ring-1 ring-primary/15;
+}
+
+@layer components {
+  .text-secondary {
+    @apply text-slate-300;
+  }
+
+  .text-muted {
+    @apply text-slate-400;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-semibold text-slate-950 shadow-soft transition duration-200 hover:bg-primary-light active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/45;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full border border-white/20 bg-white/5 px-5 py-2.5 text-sm font-semibold text-slate-100 transition duration-200 hover:bg-white/10 active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35;
+  }
+
+  .link-primary {
+    @apply rounded-sm font-semibold text-primary transition-colors duration-200 hover:text-primary-light active:text-primary-light focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35;
+  }
+
+  .nav-link {
+    @apply whitespace-nowrap rounded-sm transition-colors duration-200 hover:text-primary active:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/35;
+  }
 }
 

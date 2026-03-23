@@ -40,7 +40,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
 
   return (
     <div className="container-page py-8 pb-24 lg:pb-16">
-      <nav className="mb-4 text-xs text-slate-500">
+      <nav className="mb-4 text-xs text-muted">
         <Link href="/" className="hover:text-primary">
           Domů
         </Link>{" "}
@@ -48,7 +48,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
         <Link href="/vozy" className="hover:text-primary">
           Nabídka vozů
         </Link>{" "}
-        / <span className="text-slate-700">{car.make + " " + car.model}</span>
+        / <span className="text-slate-200">{car.make + " " + car.model}</span>
       </nav>
 
       <div className="grid gap-8 lg:grid-cols-[minmax(0,3fr),minmax(0,2fr)]">
@@ -64,8 +64,8 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" />
               <div className="absolute left-4 top-4 flex flex-wrap gap-2">
-                {car.featured ? <span className="rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-900">TOP nabídka</span> : null}
-                <span className="rounded-full bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-slate-900">Prověřený původ</span>
+                {car.featured ? <span className="rounded-full bg-slate-950/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary ring-1 ring-primary/30">TOP nabídka</span> : null}
+                <span className="rounded-full bg-slate-950/85 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.2em] text-primary ring-1 ring-primary/30">Prověřený původ</span>
               </div>
             </div>
           </div>
@@ -89,7 +89,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
             <p className="section-kicker">Proč zrovna tento vůz</p>
             <div className="mt-4 grid gap-4 sm:grid-cols-3">
               {quickReasons.map((reason) => (
-                <div key={reason} className="rounded-2xl bg-slate-50 px-4 py-4 text-sm font-medium text-slate-700 ring-1 ring-slate-100">
+                <div key={reason} className="rounded-2xl bg-white/5 px-4 py-4 text-sm font-medium text-slate-200 ring-1 ring-white/10">
                   {reason}
                 </div>
               ))}
@@ -100,39 +100,39 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
         <aside className="card-panel flex flex-col gap-4 p-6 lg:sticky lg:top-28 lg:h-fit">
           <div>
             <p className="section-kicker">Detail vozu</p>
-            <h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-900">
+            <h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100">
               {car.make} {car.model}
             </h1>
-            <p className="mt-1 text-sm text-slate-600">
+            <p className="mt-1 text-sm text-secondary">
               Rok výroby {car.year}, najeto {formattedMileage} km,{" "}
               {car.fuel}, {car.transmission}.
             </p>
           </div>
           <div className="rounded-[24px] bg-slate-950 p-5 text-white shadow-panel">
-            <div className="text-xs uppercase tracking-wide text-slate-300">
+            <div className="text-xs uppercase tracking-wide text-secondary">
               Cena vozu
             </div>
             <div className="mt-2 text-3xl font-semibold text-white">
               {formattedPrice}
             </div>
-            <div className="mt-3 grid gap-2 text-sm text-slate-200">
+            <div className="mt-3 grid gap-2 text-sm text-secondary">
               <div>Možnost výkupu vašeho stávajícího vozu</div>
               <div>Nezávazná kalkulace financování během krátké chvíle</div>
             </div>
           </div>
 
           <div className="grid gap-3">
-            <a href="tel:+420774333774" className="inline-flex w-full items-center justify-center rounded-full bg-primary px-4 py-3 text-sm font-semibold text-white shadow-soft transition hover:bg-primary-dark">
+            <a href="tel:+420774333774" className="btn-primary w-full py-3">
               Zavolat prodejci
             </a>
-            <a href={`/kontakt?car=${car.id}`} className="inline-flex w-full items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">
+            <a href={`/kontakt?car=${car.id}`} className="btn-secondary w-full py-3">
               Rezervovat prohlídku
             </a>
           </div>
 
-          <div className="rounded-[24px] bg-slate-50 p-4 ring-1 ring-slate-100">
-            <div className="text-sm font-semibold text-slate-900">Co získáte navíc</div>
-            <div className="mt-3 space-y-3 text-sm text-slate-600">
+          <div className="rounded-[24px] bg-white/5 p-4 ring-1 ring-white/10">
+            <div className="text-sm font-semibold text-slate-100">Co získáte navíc</div>
+            <div className="mt-3 space-y-3 text-sm text-secondary">
               {trustPoints.map((point) => (
                 <div key={point} className="flex gap-3">
                   <span className="mt-1 h-2.5 w-2.5 rounded-full bg-primary" />
@@ -142,20 +142,20 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
             </div>
           </div>
 
-          <form className="rounded-[24px] border border-slate-200 bg-white p-4">
-            <div className="text-sm font-semibold text-slate-900">Chci vědět víc o tomto voze</div>
-            <p className="mt-1 text-xs text-slate-500">Pošlete kontakt a ozveme se vám s detaily, financováním nebo termínem prohlídky.</p>
+          <form className="rounded-[24px] border border-white/10 bg-slate-950/70 p-4">
+            <div className="text-sm font-semibold text-slate-100">Chci vědět víc o tomto voze</div>
+            <p className="mt-1 text-xs text-muted">Pošlete kontakt a ozveme se vám s detaily, financováním nebo termínem prohlídky.</p>
             <div className="mt-4 space-y-3">
-              <input type="text" placeholder="Jméno a příjmení" className="w-full rounded-2xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
-              <input type="tel" placeholder="Telefon" className="w-full rounded-2xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
-              <textarea rows={4} defaultValue={`Mám zájem o ${car.make} ${car.model}. Prosím o kontaktování.`} className="w-full resize-none rounded-2xl border border-slate-200 px-3 py-2.5 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+              <input type="text" placeholder="Jméno a příjmení" className="w-full rounded-2xl border border-white/15 bg-slate-900/80 px-3 py-2.5 text-sm text-slate-100 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+              <input type="tel" placeholder="Telefon" className="w-full rounded-2xl border border-white/15 bg-slate-900/80 px-3 py-2.5 text-sm text-slate-100 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
+              <textarea rows={4} defaultValue={`Mám zájem o ${car.make} ${car.model}. Prosím o kontaktování.`} className="w-full resize-none rounded-2xl border border-white/15 bg-slate-900/80 px-3 py-2.5 text-sm text-slate-100 outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20" />
               <button type="button" className="inline-flex w-full items-center justify-center rounded-full bg-slate-950 px-4 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
                 Odeslat poptávku
               </button>
             </div>
           </form>
 
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-muted">
             Zanechte nám kontakt a ozveme se vám s detailní nabídkou, možností
             financování a případného výkupu vašeho stávajícího vozu.
           </p>
@@ -164,71 +164,71 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
 
       <section className="mt-10 grid gap-8 lg:grid-cols-2">
         <div className="card-panel p-6">
-          <h2 className="text-sm font-semibold text-slate-900">
+          <h2 className="text-sm font-semibold text-slate-100">
             Základní informace
           </h2>
-          <dl className="mt-3 grid grid-cols-1 gap-2 text-sm text-slate-700 sm:grid-cols-2">
-            <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
-              <dt className="text-slate-500">Značka / model</dt>
+          <dl className="mt-3 grid grid-cols-1 gap-2 text-sm text-slate-200 sm:grid-cols-2">
+            <div className="flex justify-between gap-4 border-b border-white/10 py-2">
+              <dt className="text-muted">Značka / model</dt>
               <dd className="font-medium text-right">
                 {car.make} {car.model}
               </dd>
             </div>
-            <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
-              <dt className="text-slate-500">Rok výroby</dt>
+            <div className="flex justify-between gap-4 border-b border-white/10 py-2">
+              <dt className="text-muted">Rok výroby</dt>
               <dd className="font-medium text-right">{car.year}</dd>
             </div>
-            <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
-              <dt className="text-slate-500">Najeto</dt>
+            <div className="flex justify-between gap-4 border-b border-white/10 py-2">
+              <dt className="text-muted">Najeto</dt>
               <dd className="font-medium text-right">
                 {formattedMileage} km
               </dd>
             </div>
-            <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
-              <dt className="text-slate-500">Palivo</dt>
+            <div className="flex justify-between gap-4 border-b border-white/10 py-2">
+              <dt className="text-muted">Palivo</dt>
               <dd className="font-medium text-right">{car.fuel}</dd>
             </div>
-            <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
-              <dt className="text-slate-500">Převodovka</dt>
+            <div className="flex justify-between gap-4 border-b border-white/10 py-2">
+              <dt className="text-muted">Převodovka</dt>
               <dd className="font-medium text-right">{car.transmission}</dd>
             </div>
-            <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
-              <dt className="text-slate-500">Výkon</dt>
+            <div className="flex justify-between gap-4 border-b border-white/10 py-2">
+              <dt className="text-muted">Výkon</dt>
               <dd className="font-medium text-right">{car.powerKw} kW</dd>
             </div>
-            <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
-              <dt className="text-slate-500">Karoserie</dt>
+            <div className="flex justify-between gap-4 border-b border-white/10 py-2">
+              <dt className="text-muted">Karoserie</dt>
               <dd className="font-medium text-right">{car.body}</dd>
             </div>
-            <div className="flex justify-between gap-4 border-b border-slate-100 py-2">
-              <dt className="text-slate-500">Umístění</dt>
+            <div className="flex justify-between gap-4 border-b border-white/10 py-2">
+              <dt className="text-muted">Umístění</dt>
               <dd className="font-medium text-right">{car.location}</dd>
             </div>
           </dl>
         </div>
 
         <div className="card-panel p-6">
-          <h2 className="text-sm font-semibold text-slate-900">
+          <h2 className="text-sm font-semibold text-slate-100">
             Popis vozidla
           </h2>
-          <p className="mt-3 text-sm leading-7 text-slate-600">
+          <p className="mt-3 text-sm leading-7 text-secondary">
             {car.description}
           </p>
-          <div className="mt-6 rounded-[24px] bg-slate-50 p-5 ring-1 ring-slate-100">
-            <div className="text-sm font-semibold text-slate-900">Další krok</div>
-            <p className="mt-2 text-sm text-slate-600">
+          <div className="mt-6 rounded-[24px] bg-white/5 p-5 ring-1 ring-white/10">
+            <div className="text-sm font-semibold text-slate-100">Další krok</div>
+            <p className="mt-2 text-sm text-secondary">
               Pokud vás vůz zaujal, doporučujeme si co nejdřív rezervovat termín prohlídky. Připravíme auto, podklady i orientační návrh financování.
             </p>
           </div>
         </div>
       </section>
 
-      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-slate-200 bg-white/95 px-4 py-3 shadow-2xl backdrop-blur md:hidden">
+      <div className="fixed inset-x-0 bottom-0 z-20 border-t border-white/10 bg-slate-950/95 px-4 py-3 shadow-2xl backdrop-blur md:hidden">
         <div className="container-page flex gap-3 px-0">
-          <a href="tel:+420774333774" className="inline-flex flex-1 items-center justify-center rounded-full border border-slate-200 px-4 py-3 text-sm font-semibold text-slate-800">
+          <a href="tel:+420774333774" className="btn-secondary flex-1 py-3">
             Zavolat
           </a>
-          <a href={`/kontakt?car=${car.id}`} className="inline-flex flex-1 items-center justify-center rounded-full bg-primary px-4 py-3 text-sm font-semibold text-white">
+          <a href={`/kontakt?car=${car.id}`} className="btn-primary flex-1 py-3">
             Rezervovat
           </a>
         </div>

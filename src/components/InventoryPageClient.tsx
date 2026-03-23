@@ -160,13 +160,13 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="section-kicker">Skladová nabídka</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-900 sm:text-4xl">Nabídka prověřených vozů</h1>
-          <p className="mt-1 text-sm text-slate-600">
+          <h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100 sm:text-4xl">Nabídka prověřených vozů</h1>
+          <p className="mt-1 text-sm text-secondary">
             Prohlédněte si aktuální skladovou nabídku vozů připravených ihned k odběru. Každý kus má jasnou historii a pečlivě dohledaný původ.
           </p>
         </div>
-        <div className="rounded-2xl bg-white/90 px-4 py-3 text-sm text-slate-500 shadow-panel ring-1 ring-white/70">
-          Zobrazeno <span className="font-semibold text-slate-900">{filteredCars.length}</span> z {vehicles.length} vozů
+        <div className="rounded-2xl bg-slate-950/70 px-4 py-3 text-sm text-secondary shadow-panel ring-1 ring-white/10">
+          Zobrazeno <span className="font-semibold text-slate-100">{filteredCars.length}</span> z {vehicles.length} vozů
         </div>
       </header>
 
@@ -174,11 +174,11 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
         <aside className="card-panel h-fit p-4 lg:sticky lg:top-28">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-900">
+              <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-100">
                 <SlidersHorizontal className="h-4 w-4 text-primary" />
                 Zúžit výběr
               </h2>
-              <p className="mt-1 text-xs text-slate-500">Vyberte značku, model nebo cenové rozpětí, které vám dává smysl.</p>
+              <p className="mt-1 text-xs text-muted">Vyberte značku, model nebo cenové rozpětí, které vám dává smysl.</p>
             </div>
             <button type="button" onClick={resetFilters} className="inline-flex items-center gap-1 text-xs font-semibold text-primary transition hover:text-primary-dark">
               <RotateCcw className="h-3.5 w-3.5" />
@@ -188,18 +188,18 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
 
           <div className="mt-4 space-y-4 text-sm">
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">Značka</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Značka</label>
               <div className="mt-2 space-y-2">
                 {allMakes.map((make) => (
                   <div key={make}>
-                    <label className="flex items-center">
+                    <label className="flex items-center text-slate-200">
                       <input type="checkbox" checked={filters.makes.includes(make)} onChange={() => toggleMake(make)} className="mr-2" />
                       {make}
                     </label>
                     {filters.makes.includes(make) && (
                       <div className="ml-4 mt-1 space-y-1">
                         {(modelsByMake[make] ?? []).map((model) => (
-                          <label key={model} className="flex items-center text-xs">
+                          <label key={model} className="flex items-center text-xs text-secondary">
                             <input type="checkbox" checked={filters.models.includes(model)} onChange={() => toggleModel(model)} className="mr-2" />
                             {model}
                           </label>
@@ -212,38 +212,38 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">Cena (Kč)</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Cena (Kč)</label>
               <div className="mt-2 space-y-2">
                 <div>
-                  <label className="text-xs">Od: {filters.minPrice.toLocaleString()} Kč</label>
+                  <label className="text-xs text-secondary">Od: {filters.minPrice.toLocaleString()} Kč</label>
                   <input type="range" min="0" max="5000000" step="50000" value={filters.minPrice} onChange={(event) => handleFilterChange({ minPrice: Number(event.target.value) })} className="w-full" />
                 </div>
                 <div>
-                  <label className="text-xs">Do: {filters.maxPrice.toLocaleString()} Kč</label>
+                  <label className="text-xs text-secondary">Do: {filters.maxPrice.toLocaleString()} Kč</label>
                   <input type="range" min="0" max="5000000" step="50000" value={filters.maxPrice} onChange={(event) => handleFilterChange({ maxPrice: Number(event.target.value) })} className="w-full" />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">Kilometrage (km)</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Kilometrage (km)</label>
               <div className="mt-2 space-y-2">
                 <div>
-                  <label className="text-xs">Od: {filters.minMileage.toLocaleString()} km</label>
+                  <label className="text-xs text-secondary">Od: {filters.minMileage.toLocaleString()} km</label>
                   <input type="range" min="0" max="400000" step="10000" value={filters.minMileage} onChange={(event) => handleFilterChange({ minMileage: Number(event.target.value) })} className="w-full" />
                 </div>
                 <div>
-                  <label className="text-xs">Do: {filters.maxMileage.toLocaleString()} km</label>
+                  <label className="text-xs text-secondary">Do: {filters.maxMileage.toLocaleString()} km</label>
                   <input type="range" min="0" max="400000" step="10000" value={filters.maxMileage} onChange={(event) => handleFilterChange({ maxMileage: Number(event.target.value) })} className="w-full" />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">Karoserie</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Karoserie</label>
               <div className="mt-2 flex flex-wrap gap-2">
                 {allBodies.map((body) => (
-                  <label key={body} className="inline-flex items-center gap-2 rounded-full border border-slate-200 px-3 py-1 text-xs">
+                  <label key={body} className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-slate-200">
                     <input type="checkbox" checked={filters.bodies.includes(body)} onChange={() => toggleBody(body)} />
                     {body}
                   </label>
@@ -252,8 +252,8 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">Převodovka</label>
-              <select value={filters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2">
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Převodovka</label>
+              <select value={filters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2">
                 <option value="">Všechny</option>
                 {allTransmissions.map((transmission) => (
                   <option key={transmission} value={transmission}>{transmission}</option>
@@ -262,8 +262,8 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">Palivo</label>
-              <select value={filters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full rounded-lg border border-slate-200 px-3 py-2 text-sm shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2">
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Palivo</label>
+              <select value={filters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2">
                 <option value="">Všechna</option>
                 {allFuels.map((fuel) => (
                   <option key={fuel} value={fuel}>{fuel}</option>
@@ -274,24 +274,24 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
         </aside>
 
         <section>
-          <div className="mb-5 flex flex-col gap-4 rounded-[28px] border border-white/70 bg-white/85 p-4 shadow-panel sm:flex-row sm:items-center sm:justify-between">
+          <div className="mb-5 flex flex-col gap-4 rounded-[28px] border border-white/10 bg-slate-950/65 p-4 shadow-panel sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <div className="text-sm font-semibold text-slate-900">Aktivní filtry</div>
+              <div className="text-sm font-semibold text-slate-100">Aktivní filtry</div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {activeFilterChips.length > 0 ? activeFilterChips.map((chip) => (
-                  <button key={chip.label} type="button" onClick={chip.onRemove} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 transition hover:bg-slate-200">
+                  <button key={chip.label} type="button" onClick={chip.onRemove} className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-white/15">
                     {chip.label} ×
                   </button>
-                )) : <span className="text-sm text-slate-500">Zatím nemáte aktivní žádný filtr.</span>}
+                )) : <span className="text-sm text-muted">Zatím nemáte aktivní žádný filtr.</span>}
               </div>
             </div>
 
-            <label className="block text-sm font-medium text-slate-700">
-              <span className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">
+            <label className="block text-sm font-medium text-slate-200">
+              <span className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                 <ArrowUpDown className="h-3.5 w-3.5" />
                 Řazení
               </span>
-              <select value={sort} onChange={(event) => setSort(event.target.value as SortOption)} className="w-full rounded-2xl border border-slate-200 bg-white px-3 py-2 text-sm shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2 sm:min-w-64">
+              <select value={sort} onChange={(event) => setSort(event.target.value as SortOption)} className="w-full rounded-2xl border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2 sm:min-w-64">
                 <option value="recommended">Doporučené</option>
                 <option value="price-asc">Cena od nejnižší</option>
                 <option value="price-desc">Cena od nejvyšší</option>
@@ -314,9 +314,9 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
               ))}
             </div>
           ) : (
-            <div className="rounded-[28px] bg-white p-8 text-center shadow-soft ring-1 ring-slate-100">
-              <h2 className="text-lg font-semibold text-slate-900">Žádné vozy neodpovídají filtru</h2>
-              <p className="mt-2 text-sm text-slate-600">Upravte filtr nebo kontaktujte prodejce a pomůžeme vám najít vhodnou alternativu.</p>
+            <div className="rounded-[28px] bg-slate-950/75 p-8 text-center shadow-soft ring-1 ring-white/10">
+              <h2 className="text-lg font-semibold text-slate-100">Žádné vozy neodpovídají filtru</h2>
+              <p className="mt-2 text-sm text-secondary">Upravte filtr nebo kontaktujte prodejce a pomůžeme vám najít vhodnou alternativu.</p>
             </div>
           )}
         </section>

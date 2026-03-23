@@ -45,13 +45,13 @@ export function FilterForm({
       }`}
     >
       <div className="flex-1">
-        <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">
+        <label className="block text-xs font-medium uppercase tracking-wide text-muted">
           Značka
         </label>
         <select
           value={values.make}
           onChange={(e) => handleValueChange("make", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
+          className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
         >
           <option value="">Jakákoliv značka</option>
           {allMakes.map((make) => (
@@ -63,13 +63,13 @@ export function FilterForm({
       </div>
 
       <div className="flex-1">
-        <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">
+        <label className="block text-xs font-medium uppercase tracking-wide text-muted">
           Model
         </label>
         <select
           value={values.model}
           onChange={(e) => handleValueChange("model", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
+          className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
         >
           <option value="">Jakýkoliv model</option>
           {filteredModels.map((model) => (
@@ -81,13 +81,13 @@ export function FilterForm({
       </div>
 
       <div className="flex-1">
-        <label className="block text-xs font-medium uppercase tracking-wide text-slate-500">
+        <label className="block text-xs font-medium uppercase tracking-wide text-muted">
           Cena do
         </label>
         <select
           value={values.maxPrice}
           onChange={(e) => handleValueChange("maxPrice", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
+          className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
         >
           <option value="">Neomezeně</option>
           <option value="300000">300 000 Kč</option>

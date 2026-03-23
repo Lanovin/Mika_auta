@@ -23,7 +23,7 @@ export default function AboutPage() {
             <h1 className="mt-2 font-display text-4xl font-semibold uppercase tracking-[0.03em] text-white sm:text-5xl">
               O nás – Autobazar MIKA
             </h1>
-            <p className="mt-3 max-w-2xl text-sm text-slate-200 sm:text-base">
+            <p className="mt-3 max-w-2xl text-sm text-secondary sm:text-base">
               Společnost MIKAAUTO s.r.o. se od roku 2007 zabývá výkupem a prodejem použitých a zánovních vozidel všech značek.
             </p>
           </div>
@@ -32,23 +32,23 @@ export default function AboutPage() {
 
       <section className="container-page mt-10 grid gap-10 md:grid-cols-2">
         <div className="card-panel p-6 md:p-8">
-          <h2 className="font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-900">
+          <h2 className="font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100">
             Naše historie a poslání
           </h2>
-          <p className="mt-3 text-sm text-slate-600">
+          <p className="mt-3 text-sm text-secondary">
             Našim zákazníkům nabízíme vždy bohatou nabídku kvalitních vozů nejrůznějších značek a typů, které vždy projdou důkladnou kontrolou, čímž stoprocentně garantujeme jejich původ.
           </p>
-          <p className="mt-3 text-sm text-slate-600">
+          <p className="mt-3 text-sm text-secondary">
             Naším hlavním cílem je spokojený zákazník, a proto vám nabízíme ty nejkvalitnější služby na nejvyšší úrovni. Autobazar MIKA vám přináší: bohatou nabídku kvalitních vozů, 100% garanci původu, individuální a profesionální přístup ke každému zákazníkovi.
           </p>
 
           <div className="mt-6 space-y-4">
             {milestones.map((milestone, index) => (
-              <div key={milestone} className="flex gap-4 rounded-[24px] bg-slate-50 px-4 py-4 ring-1 ring-slate-100">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-slate-950 text-sm font-semibold text-white">
+              <div key={milestone} className="flex gap-4 rounded-[24px] bg-white/5 px-4 py-4 ring-1 ring-white/10">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-slate-950">
                   0{index + 1}
                 </div>
-                <p className="text-sm text-slate-600">{milestone}</p>
+                <p className="text-sm text-secondary">{milestone}</p>
               </div>
             ))}
           </div>
@@ -68,28 +68,28 @@ export default function AboutPage() {
 
       <section className="container-page mt-12">
         <div className="card-panel px-6 py-8 md:px-10">
-          <div className="grid gap-6 text-center text-sm text-slate-700 md:grid-cols-3">
+          <div className="grid gap-6 text-center text-sm text-secondary md:grid-cols-3">
             <div>
-              <div className="text-2xl font-semibold text-slate-900">
+              <div className="text-2xl font-semibold text-slate-100">
                 18+ let
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-slate-500">
+              <div className="mt-1 text-xs uppercase tracking-wide text-muted">
                 na trhu
               </div>
             </div>
             <div>
-              <div className="text-2xl font-semibold text-slate-900">
+              <div className="text-2xl font-semibold text-slate-100">
                 1000+
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-slate-500">
+              <div className="mt-1 text-xs uppercase tracking-wide text-muted">
                 spokojených klientů
               </div>
             </div>
             <div>
-              <div className="text-2xl font-semibold text-slate-900">
+              <div className="text-2xl font-semibold text-slate-100">
                 100%
               </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-slate-500">
+              <div className="mt-1 text-xs uppercase tracking-wide text-muted">
                 garance původu vozu
               </div>
             </div>
@@ -100,19 +100,19 @@ export default function AboutPage() {
       <section className="container-page mt-12">
         <div className="grid gap-6 md:grid-cols-3">
           <div className="rounded-[28px] bg-slate-950 px-6 py-6 text-white shadow-soft">
-            <div className="text-xs uppercase tracking-[0.24em] text-slate-300">Přístup</div>
+            <div className="text-xs uppercase tracking-[0.24em] text-secondary">Přístup</div>
             <div className="mt-3 text-xl font-semibold">Bez nátlaku a bez nejasností</div>
-            <p className="mt-2 text-sm text-slate-300">Naším cílem není jen vůz prodat, ale doporučit auto, které bude dávat smysl i po několika letech provozu.</p>
+            <p className="mt-2 text-sm text-secondary">Naším cílem není jen vůz prodat, ale doporučit auto, které bude dávat smysl i po několika letech provozu.</p>
           </div>
-          <div className="rounded-[28px] border border-white/70 bg-white/85 px-6 py-6 shadow-panel">
-            <div className="text-xs uppercase tracking-[0.24em] text-slate-500">Výběr</div>
-            <div className="mt-3 text-xl font-semibold text-slate-900">Prověřená nabídka místo přemíry kusů</div>
-            <p className="mt-2 text-sm text-slate-600">Raději menší a kvalitnější výběr než sklad plný aut, za která nechceme ručit.</p>
+          <div className="rounded-[28px] border border-white/10 bg-slate-950/60 px-6 py-6 shadow-panel">
+            <div className="text-xs uppercase tracking-[0.24em] text-muted">Výběr</div>
+            <div className="mt-3 text-xl font-semibold text-slate-100">Prověřená nabídka místo přemíry kusů</div>
+            <p className="mt-2 text-sm text-secondary">Raději menší a kvalitnější výběr než sklad plný aut, za která nechceme ručit.</p>
           </div>
-          <div className="rounded-[28px] border border-white/70 bg-white/85 px-6 py-6 shadow-panel">
-            <div className="text-xs uppercase tracking-[0.24em] text-slate-500">Servis</div>
-            <div className="mt-3 text-xl font-semibold text-slate-900">Pomoc i po podpisu smlouvy</div>
-            <p className="mt-2 text-sm text-slate-600">Umíme dotáhnout pojištění, financování i převod tak, aby byl celý proces pro vás jednoduchý.</p>
+          <div className="rounded-[28px] border border-white/10 bg-slate-950/60 px-6 py-6 shadow-panel">
+            <div className="text-xs uppercase tracking-[0.24em] text-muted">Servis</div>
+            <div className="mt-3 text-xl font-semibold text-slate-100">Pomoc i po podpisu smlouvy</div>
+            <p className="mt-2 text-sm text-secondary">Umíme dotáhnout pojištění, financování i převod tak, aby byl celý proces pro vás jednoduchý.</p>
           </div>
         </div>
       </section>
