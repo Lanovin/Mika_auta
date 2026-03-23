@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { ArrowRight, BadgeCheck, CircleDollarSign, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, ShieldCheck, CircleDollarSign, BadgeCheck } from "lucide-react";
 import { FilterForm, type FilterValues } from "@/src/components/FilterForm";
 import { VehicleCard } from "@/src/components/VehicleCard";
 import type { Vehicle } from "@/src/lib/vehicle-types";
@@ -59,20 +59,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
     const queryString = params.toString();
     return queryString ? `/vozy?${queryString}` : "/vozy";
   }, [filters]);
-  const processSteps = [
-    {
-      title: "Vyberete si vůz",
-      description: "Projdete aktuální nabídku a během pár minut si vytřídíte vozy podle ceny, typu i nájezdu."
-    },
-    {
-      title: "Domluvíme prohlídku",
-      description: "Rezervujeme vám konkrétní termín, připravíme auto a projdeme s vámi stav i financování."
-    },
-    {
-      title: "Odjíždíte připravení",
-      description: "Pomůžeme s převodem, pojištěním i výkupem vašeho současného auta, aby byl proces bez zdržení."
-    }
-  ];
+
   const reviews = [
     {
       author: "Martin K.",
@@ -89,187 +76,173 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
   ];
 
   return (
-    <div className="pb-16">
-      <section className="relative py-6 md:py-10">
-        <div className="container-page">
-          <div className="mx-auto max-w-5xl">
-            <div className="relative h-52 overflow-hidden rounded-3xl sm:h-72 md:h-[420px]">
-              <Image
-                src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1600&q=80"
-                alt="Moderní vůz na noční ulici"
-                fill
-                priority
-                className="object-cover object-center"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-slate-950/45 to-slate-900/10" />
-              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 md:p-8">
-                <p className="section-kicker text-amber-300">Mika Auto</p>
-                <h1 className="mt-2 max-w-2xl font-display text-2xl font-semibold uppercase tracking-[0.03em] text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.65)] sm:text-4xl md:text-5xl">
-                  Prověřené vozy bez stresu.
-                </h1>
-              </div>
+    <div>
+      {/* Hero section */}
+      <section className="hero-section">
+        <div className="hero-grid-overlay" />
+        <div className="hero-corner-ornament hero-corner-ornament--tl" />
+        <div className="hero-corner-ornament hero-corner-ornament--br" />
+
+        <div className="container-page" style={{ position: 'relative', zIndex: 1 }}>
+          <div style={{ maxWidth: '700px' }}>
+            <p className="section-kicker">Autobazar Mika</p>
+            <h1 style={{
+              fontFamily: "'Playfair Display', Georgia, serif",
+              fontSize: 'clamp(32px, 5vw, 56px)',
+              fontWeight: 700,
+              color: 'var(--white)',
+              lineHeight: 1.1,
+              marginTop: '16px'
+            }}>
+              Prověřené vozy{'\u00a0'}
+              <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>bez stresu.</span>
+            </h1>
+            <p style={{ marginTop: '20px', fontSize: '15px', color: 'var(--text-muted)', maxWidth: '500px', lineHeight: 1.7 }}>
+              Vyberte si auto během pár minut. Rychle, přehledně a bez zbytečného papírování.
+            </p>
+
+            <div style={{ marginTop: '32px', display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
+              <Link href="/vozy" className="btn-primary" style={{ gap: '8px' }}>
+                Projít nabídku
+                <ArrowRight style={{ width: '16px', height: '16px' }} />
+              </Link>
+              <Link href="/kontakt" className="btn-secondary" style={{ gap: '8px' }}>
+                Rezervovat prohlídku
+              </Link>
             </div>
+          </div>
 
-            <div className="mt-5 max-w-2xl">
-              <p className="text-sm text-secondary sm:text-base">
-                Vyberte si auto během pár minut. Rychle, přehledně a bez zbytečného papírování.
-              </p>
-
-              <div className="mt-5 flex flex-wrap items-center gap-3">
-                <Link href="/vozy" className="btn-primary gap-2 px-5 py-3">
-                  Projít nabídku
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-                <Link href="/kontakt" className="btn-secondary gap-2 px-5 py-3">
-                  Rezervovat prohlídku
-                </Link>
-              </div>
+          {/* Stats bar */}
+          <div className="stats-bar" style={{ marginTop: '60px', border: '1px solid var(--black-border)', background: 'var(--black-card)' }}>
+            <div>
+              <div className="stat-value">{vehicles.length}+</div>
+              <div className="stat-label">vozů v nabídce</div>
             </div>
-
-            <div className="card-panel accent-ring mt-7 p-5 text-slate-100 md:p-6">
-              <div>
-                <p className="section-kicker">Rychlé vyhledávání</p>
-                <p className="mt-2 text-sm text-secondary">
-                  Zadejte pár údajů a zobrazíme vám nejvhodnější vozy.
-                </p>
-              </div>
-
-              <div className="mt-5">
-                <FilterForm allMakes={allMakes} allModels={allModels} modelsByMake={modelsByMake} values={filters} onChange={setFilters} layout="horizontal" />
-              </div>
-
-              <div className="mt-5">
-                <Link href={quickSearchHref} className="btn-primary gap-2 px-5 py-3">
-                  Vyhledat
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
+            <div>
+              <div className="stat-value">24 h</div>
+              <div className="stat-label">předběžné schválení</div>
             </div>
-
-            <div className="mt-6 grid gap-3 sm:grid-cols-3 sm:gap-4">
-              <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-5 py-4 backdrop-blur-sm">
-                <div className="text-3xl font-semibold text-slate-100">{vehicles.length}+</div>
-                <div className="mt-1 text-sm text-secondary">vozů v nabídce</div>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-5 py-4 backdrop-blur-sm">
-                <div className="text-3xl font-semibold text-slate-100">24 h</div>
-                <div className="mt-1 text-sm text-secondary">předběžné schválení</div>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-slate-950/60 px-5 py-4 backdrop-blur-sm">
-                <div className="text-3xl font-semibold text-slate-100">100%</div>
-                <div className="mt-1 text-sm text-secondary">ověřený původ</div>
-              </div>
+            <div>
+              <div className="stat-value">100%</div>
+              <div className="stat-label">ověřený původ</div>
             </div>
           </div>
         </div>
       </section>
 
-      <section className="container-page mt-10 space-y-6">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+      {/* Quick search */}
+      <section className="container-page" style={{ padding: '80px 40px 0' }}>
+        <div className="card-panel" style={{ padding: '32px' }}>
+          <p className="section-kicker">Rychlé vyhledávání</p>
+          <p style={{ marginTop: '8px', fontSize: '13px', color: 'var(--text-muted)' }}>
+            Zadejte pár údajů a zobrazíme vám nejvhodnější vozy.
+          </p>
+
+          <div style={{ marginTop: '20px' }}>
+            <FilterForm allMakes={allMakes} allModels={allModels} modelsByMake={modelsByMake} values={filters} onChange={setFilters} layout="horizontal" />
+          </div>
+
+          <div style={{ marginTop: '20px' }}>
+            <Link href={quickSearchHref} className="btn-primary" style={{ gap: '8px' }}>
+              Vyhledat
+              <ArrowRight style={{ width: '16px', height: '16px' }} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured cars */}
+      <section className="container-page" style={{ padding: '80px 40px 0' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
           <div>
             <p className="section-kicker">Doporučené vozy</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100 sm:text-4xl">Nejžádanější auta v nabídce</h2>
-            <p className="mt-1 text-sm text-secondary">
-              Podívejte se na vozy, o které je u našich zákazníků největší zájem a které jsou připravené k okamžitému odběru.
-            </p>
+            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px', lineHeight: 1.15 }}>
+              Nejžádanější auta <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>v nabídce</span>
+            </h2>
           </div>
-          <Link href="/vozy" className="inline-flex items-center gap-2 text-sm font-semibold text-primary hover:text-primary-light">
+          <Link href="/vozy" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 600, color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}>
             Zobrazit všechny vozy
-            <ArrowRight className="h-4 w-4" />
+            <ArrowRight style={{ width: '14px', height: '14px' }} />
           </Link>
         </div>
 
-        <div className="grid gap-6 pt-2 sm:grid-cols-2 lg:grid-cols-4">
+        <div style={{ display: 'grid', gap: '24px', marginTop: '32px', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
           {carsToRender.map((car) => (
             <VehicleCard key={car.id} car={car} />
           ))}
         </div>
       </section>
 
-      <section className="container-page mt-14 grid gap-8 lg:grid-cols-[minmax(0,1.1fr),minmax(320px,0.9fr)]">
-        <div className="card-panel p-6 md:p-10">
-          <div className="max-w-2xl">
-            <p className="section-kicker">Proč lidé volí Mika Auto</p>
-            <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100 sm:text-4xl">Jasný původ, férový proces, rychlá domluva</h2>
-            <p className="mt-2 text-sm text-secondary">
-              Neprodáváme jen auta. Pomáháme vám vybrat spolehlivého parťáka na cestách, se kterým budete spokojeni i za několik let.
-            </p>
-          </div>
+      {/* Gold divider */}
+      <div className="container-page">
+        <div className="gold-divider">{'\u2726'}</div>
+      </div>
 
-          <div className="mt-8 grid gap-8 md:grid-cols-3">
-            <div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <ShieldCheck className="h-5 w-5" />
-              </div>
-              <div className="mt-4 text-sm font-semibold text-slate-100">Prověřený technický stav</div>
-              <p className="mt-2 text-sm text-secondary">
-                Každý vůz detailně kontrolujeme včetně diagnostiky, karoserie i servisní historie. Víte přesně, do čeho sedáte.
-              </p>
-            </div>
-            <div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <CircleDollarSign className="h-5 w-5" />
-              </div>
-              <div className="mt-4 text-sm font-semibold text-slate-100">Férové financování</div>
-              <p className="mt-2 text-sm text-secondary">
-                Společně najdeme řešení, které nezatíží váš rozpočet. Vše vám srozumitelně vysvětlíme ještě před podpisem smlouvy.
-              </p>
-            </div>
-            <div>
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary">
-                <BadgeCheck className="h-5 w-5" />
-              </div>
-              <div className="mt-4 text-sm font-semibold text-slate-100">Rychlý výkup a protiúčet</div>
-              <p className="mt-2 text-sm text-secondary">
-                Váš současný vůz férově oceníme a můžete ho pohodlně započítat proti novému. Bez zbytečného papírování a zdržování.
-              </p>
-            </div>
-          </div>
+      {/* Features grid */}
+      <section className="container-page" style={{ padding: '0 40px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <p className="section-kicker">Proč lidé volí Mika Auto</p>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
+            Jasný původ, férový proces, <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>rychlá domluva</span>
+          </h2>
         </div>
 
-        <div className="card-panel overflow-hidden p-6 md:p-8">
-          <p className="section-kicker">Jak probíhá koupě</p>
-          <div className="mt-4 space-y-5">
-            {processSteps.map((step, index) => (
-              <div key={step.title} className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-slate-950">
-                  0{index + 1}
-                </div>
-                <div>
-                  <div className="text-sm font-semibold text-slate-100">{step.title}</div>
-                  <p className="mt-1 text-sm text-secondary">{step.description}</p>
-                </div>
-              </div>
-            ))}
+        <div className="features-grid">
+          <div className="features-grid-cell">
+            <div className="features-grid-icon">
+              <ShieldCheck style={{ width: '20px', height: '20px' }} />
+            </div>
+            <div className="features-grid-title">Prověřený technický stav</div>
+            <div className="features-grid-desc">
+              Každý vůz detailně kontrolujeme včetně diagnostiky, karoserie i servisní historie.
+            </div>
           </div>
-          <Link href="/kontakt" className="mt-8 inline-flex items-center gap-2 text-sm font-semibold text-primary">
-            Domluvit nezávaznou konzultaci
-            <ArrowRight className="h-4 w-4" />
-          </Link>
+          <div className="features-grid-cell">
+            <div className="features-grid-icon">
+              <CircleDollarSign style={{ width: '20px', height: '20px' }} />
+            </div>
+            <div className="features-grid-title">Férové financování</div>
+            <div className="features-grid-desc">
+              Společně najdeme řešení, které nezatíží váš rozpočet. Vše srozumitelně vysvětlíme.
+            </div>
+          </div>
+          <div className="features-grid-cell">
+            <div className="features-grid-icon">
+              <BadgeCheck style={{ width: '20px', height: '20px' }} />
+            </div>
+            <div className="features-grid-title">Rychlý výkup a protiúčet</div>
+            <div className="features-grid-desc">
+              Váš současný vůz férově oceníme a můžete ho pohodlně započítat proti novému.
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="container-page mt-14">
-        <div className="card-panel p-6 md:p-10">
-          <div className="flex flex-wrap items-end justify-between gap-4">
-            <div>
-              <p className="section-kicker">Zkušenosti zákazníků</p>
-              <h2 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100 sm:text-4xl">Důvěra nevzniká sloganem, ale průběhem obchodu</h2>
-            </div>
-            <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
-              <Sparkles className="h-4 w-4" />
-              Osobní přístup bez tlaku
-            </div>
-          </div>
+      {/* Gold divider */}
+      <div className="container-page">
+        <div className="gold-divider">{'\u2726'}</div>
+      </div>
 
-          <div className="mt-8 grid gap-5 lg:grid-cols-3">
-            {reviews.map((review) => (
-              <article key={review.author} className="rounded-3xl bg-white/5 px-5 py-5 ring-1 ring-white/10">
-                <div className="text-sm leading-7 text-secondary">“{review.text}”</div>
-                <div className="mt-5 text-sm font-semibold text-slate-100">{review.author}</div>
-              </article>
-            ))}
-          </div>
+      {/* Reviews */}
+      <section className="container-page" style={{ padding: '0 40px 80px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+          <p className="section-kicker">Zkušenosti zákazníků</p>
+          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
+            Důvěra nevzniká sloganem
+          </h2>
+        </div>
+
+        <div style={{ display: 'grid', gap: '24px', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
+          {reviews.map((review) => (
+            <article key={review.author} className="pull-quote">
+              <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--cream-muted)', marginTop: '8px' }}>
+                {review.text}
+              </p>
+              <div style={{ marginTop: '16px', fontSize: '13px', fontWeight: 600, color: 'var(--white)', fontStyle: 'normal' }}>
+                {review.author}
+              </div>
+            </article>
+          ))}
         </div>
       </section>
     </div>

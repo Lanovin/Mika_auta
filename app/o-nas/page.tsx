@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 export default function AboutPage() {
   const milestones = [
     "Od roku 2007 vybíráme vozy s důrazem na původ, stav a reálnou použitelnost pro běžný život.",
@@ -9,43 +7,61 @@ export default function AboutPage() {
 
   return (
     <div className="pb-16">
-      <section className="relative h-72 w-full overflow-hidden bg-slate-900 sm:h-80">
-        <Image
-          src="https://lh6.googleusercontent.com/proxy/7G7xKKpkBip0iiv17iIE6-BAnLnts3dFyha8OG3nWx_Z4mb7dLr028_t_yPKYnLvTC5cnLK0zetK"
-          alt="Showroom s vozy"
-          fill
-          className="object-cover opacity-75"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-slate-900/50 to-transparent" />
-        <div className="relative h-full">
-          <div className="container-page flex h-full flex-col justify-center">
-            <p className="section-kicker text-amber-300">O nás</p>
-            <h1 className="mt-2 font-display text-4xl font-semibold uppercase tracking-[0.03em] text-white sm:text-5xl">
-              O nás – Autobazar MIKA
-            </h1>
-            <p className="mt-3 max-w-2xl text-sm text-secondary sm:text-base">
-              Společnost MIKAAUTO s.r.o. se od roku 2007 zabývá výkupem a prodejem použitých a zánovních vozidel všech značek.
-            </p>
-          </div>
-        </div>
+      {/* Header */}
+      <section className="container-page pt-12 pb-6">
+        <p className="section-kicker">O nás</p>
+        <h1
+          className="mt-2 text-4xl font-semibold uppercase tracking-[0.03em] sm:text-5xl"
+          style={{ fontFamily: "Playfair Display, serif", color: "var(--cream)" }}
+        >
+          O nás – Autobazar MIKA
+        </h1>
+        <p className="mt-3 max-w-2xl text-sm text-secondary sm:text-base">
+          Společnost MIKAAUTO s.r.o. se od roku 2007 zabývá výkupem a prodejem
+          použitých a zánovních vozidel všech značek.
+        </p>
       </section>
 
-      <section className="container-page mt-10 grid gap-10 md:grid-cols-2">
+      <div className="gold-divider" />
+
+      {/* Historie + Milníky */}
+      <section className="container-page mt-10">
         <div className="card-panel p-6 md:p-8">
-          <h2 className="font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100">
+          <h2
+            className="text-3xl font-semibold uppercase tracking-[0.03em]"
+            style={{ fontFamily: "Playfair Display, serif", color: "var(--cream)" }}
+          >
             Naše historie a poslání
           </h2>
           <p className="mt-3 text-sm text-secondary">
-            Našim zákazníkům nabízíme vždy bohatou nabídku kvalitních vozů nejrůznějších značek a typů, které vždy projdou důkladnou kontrolou, čímž stoprocentně garantujeme jejich původ.
+            Našim zákazníkům nabízíme vždy bohatou nabídku kvalitních vozů nejrůznějších
+            značek a typů, které vždy projdou důkladnou kontrolou, čímž stoprocentně
+            garantujeme jejich původ.
           </p>
           <p className="mt-3 text-sm text-secondary">
-            Naším hlavním cílem je spokojený zákazník, a proto vám nabízíme ty nejkvalitnější služby na nejvyšší úrovni. Autobazar MIKA vám přináší: bohatou nabídku kvalitních vozů, 100% garanci původu, individuální a profesionální přístup ke každému zákazníkovi.
+            Naším hlavním cílem je spokojený zákazník, a proto vám nabízíme ty
+            nejkvalitnější služby na <span className="text-highlight">nejvyšší úrovni</span>.
+            Autobazar MIKA vám přináší: bohatou nabídku kvalitních vozů, 100% garanci
+            původu, individuální a profesionální přístup ke každému zákazníkovi.
           </p>
 
           <div className="mt-6 space-y-4">
             {milestones.map((milestone, index) => (
-              <div key={milestone} className="flex gap-4 rounded-[24px] bg-white/5 px-4 py-4 ring-1 ring-white/10">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-slate-950">
+              <div
+                key={milestone}
+                className="flex gap-4 px-4 py-4"
+                style={{
+                  background: "var(--black-card)",
+                  border: "1px solid var(--black-border)",
+                }}
+              >
+                <div
+                  className="flex h-10 w-10 shrink-0 items-center justify-center text-sm font-semibold"
+                  style={{
+                    background: "var(--gold)",
+                    color: "var(--black)",
+                  }}
+                >
                   0{index + 1}
                 </div>
                 <p className="text-sm text-secondary">{milestone}</p>
@@ -53,70 +69,89 @@ export default function AboutPage() {
             ))}
           </div>
         </div>
-
-        <div className="card-panel p-3">
-          <div className="relative h-80 overflow-hidden rounded-[24px] bg-slate-100 shadow-soft">
-            <Image
-              src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=80"
-              alt="Spokojený zákazník přebírá vůz"
-              fill
-              className="object-cover"
-            />
-          </div>
-        </div>
       </section>
 
+      <div className="gold-divider" />
+
+      {/* Statistiky */}
       <section className="container-page mt-12">
-        <div className="card-panel px-6 py-8 md:px-10">
-          <div className="grid gap-6 text-center text-sm text-secondary md:grid-cols-3">
-            <div>
-              <div className="text-2xl font-semibold text-slate-100">
-                18+ let
-              </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-muted">
-                na trhu
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl font-semibold text-slate-100">
-                1000+
-              </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-muted">
-                spokojených klientů
-              </div>
-            </div>
-            <div>
-              <div className="text-2xl font-semibold text-slate-100">
-                100%
-              </div>
-              <div className="mt-1 text-xs uppercase tracking-wide text-muted">
-                garance původu vozu
-              </div>
-            </div>
+        <div className="stats-bar">
+          <div>
+            <div className="stat-value">18+ let</div>
+            <div className="stat-label">na trhu</div>
+          </div>
+          <div>
+            <div className="stat-value">1000+</div>
+            <div className="stat-label">spokojených klientů</div>
+          </div>
+          <div>
+            <div className="stat-value">100%</div>
+            <div className="stat-label">garance původu vozu</div>
           </div>
         </div>
       </section>
 
+      <div className="gold-divider" />
+
+      {/* Náš přístup */}
       <section className="container-page mt-12">
         <div className="grid gap-6 md:grid-cols-3">
-          <div className="rounded-[28px] bg-slate-950 px-6 py-6 text-white shadow-soft">
-            <div className="text-xs uppercase tracking-[0.24em] text-secondary">Přístup</div>
-            <div className="mt-3 text-xl font-semibold">Bez nátlaku a bez nejasností</div>
-            <p className="mt-2 text-sm text-secondary">Naším cílem není jen vůz prodat, ale doporučit auto, které bude dávat smysl i po několika letech provozu.</p>
+          <div className="card-panel px-6 py-6">
+            <div
+              className="text-xs uppercase tracking-[0.24em]"
+              style={{ color: "var(--gold-dim)" }}
+            >
+              Přístup
+            </div>
+            <div
+              className="mt-3 text-xl font-semibold"
+              style={{ color: "var(--cream)" }}
+            >
+              Bez nátlaku a bez nejasností
+            </div>
+            <p className="mt-2 text-sm text-secondary">
+              Naším cílem není jen vůz prodat, ale doporučit auto, které bude dávat
+              smysl i po několika letech provozu.
+            </p>
           </div>
-          <div className="rounded-[28px] border border-white/10 bg-slate-950/60 px-6 py-6 shadow-panel">
-            <div className="text-xs uppercase tracking-[0.24em] text-muted">Výběr</div>
-            <div className="mt-3 text-xl font-semibold text-slate-100">Prověřená nabídka místo přemíry kusů</div>
-            <p className="mt-2 text-sm text-secondary">Raději menší a kvalitnější výběr než sklad plný aut, za která nechceme ručit.</p>
+          <div className="card-panel px-6 py-6">
+            <div
+              className="text-xs uppercase tracking-[0.24em]"
+              style={{ color: "var(--gold-dim)" }}
+            >
+              Výběr
+            </div>
+            <div
+              className="mt-3 text-xl font-semibold"
+              style={{ color: "var(--cream)" }}
+            >
+              Prověřená nabídka místo přemíry kusů
+            </div>
+            <p className="mt-2 text-sm text-secondary">
+              Raději menší a kvalitnější výběr než sklad plný aut, za která nechceme
+              ručit.
+            </p>
           </div>
-          <div className="rounded-[28px] border border-white/10 bg-slate-950/60 px-6 py-6 shadow-panel">
-            <div className="text-xs uppercase tracking-[0.24em] text-muted">Servis</div>
-            <div className="mt-3 text-xl font-semibold text-slate-100">Pomoc i po podpisu smlouvy</div>
-            <p className="mt-2 text-sm text-secondary">Umíme dotáhnout pojištění, financování i převod tak, aby byl celý proces pro vás jednoduchý.</p>
+          <div className="card-panel px-6 py-6">
+            <div
+              className="text-xs uppercase tracking-[0.24em]"
+              style={{ color: "var(--gold-dim)" }}
+            >
+              Servis
+            </div>
+            <div
+              className="mt-3 text-xl font-semibold"
+              style={{ color: "var(--cream)" }}
+            >
+              Pomoc i po podpisu smlouvy
+            </div>
+            <p className="mt-2 text-sm text-secondary">
+              Umíme dotáhnout pojištění, financování i převod tak, aby byl celý
+              proces pro vás jednoduchý.
+            </p>
           </div>
         </div>
       </section>
     </div>
   );
 }
-

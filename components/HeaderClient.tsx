@@ -50,68 +50,71 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
   const closeMenu = () => setIsOpen(false);
 
   return (
-    <header className="sticky top-0 z-30 border-b border-primary/20 bg-slate-950/90 backdrop-blur-xl">
-      <div className="container-page flex h-[var(--header-height)] items-center justify-between gap-4">
-        <nav className="hidden lg:flex items-center gap-8 text-[13px] font-medium uppercase tracking-[0.16em] text-slate-200">
+    <header style={{ position: 'sticky', top: 0, zIndex: 30, background: 'var(--black)', borderBottom: '1px solid rgba(201,168,76,0.08)' }}>
+      <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 'var(--header-height)', gap: '16px' }}>
+        {/* Left nav — desktop */}
+        <nav style={{ display: 'none', alignItems: 'center', gap: '32px', fontFamily: "'Raleway', sans-serif", fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const }} className="lg:!flex">
           {leftNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`nav-link ${pathname === item.href ? "text-primary" : ""}`}
+              style={{ color: pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)', transition: 'color 0.2s ease', textDecoration: 'none' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)')}
             >
-              <span className="relative inline-flex pb-1">
-                {item.label}
-                {pathname === item.href ? <span className="absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-primary" /> : null}
-              </span>
+              {item.label}
             </Link>
           ))}
         </nav>
 
-        <Link href="/" className="hidden lg:flex min-w-0 items-center justify-center" onClick={closeMenu}>
+        {/* Logo — desktop */}
+        <Link href="/" style={{ display: 'none', alignItems: 'center', justifyContent: 'center' }} className="lg:!flex" onClick={closeMenu}>
           <img
             src="/auto_mika_logo.png"
             alt="Autobazar MIKA Logo"
-            className="h-16 w-auto object-contain"
+            style={{ height: '56px', width: 'auto', objectFit: 'contain' }}
           />
         </Link>
 
-        <div className="hidden lg:flex items-center gap-7 text-[13px] font-medium uppercase tracking-[0.16em] text-slate-200">
+        {/* Right nav — desktop */}
+        <div style={{ display: 'none', alignItems: 'center', gap: '28px', fontFamily: "'Raleway', sans-serif", fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const }} className="lg:!flex">
           {rightNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              className={`nav-link ${pathname === item.href ? "text-primary" : ""}`}
+              style={{ color: pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)', transition: 'color 0.2s ease', textDecoration: 'none' }}
+              onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold)')}
+              onMouseLeave={(e) => (e.currentTarget.style.color = pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)')}
             >
-              <span className="relative inline-flex pb-1">
-                {item.label}
-                {pathname === item.href ? <span className="absolute inset-x-0 bottom-0 h-0.5 rounded-full bg-primary" /> : null}
-              </span>
+              {item.label}
             </Link>
           ))}
-          <Link
-            href="/kontakt"
-            className="btn-primary whitespace-nowrap px-6 text-[13px] tracking-[0.08em]"
-          >
+          <Link href="/kontakt" className="btn-primary" style={{ padding: '12px 28px', fontSize: '11px' }}>
             Domluvit prohlídku
           </Link>
         </div>
 
-        <Link href="/" className="flex min-w-0 items-center gap-2 lg:hidden" onClick={closeMenu}>
+        {/* Mobile logo */}
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }} className="lg:!hidden" onClick={closeMenu}>
           <img
             src="/auto_mika_logo.png"
             alt="Autobazar MIKA Logo"
-            className="h-10 w-auto object-contain"
+            style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
           />
-          <div className="min-w-0">
-            <div className="font-display text-lg font-semibold uppercase tracking-[0.06em] text-slate-100">Autobazar Mika</div>
-            <div className="text-muted text-[11px] font-medium uppercase tracking-[0.24em]">Praha 9</div>
+          <div>
+            <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '16px', fontWeight: 700, color: 'var(--white)', letterSpacing: '0.04em' }}>
+              Autobazar <span style={{ color: 'var(--gold)' }}>Mika</span>
+            </div>
+            <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: '10px', letterSpacing: '0.24em', textTransform: 'uppercase' as const, color: 'var(--text-muted)' }}>Praha 9</div>
           </div>
         </Link>
 
+        {/* Hamburger */}
         <button
           type="button"
           onClick={() => setIsOpen((prev) => !prev)}
-          className="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-white/20 bg-slate-900 text-slate-100 transition hover:bg-slate-800 lg:hidden"
+          style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', border: '1px solid var(--black-border)', background: 'var(--black-card)', color: 'var(--cream)', transition: 'border-color 0.2s' }}
+          className="lg:!hidden"
           aria-label={isOpen ? "Zavřít menu" : "Otevřít menu"}
           aria-expanded={isOpen}
         >
@@ -119,36 +122,36 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
         </button>
       </div>
 
+      {/* Mobile menu */}
       {isOpen ? (
-        <div className="border-t border-white/10 bg-slate-950 lg:hidden">
-          <div className="container-page py-4">
-            <nav className="grid gap-1 text-sm">
+        <div style={{ borderTop: '1px solid var(--black-border)', background: 'var(--black)' }} className="lg:!hidden">
+          <div className="container-page" style={{ padding: '16px 40px' }}>
+            <nav style={{ display: 'grid', gap: '4px', fontSize: '14px' }}>
               {[...leftNav, ...rightNav].map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   onClick={closeMenu}
-                  className={`rounded-lg px-3 py-2 ${pathname === item.href ? "bg-primary/15 font-semibold text-primary" : "text-slate-200 hover:bg-white/5"}`}
+                  style={{
+                    display: 'block',
+                    padding: '8px 12px',
+                    color: pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)',
+                    fontWeight: pathname === item.href ? 600 : 400,
+                    textDecoration: 'none',
+                    transition: 'color 0.2s'
+                  }}
                 >
                   {item.label}
                 </Link>
               ))}
             </nav>
 
-            <div className="mt-4 grid gap-2">
-              <Link
-                href="/kontakt"
-                onClick={closeMenu}
-                className="btn-primary"
-              >
+            <div style={{ marginTop: '16px', display: 'grid', gap: '8px' }}>
+              <Link href="/kontakt" onClick={closeMenu} className="btn-primary" style={{ textAlign: 'center' }}>
                 Domluvit prohlídku
               </Link>
               {currentUser?.role === "admin" ? (
-                <Link
-                  href="/admin"
-                  onClick={closeMenu}
-                  className="btn-secondary"
-                >
+                <Link href="/admin" onClick={closeMenu} className="btn-secondary" style={{ textAlign: 'center' }}>
                   Správa vozů
                 </Link>
               ) : null}
@@ -156,6 +159,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
                 href={currentUser ? "/ucet" : "/prihlaseni"}
                 onClick={closeMenu}
                 className="btn-secondary"
+                style={{ textAlign: 'center' }}
               >
                 {currentUser ? `Účet: ${currentUser.username}` : "Přihlášení"}
               </Link>
@@ -163,8 +167,6 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
           </div>
         </div>
       ) : null}
-
-      <div className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-gradient-to-r from-transparent via-primary/70 to-transparent" />
     </header>
   );
 }

@@ -24,5 +24,10 @@ Thumbs.db
 .vscode/
 .cursor/
 
+# temp files
+_*.js
+_*.tsx
+tsconfig.tsbuildinfo
+
 # uploads generated at runtime (optional)
 public/uploads/vehicles/

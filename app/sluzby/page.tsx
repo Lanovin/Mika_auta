@@ -76,44 +76,96 @@ export default function ServicesPage() {
 
   return (
     <div className="min-h-screen">
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+      <div className="container-page py-12">
+        {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
           <p className="section-kicker">Služby</p>
-          <h1 className="mt-2 font-display text-4xl font-semibold uppercase tracking-[0.03em] text-slate-100">Naše služby</h1>
+          <h1
+            className="mt-2 text-4xl font-semibold uppercase tracking-[0.03em]"
+            style={{ fontFamily: "Playfair Display, serif", color: "var(--cream)" }}
+          >
+            Naše služby
+          </h1>
           <p className="mt-4 text-lg text-secondary">
             Komplexní služby pro nákup, prodej a financování vozidel
           </p>
         </div>
 
+        <div className="gold-divider" />
+
+        {/* Summary cards */}
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          <div className="rounded-[28px] bg-slate-950 px-6 py-5 text-white shadow-soft">
-            <div className="text-xs uppercase tracking-[0.24em] text-secondary">Financování</div>
-            <div className="mt-2 text-xl font-semibold">Rychlé schválení a jasné podmínky</div>
+          <div className="card-panel px-6 py-5">
+            <div
+              className="text-xs uppercase tracking-[0.24em]"
+              style={{ color: "var(--gold)" }}
+            >
+              Financování
+            </div>
+            <div
+              className="mt-2 text-xl font-semibold"
+              style={{ color: "var(--cream)" }}
+            >
+              Rychlé schválení a jasné podmínky
+            </div>
           </div>
-          <div className="rounded-[28px] border border-white/10 bg-slate-950/60 px-6 py-5 shadow-panel">
-            <div className="text-xs uppercase tracking-[0.24em] text-muted">Pojištění</div>
-            <div className="mt-2 text-xl font-semibold text-slate-100">Povinné ručení i havarijní pojištění</div>
+          <div className="card-panel px-6 py-5">
+            <div
+              className="text-xs uppercase tracking-[0.24em]"
+              style={{ color: "var(--gold)" }}
+            >
+              Pojištění
+            </div>
+            <div
+              className="mt-2 text-xl font-semibold"
+              style={{ color: "var(--cream)" }}
+            >
+              Povinné ručení i havarijní pojištění
+            </div>
           </div>
-          <div className="rounded-[28px] border border-white/10 bg-slate-950/60 px-6 py-5 shadow-panel">
-            <div className="text-xs uppercase tracking-[0.24em] text-muted">Výkup</div>
-            <div className="mt-2 text-xl font-semibold text-slate-100">Hotově, komisně i na protiúčet</div>
+          <div className="card-panel px-6 py-5">
+            <div
+              className="text-xs uppercase tracking-[0.24em]"
+              style={{ color: "var(--gold)" }}
+            >
+              Výkup
+            </div>
+            <div
+              className="mt-2 text-xl font-semibold"
+              style={{ color: "var(--cream)" }}
+            >
+              Hotově, komisně i na protiúčet
+            </div>
           </div>
         </div>
 
+        {/* Service cards */}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service, index) => {
             const Icon = getIcon(service.icon);
             return (
               <div
                 key={index}
-                className="flex cursor-pointer flex-col gap-3 rounded-[28px] border border-white/10 bg-slate-950/65 p-6 shadow-soft ring-1 ring-white/10 transition-all duration-200 hover:-translate-y-1 hover:shadow-lg hover:ring-primary/30"
+                className="card-panel flex cursor-pointer flex-col gap-3 p-6 transition-all duration-200 hover:-translate-y-1"
+                style={{
+                  borderColor: expanded === index ? "var(--gold-dim)" : undefined,
+                }}
                 onClick={() => toggleExpanded(index)}
               >
-                <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <div
+                  className="flex h-11 w-11 items-center justify-center"
+                  style={{
+                    border: "2px solid var(--gold)",
+                    color: "var(--gold)",
+                  }}
+                >
                   <Icon className="h-5 w-5" />
                 </div>
                 <div>
-                  <h2 className="text-sm font-semibold text-slate-100">
+                  <h2
+                    className="text-sm font-semibold"
+                    style={{ color: "var(--cream)" }}
+                  >
                     {service.title}
                   </h2>
                   <p className="mt-2 text-sm text-secondary">
@@ -141,4 +193,3 @@ export default function ServicesPage() {
     </div>
   );
 }
-

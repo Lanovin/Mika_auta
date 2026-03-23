@@ -160,13 +160,18 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="section-kicker">Skladová nabídka</p>
-          <h1 className="mt-2 font-display text-3xl font-semibold uppercase tracking-[0.03em] text-slate-100 sm:text-4xl">Nabídka prověřených vozů</h1>
+          <h1
+            className="mt-2 text-3xl font-semibold uppercase tracking-[0.03em] sm:text-4xl"
+            style={{ fontFamily: "var(--font-display)", color: "var(--cream)" }}
+          >
+            Nabídka prověřených vozů
+          </h1>
           <p className="mt-1 text-sm text-secondary">
             Prohlédněte si aktuální skladovou nabídku vozů připravených ihned k odběru. Každý kus má jasnou historii a pečlivě dohledaný původ.
           </p>
         </div>
-        <div className="rounded-2xl bg-slate-950/70 px-4 py-3 text-sm text-secondary shadow-panel ring-1 ring-white/10">
-          Zobrazeno <span className="font-semibold text-slate-100">{filteredCars.length}</span> z {vehicles.length} vozů
+        <div className="card-panel px-4 py-3 text-sm text-secondary">
+          Zobrazeno <span className="font-semibold" style={{ color: "var(--cream)" }}>{filteredCars.length}</span> z {vehicles.length} vozů
         </div>
       </header>
 
@@ -174,13 +179,13 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
         <aside className="card-panel h-fit p-4 lg:sticky lg:top-28">
           <div className="flex items-center justify-between gap-3">
             <div>
-              <h2 className="flex items-center gap-2 text-sm font-semibold text-slate-100">
-                <SlidersHorizontal className="h-4 w-4 text-primary" />
+              <h2 className="flex items-center gap-2 text-sm font-semibold" style={{ color: "var(--cream)" }}>
+                <SlidersHorizontal className="h-4 w-4" style={{ color: "var(--gold)" }} />
                 Zúžit výběr
               </h2>
               <p className="mt-1 text-xs text-muted">Vyberte značku, model nebo cenové rozpětí, které vám dává smysl.</p>
             </div>
-            <button type="button" onClick={resetFilters} className="inline-flex items-center gap-1 text-xs font-semibold text-primary transition hover:text-primary-dark">
+            <button type="button" onClick={resetFilters} className="inline-flex items-center gap-1 text-xs font-semibold transition" style={{ color: "var(--gold)" }}>
               <RotateCcw className="h-3.5 w-3.5" />
               Reset
             </button>
@@ -192,7 +197,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
               <div className="mt-2 space-y-2">
                 {allMakes.map((make) => (
                   <div key={make}>
-                    <label className="flex items-center text-slate-200">
+                    <label className="flex items-center" style={{ color: "var(--cream-muted)" }}>
                       <input type="checkbox" checked={filters.makes.includes(make)} onChange={() => toggleMake(make)} className="mr-2" />
                       {make}
                     </label>
@@ -243,7 +248,15 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
               <label className="block text-xs font-medium uppercase tracking-wide text-muted">Karoserie</label>
               <div className="mt-2 flex flex-wrap gap-2">
                 {allBodies.map((body) => (
-                  <label key={body} className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-slate-200">
+                  <label
+                    key={body}
+                    className="inline-flex items-center gap-2 px-3 py-1 text-xs"
+                    style={{
+                      border: "1px solid var(--black-border)",
+                      background: "var(--black-card)",
+                      color: "var(--cream-muted)"
+                    }}
+                  >
                     <input type="checkbox" checked={filters.bodies.includes(body)} onChange={() => toggleBody(body)} />
                     {body}
                   </label>
@@ -253,7 +266,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
 
             <div>
               <label className="block text-xs font-medium uppercase tracking-wide text-muted">Převodovka</label>
-              <select value={filters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2">
+              <select value={filters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full">
                 <option value="">Všechny</option>
                 {allTransmissions.map((transmission) => (
                   <option key={transmission} value={transmission}>{transmission}</option>
@@ -263,7 +276,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
 
             <div>
               <label className="block text-xs font-medium uppercase tracking-wide text-muted">Palivo</label>
-              <select value={filters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2">
+              <select value={filters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full">
                 <option value="">Všechna</option>
                 {allFuels.map((fuel) => (
                   <option key={fuel} value={fuel}>{fuel}</option>
@@ -274,24 +287,34 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
         </aside>
 
         <section>
-          <div className="mb-5 flex flex-col gap-4 rounded-[28px] border border-white/10 bg-slate-950/65 p-4 shadow-panel sm:flex-row sm:items-center sm:justify-between">
+          <div className="card-panel mb-5 flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <div className="text-sm font-semibold text-slate-100">Aktivní filtry</div>
+              <div className="text-sm font-semibold" style={{ color: "var(--cream)" }}>Aktivní filtry</div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {activeFilterChips.length > 0 ? activeFilterChips.map((chip) => (
-                  <button key={chip.label} type="button" onClick={chip.onRemove} className="rounded-full bg-white/10 px-3 py-1.5 text-xs font-semibold text-slate-200 transition hover:bg-white/15">
+                  <button
+                    key={chip.label}
+                    type="button"
+                    onClick={chip.onRemove}
+                    className="px-3 py-1.5 text-xs font-semibold transition"
+                    style={{
+                      border: "1px solid var(--gold-dim)",
+                      background: "var(--black-card)",
+                      color: "var(--gold)"
+                    }}
+                  >
                     {chip.label} ×
                   </button>
                 )) : <span className="text-sm text-muted">Zatím nemáte aktivní žádný filtr.</span>}
               </div>
             </div>
 
-            <label className="block text-sm font-medium text-slate-200">
+            <label className="block text-sm font-medium" style={{ color: "var(--cream-muted)" }}>
               <span className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                 <ArrowUpDown className="h-3.5 w-3.5" />
                 Řazení
               </span>
-              <select value={sort} onChange={(event) => setSort(event.target.value as SortOption)} className="w-full rounded-2xl border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2 sm:min-w-64">
+              <select value={sort} onChange={(event) => setSort(event.target.value as SortOption)} className="w-full sm:min-w-64">
                 <option value="recommended">Doporučené</option>
                 <option value="price-asc">Cena od nejnižší</option>
                 <option value="price-desc">Cena od nejvyšší</option>
@@ -314,8 +337,8 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
               ))}
             </div>
           ) : (
-            <div className="rounded-[28px] bg-slate-950/75 p-8 text-center shadow-soft ring-1 ring-white/10">
-              <h2 className="text-lg font-semibold text-slate-100">Žádné vozy neodpovídají filtru</h2>
+            <div className="card-panel p-8 text-center">
+              <h2 className="text-lg font-semibold" style={{ color: "var(--cream)" }}>Žádné vozy neodpovídají filtru</h2>
               <p className="mt-2 text-sm text-secondary">Upravte filtr nebo kontaktujte prodejce a pomůžeme vám najít vhodnou alternativu.</p>
             </div>
           )}

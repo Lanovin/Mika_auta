@@ -1,19 +1,7 @@
 import type { Metadata } from "next";
-import { Barlow_Condensed, Manrope } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-
-const sans = Manrope({
-  subsets: ["latin"],
-  variable: "--font-sans"
-});
-
-const display = Barlow_Condensed({
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  variable: "--font-display"
-});
 
 export const metadata: Metadata = {
   title: "Mika Auto – Autobazar | Kvalitní ojeté vozy",
@@ -33,9 +21,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="cs">
-      <body className={`${sans.variable} ${display.variable} flex min-h-screen flex-col font-sans text-slate-100`}>
+      <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <Header />
-        <main className="flex-1">{children}</main>
+        <main style={{ flex: 1 }}>{children}</main>
         <Footer />
       </body>
     </html>

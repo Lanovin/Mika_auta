@@ -36,8 +36,8 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
     <div className="container-page py-10 pb-16">
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.25em] text-primary">Interní administrace</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-slate-100">Správa nabídky vozů</h1>
+          <p className="section-kicker">Interní administrace</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Správa nabídky vozů</h1>
           <p className="mt-2 max-w-2xl text-sm text-secondary">
             Odtud klient pohodlně přidá nový vůz, upraví cenu, skryje neaktuální inzerát nebo vymění fotky. Veřejné stránky se po uložení automaticky aktualizují.
           </p>
@@ -55,21 +55,21 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
       </div>
 
       {credentials.usesDefaults ? (
-        <div className="mt-6 rounded-2xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-800">
+        <div className="mt-6 border-l-4 border-amber-500/60 px-4 py-3 text-sm text-amber-200" style={{ background: "var(--black-rich)" }}>
           Administrace používá speciální účet admin / admin. Před nasazením doporučujeme toto heslo změnit.
         </div>
       ) : null}
 
       {notice ? (
-        <div className="mt-6 rounded-2xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
+        <div className="mt-6 border-l-4 border-emerald-500/60 px-4 py-3 text-sm text-emerald-200" style={{ background: "var(--black-rich)" }}>
           {notice}
         </div>
       ) : null}
 
-      <section className="mt-8 overflow-hidden rounded-3xl bg-slate-950/70 shadow-soft ring-1 ring-white/10">
+      <section className="card-panel mt-8 overflow-hidden">
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-white/10 text-sm">
-            <thead className="bg-white/5 text-left text-xs uppercase tracking-wide text-muted">
+          <table className="min-w-full divide-y text-sm" style={{ borderColor: "var(--black-border)" }}>
+            <thead style={{ background: "var(--black-rich)" }} className="text-left text-xs uppercase tracking-wide text-muted">
               <tr>
                 <th className="px-4 py-3 font-medium">Vůz</th>
                 <th className="px-4 py-3 font-medium">Cena</th>
@@ -78,25 +78,34 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
                 <th className="px-4 py-3 font-medium">Akce</th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-white/10">
+            <tbody className="divide-y" style={{ borderColor: "var(--black-border)" }}>
               {vehicles.map((vehicle) => {
                 const deleteAction = deleteVehicleAction.bind(null, vehicle.id);
 
                 return (
                   <tr key={vehicle.id} className="align-top">
                     <td className="px-4 py-4">
-                      <div className="font-semibold text-slate-100">{vehicle.title}</div>
+                      <div className="font-semibold text-white">{vehicle.title}</div>
                       <div className="mt-1 text-xs text-muted">{vehicle.make} · {vehicle.model} · {vehicle.location}</div>
                     </td>
-                    <td className="px-4 py-4 font-medium text-slate-100">{vehicle.price.toLocaleString("cs-CZ")} Kč</td>
+                    <td className="px-4 py-4 font-medium text-white">{vehicle.price.toLocaleString("cs-CZ")} Kč</td>
                     <td className="px-4 py-4 text-secondary">{vehicle.year} · {vehicle.mileage.toLocaleString("cs-CZ")} km</td>
                     <td className="px-4 py-4">
                       <div className="flex flex-wrap gap-2 text-xs">
-                        <span className={`rounded-full px-3 py-1 ${vehicle.published ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-600"}`}>
+                        <span
+                          className="px-3 py-1 font-medium"
+                          style={{
+                            background: vehicle.published ? "rgba(16,185,129,0.12)" : "var(--black-rich)",
+                            color: vehicle.published ? "#6ee7b7" : "var(--cream-muted)",
+                            border: vehicle.published ? "1px solid rgba(16,185,129,0.3)" : "1px solid var(--black-border)",
+                          }}
+                        >
                           {vehicle.published ? "Veřejný" : "Skrytý"}
                         </span>
                         {vehicle.featured ? (
-                          <span className="rounded-full bg-primary/10 px-3 py-1 text-primary">Doporučený</span>
+                          <span className="px-3 py-1 font-medium" style={{ background: "rgba(201,168,76,0.10)", color: "var(--gold)", border: "1px solid var(--gold-dim)" }}>
+                            Doporučený
+                          </span>
                         ) : null}
                       </div>
                     </td>
@@ -109,7 +118,11 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
                           Upravit
                         </Link>
                         <form action={deleteAction}>
-                          <button type="submit" className="rounded-full border border-red-200 px-3 py-1.5 text-xs font-semibold text-red-700 transition hover:bg-red-50">
+                          <button
+                            type="submit"
+                            className="px-3 py-1.5 text-xs font-semibold transition hover:opacity-80"
+                            style={{ background: "var(--black-rich)", color: "#fca5a5", border: "1px solid rgba(239,68,68,0.4)" }}
+                          >
                             Smazat
                           </button>
                         </form>

@@ -51,7 +51,7 @@ export function FilterForm({
         <select
           value={values.make}
           onChange={(e) => handleValueChange("make", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
+          className="mt-1 w-full"
         >
           <option value="">Jakákoliv značka</option>
           {allMakes.map((make) => (
@@ -69,7 +69,7 @@ export function FilterForm({
         <select
           value={values.model}
           onChange={(e) => handleValueChange("model", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
+          className="mt-1 w-full"
         >
           <option value="">Jakýkoliv model</option>
           {filteredModels.map((model) => (
@@ -87,7 +87,7 @@ export function FilterForm({
         <select
           value={values.maxPrice}
           onChange={(e) => handleValueChange("maxPrice", e.target.value)}
-          className="mt-1 w-full rounded-lg border border-white/15 bg-slate-900/80 px-3 py-2 text-sm text-slate-100 shadow-sm outline-none ring-primary/20 transition focus:border-primary focus:ring-2"
+          className="mt-1 w-full"
         >
           <option value="">Neomezeně</option>
           <option value="300000">300 000 Kč</option>

@@ -10,32 +10,29 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#C6A34A",
-          dark: "#8F7230",
-          light: "#E5C879"
+          DEFAULT: "#c9a84c",
+          dark: "#7a6030",
+          light: "#e2c97e"
         },
-        background: "#09090B",
+        background: "#0a0a0a",
         surface: {
-          DEFAULT: "#141416",
-          muted: "#1C1C20",
-          strong: "#26262B"
+          DEFAULT: "#161616",
+          muted: "#1e1e1e",
+          strong: "#111111"
         },
         ink: {
-          DEFAULT: "#F8FAFC",
-          soft: "#CBD5E1",
-          muted: "#94A3B8"
+          DEFAULT: "#f7f0e0",
+          soft: "#d4c9a8",
+          muted: "#7a7060"
         }
       },
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        display: ["var(--font-display)", "system-ui", "sans-serif"]
+        sans: ["'Raleway'", "sans-serif"],
+        display: ["'Playfair Display'", "Georgia", "serif"]
       },
       boxShadow: {
-        "soft": "0 22px 50px rgba(15, 23, 42, 0.10)",
-        "panel": "0 10px 30px rgba(15, 23, 42, 0.08)"
-      },
-      backgroundImage: {
-        "grid-fade": "linear-gradient(rgba(148, 163, 184, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.1) 1px, transparent 1px)"
+        "soft": "none",
+        "panel": "none"
       }
     }
   },
