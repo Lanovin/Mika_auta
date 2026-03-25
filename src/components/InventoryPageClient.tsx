@@ -52,6 +52,7 @@ function getInitialFilters(initialQuickFilters?: InventoryPageClientProps["initi
 
 export function InventoryPageClient({ vehicles, initialQuickFilters }: InventoryPageClientProps) {
   const [filters, setFilters] = useState<InventoryFilters>(() => getInitialFilters(initialQuickFilters));
+  const [pendingFilters, setPendingFilters] = useState<InventoryFilters>(() => getInitialFilters(initialQuickFilters));
   const [isLoading, setIsLoading] = useState(false);
   const [sort, setSort] = useState<SortOption>("recommended");
 
@@ -103,55 +104,92 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
     });
   }, [filters, sort, vehicles]);
 
+  const removeFilter = (partial: Partial<InventoryFilters>) => {
+    setFilters((prev) => ({ ...prev, ...partial }));
+    setPendingFilters((prev) => ({ ...prev, ...partial }));
+  };
+
+  const removeToggleMake = (make: string) => {
+    const update = (prev: InventoryFilters) => {
+      const newMakes = prev.makes.filter((item) => item !== make);
+      const allowedModels = newMakes.flatMap((item) => modelsByMake[item] ?? []);
+      const nextModels = prev.models.filter((model) => allowedModels.includes(model));
+      return { ...prev, makes: newMakes, models: nextModels };
+    };
+    setFilters(update);
+    setPendingFilters(update);
+  };
+
+  const removeToggleModel = (model: string) => {
+    const update = (prev: InventoryFilters) => ({
+      ...prev, models: prev.models.filter((item) => item !== model)
+    });
+    setFilters(update);
+    setPendingFilters(update);
+  };
+
+  const removeToggleBody = (body: string) => {
+    const update = (prev: InventoryFilters) => ({
+      ...prev, bodies: prev.bodies.filter((item) => item !== body)
+    });
+    setFilters(update);
+    setPendingFilters(update);
+  };
+
   const activeFilterChips = [
-    ...filters.makes.map((make) => ({ label: make, onRemove: () => toggleMake(make) })),
-    ...filters.models.map((model) => ({ label: model, onRemove: () => toggleModel(model) })),
-    ...filters.bodies.map((body) => ({ label: body, onRemove: () => toggleBody(body) })),
-    ...(filters.transmission ? [{ label: filters.transmission, onRemove: () => handleFilterChange({ transmission: "" }) }] : []),
-    ...(filters.fuel ? [{ label: filters.fuel, onRemove: () => handleFilterChange({ fuel: "" }) }] : []),
+    ...filters.makes.map((make) => ({ label: make, onRemove: () => removeToggleMake(make) })),
+    ...filters.models.map((model) => ({ label: model, onRemove: () => removeToggleModel(model) })),
+    ...filters.bodies.map((body) => ({ label: body, onRemove: () => removeToggleBody(body) })),
+    ...(filters.transmission ? [{ label: filters.transmission, onRemove: () => removeFilter({ transmission: "" }) }] : []),
+    ...(filters.fuel ? [{ label: filters.fuel, onRemove: () => removeFilter({ fuel: "" }) }] : []),
     ...(filters.minPrice > 0 || filters.maxPrice < INITIAL_FILTERS.maxPrice
-      ? [{ label: `${filters.minPrice.toLocaleString()}–${filters.maxPrice.toLocaleString()} Kč`, onRemove: () => handleFilterChange({ minPrice: INITIAL_FILTERS.minPrice, maxPrice: INITIAL_FILTERS.maxPrice }) }]
+      ? [{ label: `${filters.minPrice.toLocaleString()}–${filters.maxPrice.toLocaleString()} Kč`, onRemove: () => removeFilter({ minPrice: INITIAL_FILTERS.minPrice, maxPrice: INITIAL_FILTERS.maxPrice }) }]
       : []),
     ...(filters.minMileage > 0 || filters.maxMileage < INITIAL_FILTERS.maxMileage
-      ? [{ label: `${filters.minMileage.toLocaleString()}–${filters.maxMileage.toLocaleString()} km`, onRemove: () => handleFilterChange({ minMileage: INITIAL_FILTERS.minMileage, maxMileage: INITIAL_FILTERS.maxMileage }) }]
+      ? [{ label: `${filters.minMileage.toLocaleString()}–${filters.maxMileage.toLocaleString()} km`, onRemove: () => removeFilter({ minMileage: INITIAL_FILTERS.minMileage, maxMileage: INITIAL_FILTERS.maxMileage }) }]
       : [])
   ];
 
   const resetFilters = () => {
     setIsLoading(true);
+    setPendingFilters(INITIAL_FILTERS);
     setFilters(INITIAL_FILTERS);
     setSort("recommended");
     setTimeout(() => setIsLoading(false), 250);
   };
 
   const handleFilterChange = (partial: Partial<InventoryFilters>) => {
+    setPendingFilters((prev) => ({ ...prev, ...partial }));
+  };
+
+  const applyFilters = () => {
     setIsLoading(true);
-    setFilters((prev) => ({ ...prev, ...partial }));
+    setFilters({ ...pendingFilters });
     setTimeout(() => setIsLoading(false), 250);
   };
 
   const toggleMake = (make: string) => {
-    const newMakes = filters.makes.includes(make)
-      ? filters.makes.filter((item) => item !== make)
-      : [...filters.makes, make];
+    const newMakes = pendingFilters.makes.includes(make)
+      ? pendingFilters.makes.filter((item) => item !== make)
+      : [...pendingFilters.makes, make];
 
     const allowedModels = newMakes.flatMap((item) => modelsByMake[item] ?? []);
-    const nextModels = filters.models.filter((model) => allowedModels.includes(model));
+    const nextModels = pendingFilters.models.filter((model) => allowedModels.includes(model));
 
     handleFilterChange({ makes: newMakes, models: nextModels });
   };
 
   const toggleModel = (model: string) => {
-    const newModels = filters.models.includes(model)
-      ? filters.models.filter((item) => item !== model)
-      : [...filters.models, model];
+    const newModels = pendingFilters.models.includes(model)
+      ? pendingFilters.models.filter((item) => item !== model)
+      : [...pendingFilters.models, model];
     handleFilterChange({ models: newModels });
   };
 
   const toggleBody = (body: string) => {
-    const newBodies = filters.bodies.includes(body)
-      ? filters.bodies.filter((item) => item !== body)
-      : [...filters.bodies, body];
+    const newBodies = pendingFilters.bodies.includes(body)
+      ? pendingFilters.bodies.filter((item) => item !== body)
+      : [...pendingFilters.bodies, body];
     handleFilterChange({ bodies: newBodies });
   };
 
@@ -198,14 +236,14 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
                 {allMakes.map((make) => (
                   <div key={make}>
                     <label className="flex items-center" style={{ color: "var(--cream-muted)" }}>
-                      <input type="checkbox" checked={filters.makes.includes(make)} onChange={() => toggleMake(make)} className="mr-2" />
+                      <input type="checkbox" checked={pendingFilters.makes.includes(make)} onChange={() => toggleMake(make)} className="mr-2" />
                       {make}
                     </label>
-                    {filters.makes.includes(make) && (
+                    {pendingFilters.makes.includes(make) && (
                       <div className="ml-4 mt-1 space-y-1">
                         {(modelsByMake[make] ?? []).map((model) => (
                           <label key={model} className="flex items-center text-xs text-secondary">
-                            <input type="checkbox" checked={filters.models.includes(model)} onChange={() => toggleModel(model)} className="mr-2" />
+                            <input type="checkbox" checked={pendingFilters.models.includes(model)} onChange={() => toggleModel(model)} className="mr-2" />
                             {model}
                           </label>
                         ))}
@@ -220,12 +258,12 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
               <label className="block text-xs font-medium uppercase tracking-wide text-muted">Cena (Kč)</label>
               <div className="mt-2 space-y-2">
                 <div>
-                  <label className="text-xs text-secondary">Od: {filters.minPrice.toLocaleString()} Kč</label>
-                  <input type="range" min="0" max="5000000" step="50000" value={filters.minPrice} onChange={(event) => handleFilterChange({ minPrice: Number(event.target.value) })} className="w-full" />
+                  <label className="text-xs text-secondary">Od: {pendingFilters.minPrice.toLocaleString()} Kč</label>
+                  <input type="range" min="0" max="5000000" step="50000" value={pendingFilters.minPrice} onChange={(event) => handleFilterChange({ minPrice: Number(event.target.value) })} className="w-full" />
                 </div>
                 <div>
-                  <label className="text-xs text-secondary">Do: {filters.maxPrice.toLocaleString()} Kč</label>
-                  <input type="range" min="0" max="5000000" step="50000" value={filters.maxPrice} onChange={(event) => handleFilterChange({ maxPrice: Number(event.target.value) })} className="w-full" />
+                  <label className="text-xs text-secondary">Do: {pendingFilters.maxPrice.toLocaleString()} Kč</label>
+                  <input type="range" min="0" max="5000000" step="50000" value={pendingFilters.maxPrice} onChange={(event) => handleFilterChange({ maxPrice: Number(event.target.value) })} className="w-full" />
                 </div>
               </div>
             </div>
@@ -234,12 +272,12 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
               <label className="block text-xs font-medium uppercase tracking-wide text-muted">Kilometrage (km)</label>
               <div className="mt-2 space-y-2">
                 <div>
-                  <label className="text-xs text-secondary">Od: {filters.minMileage.toLocaleString()} km</label>
-                  <input type="range" min="0" max="400000" step="10000" value={filters.minMileage} onChange={(event) => handleFilterChange({ minMileage: Number(event.target.value) })} className="w-full" />
+                  <label className="text-xs text-secondary">Od: {pendingFilters.minMileage.toLocaleString()} km</label>
+                  <input type="range" min="0" max="400000" step="10000" value={pendingFilters.minMileage} onChange={(event) => handleFilterChange({ minMileage: Number(event.target.value) })} className="w-full" />
                 </div>
                 <div>
-                  <label className="text-xs text-secondary">Do: {filters.maxMileage.toLocaleString()} km</label>
-                  <input type="range" min="0" max="400000" step="10000" value={filters.maxMileage} onChange={(event) => handleFilterChange({ maxMileage: Number(event.target.value) })} className="w-full" />
+                  <label className="text-xs text-secondary">Do: {pendingFilters.maxMileage.toLocaleString()} km</label>
+                  <input type="range" min="0" max="400000" step="10000" value={pendingFilters.maxMileage} onChange={(event) => handleFilterChange({ maxMileage: Number(event.target.value) })} className="w-full" />
                 </div>
               </div>
             </div>
@@ -257,7 +295,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
                       color: "var(--cream-muted)"
                     }}
                   >
-                    <input type="checkbox" checked={filters.bodies.includes(body)} onChange={() => toggleBody(body)} />
+                    <input type="checkbox" checked={pendingFilters.bodies.includes(body)} onChange={() => toggleBody(body)} />
                     {body}
                   </label>
                 ))}
@@ -266,7 +304,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
 
             <div>
               <label className="block text-xs font-medium uppercase tracking-wide text-muted">Převodovka</label>
-              <select value={filters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full">
+              <select value={pendingFilters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full">
                 <option value="">Všechny</option>
                 {allTransmissions.map((transmission) => (
                   <option key={transmission} value={transmission}>{transmission}</option>
@@ -276,13 +314,22 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
 
             <div>
               <label className="block text-xs font-medium uppercase tracking-wide text-muted">Palivo</label>
-              <select value={filters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full">
+              <select value={pendingFilters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full">
                 <option value="">Všechna</option>
                 {allFuels.map((fuel) => (
                   <option key={fuel} value={fuel}>{fuel}</option>
                 ))}
               </select>
             </div>
+
+            <button
+              type="button"
+              onClick={applyFilters}
+              className="btn-primary mt-2 w-full"
+              style={{ padding: '14px 20px', fontSize: '12px' }}
+            >
+              Vyhledat
+            </button>
           </div>
         </aside>
 

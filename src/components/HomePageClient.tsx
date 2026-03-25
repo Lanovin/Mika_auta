@@ -52,13 +52,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
     return accumulator;
   }, {});
 
-  const filteredCars = vehicles.filter((vehicle) => {
-    const matchesMake = !filters.make || vehicle.make === filters.make;
-    const matchesModel = !filters.model || vehicle.model === filters.model;
-    const matchesPrice = !filters.maxPrice || vehicle.price <= Number(filters.maxPrice);
-
-    return matchesMake && matchesModel && matchesPrice;
-  });
+  const filteredCars = vehicles;
 
   const featuredCars = filteredCars.filter((vehicle) => vehicle.featured).slice(0, 4);
   const carsToRender = featuredCars.length > 0 ? featuredCars : filteredCars.slice(0, 4);

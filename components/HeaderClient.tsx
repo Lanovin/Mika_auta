@@ -52,9 +52,9 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
 
   return (
     <header style={{ position: 'sticky', top: 0, zIndex: 30, background: 'var(--black)', borderBottom: '1px solid rgba(201,168,76,0.08)' }}>
-      <div className="container-page" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100px', gap: '16px' }}>
+      <div className="container-page" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '120px', gap: '16px' }}>
         {/* Left nav — desktop */}
-        <nav style={{ display: 'none', alignItems: 'center', gap: '32px', fontFamily: "var(--font-body)", fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-end', paddingRight: '120px' }} className="lg:!flex">
+        <nav style={{ display: 'none', alignItems: 'center', gap: '36px', fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-end', paddingRight: '160px' }} className="lg:!flex">
           {leftNav.map((item) => (
             <Link
               key={item.href}
@@ -87,14 +87,14 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
           <img
             src="/auto_mika_logo1.png"
             alt="Autobazar MIKA Logo"
-            style={{ height: '56px', width: 'auto', objectFit: 'contain' }}
+            style={{ height: '72px', width: 'auto', objectFit: 'contain' }}
           />
           <span style={{
             display: 'inline-flex',
             alignItems: 'center',
             gap: '5px',
             marginTop: '2px',
-            fontSize: '11px',
+            fontSize: '12px',
             fontWeight: 500,
             color: 'var(--gold)',
             letterSpacing: '0.08em',
@@ -106,7 +106,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
         </Link>
 
         {/* Right nav — desktop */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '28px', fontFamily: "var(--font-body)", fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '120px' }} className="lg:!flex">
+        <div style={{ display: 'none', alignItems: 'center', gap: '32px', fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '160px' }} className="lg:!flex">
           {rightNav.map((item) => (
             <Link
               key={item.href}
@@ -118,7 +118,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
               {item.label}
             </Link>
           ))}
-          <Link href="/kontakt" className="btn-primary" style={{ padding: '12px 20px', fontSize: '11px', marginLeft: 'auto', whiteSpace: 'nowrap' }}>
+          <Link href="/kontakt" className="btn-primary" style={{ padding: '14px 24px', fontSize: '12px', marginLeft: 'auto', whiteSpace: 'nowrap' }}>
             Domluvit prohlídku
           </Link>
         </div>
