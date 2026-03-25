@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { ArrowRight, ShieldCheck, CircleDollarSign, BadgeCheck } from "lucide-react";
 import { FilterForm, type FilterValues } from "@/src/components/FilterForm";
 import { VehicleCard } from "@/src/components/VehicleCard";
+import { HeroSlider } from "@/components/HeroSlider";
 import type { Vehicle } from "@/src/lib/vehicle-types";
 import { useContent } from "@/src/lib/useContent";
 
@@ -56,6 +57,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
 
   const featuredCars = filteredCars.filter((vehicle) => vehicle.featured).slice(0, 4);
   const carsToRender = featuredCars.length > 0 ? featuredCars : filteredCars.slice(0, 4);
+  const sliderCars = vehicles.filter((v) => v.featured && v.imageUrl).slice(0, 6);
   const quickSearchHref = useMemo(() => {
     const params = new URLSearchParams();
 
@@ -81,8 +83,8 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
         <div className="hero-corner-ornament hero-corner-ornament--tl" />
         <div className="hero-corner-ornament hero-corner-ornament--br" />
 
-        <div className="container-page" style={{ position: 'relative', zIndex: 1 }}>
-          <div style={{ maxWidth: '700px' }}>
+        <div className="container-page hero-flex" style={{ position: 'relative', zIndex: 1 }}>
+          <div className="hero-flex__text">
             <p className="section-kicker">{c?.hero.kicker ?? 'Autobazar Mika'}</p>
             <h1 style={{
               fontFamily: "var(--font-display)",
@@ -105,6 +107,12 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
               </Link>
             </div>
           </div>
+
+          {sliderCars.length > 0 && (
+            <div className="hero-flex__slider">
+              <HeroSlider vehicles={sliderCars} />
+            </div>
+          )}
         </div>
       </section>
 
