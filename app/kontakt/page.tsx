@@ -69,7 +69,7 @@ export default async function ContactPage() {
             </div>
             <div
               className="mt-3 text-2xl font-semibold"
-              style={{ fontFamily: "var(--font-display)", color: "var(--gold-light)" }}
+              style={{ fontFamily: "var(--font-display)", color: "var(--gold-light)", whiteSpace: "nowrap" }}
             >
               {c.phone}
             </div>
@@ -255,7 +255,7 @@ export default async function ContactPage() {
           <iframe
             title="Mapa Mika Auto"
             src="https://www.google.com/maps?q=Kosteleck%C3%A1%201144%2F85%2C%20Praha%209%20%C4%8Cakovice&output=embed"
-            className="h-72 w-full border-0"
+            className="h-80 w-full border-0 lg:h-96"
             loading="lazy"
             referrerPolicy="no-referrer-when-downgrade"
           />

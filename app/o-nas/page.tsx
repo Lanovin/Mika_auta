@@ -73,7 +73,7 @@ export default async function AboutPage() {
                     color: "var(--black)",
                   }}
                 >
-                  0{index + 1}
+                  {String(index + 1).padStart(2, '0')}
                 </div>
                 <p className="text-sm text-secondary">{milestone}</p>
               </div>

@@ -40,7 +40,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
 
   return (
     <div className="container-page py-8 pb-24 lg:pb-16">
-      <nav className="mb-4 text-xs text-muted">
+      <nav className="mb-4 text-xs" style={{ color: 'var(--cream-muted)' }}>
         <Link href="/" className="link-primary">
           Domů
         </Link>{" "}
@@ -110,7 +110,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
                 <div
                   key={`${image}-${index}`}
                   className="relative overflow-hidden"
-                  style={{ height: "7rem", background: "var(--black-rich)", borderRadius: 0 }}
+                  style={{ height: "9rem", background: "var(--black-rich)", borderRadius: 0 }}
                 >
                   <Image
                     src={image}
@@ -147,7 +147,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
           </div>
         </section>
 
-        <aside className="card-panel flex flex-col gap-4 p-6 lg:sticky lg:top-28 lg:h-fit">
+          <aside className="card-panel flex flex-col gap-4 p-6 lg:sticky lg:top-[130px] lg:h-fit">
           <div>
             <p className="section-kicker">Detail vozu</p>
             <h1
@@ -324,7 +324,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
       </section>
 
       <div
-        className="fixed inset-x-0 bottom-0 z-20 px-4 py-3 md:hidden"
+        className="fixed inset-x-0 bottom-0 z-20 px-4 py-3 lg:hidden"
         style={{
           background: "var(--black-card)",
           borderTop: "1px solid var(--gold-dim)",

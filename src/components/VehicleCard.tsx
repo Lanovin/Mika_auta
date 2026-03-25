@@ -102,7 +102,7 @@ export function VehicleCard({ car }: VehicleCardProps) {
           </div>
 
           {/* Tech specs row */}
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '8px', fontSize: '12px', color: 'var(--cream-muted)' }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', fontSize: '12px', color: 'var(--cream-muted)' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
               <Gauge style={{ width: '14px', height: '14px', color: 'var(--gold-dim)' }} />
               {car.powerKw} kW

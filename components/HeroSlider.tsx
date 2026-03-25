@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { Vehicle } from "@/src/lib/vehicle-types";
 
 interface HeroSliderProps {
@@ -16,6 +17,10 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
+  }, [slides.length]);
+
+  const prev = useCallback(() => {
+    setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   }, [slides.length]);
 
   useEffect(() => {
@@ -51,7 +56,7 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
             />
 
             {/* Badge */}
-            <span className="hero-slider__badge">⭐ Skvělý deal</span>
+            <span className="hero-slider__badge">Doporučujeme</span>
 
             {/* Bottom gradient overlay with text */}
             <div className="hero-slider__info">
@@ -62,6 +67,28 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
             </div>
           </Link>
         ))}
+
+        {/* Navigation arrows */}
+        {slides.length > 1 && (
+          <>
+            <button
+              type="button"
+              className="hero-slider__arrow hero-slider__arrow--prev"
+              aria-label="Předchozí slide"
+              onClick={(e) => { e.preventDefault(); prev(); }}
+            >
+              <ChevronLeft style={{ width: '20px', height: '20px' }} />
+            </button>
+            <button
+              type="button"
+              className="hero-slider__arrow hero-slider__arrow--next"
+              aria-label="Následující slide"
+              onClick={(e) => { e.preventDefault(); next(); }}
+            >
+              <ChevronRight style={{ width: '20px', height: '20px' }} />
+            </button>
+          </>
+        )}
       </div>
 
       {/* Dots */}

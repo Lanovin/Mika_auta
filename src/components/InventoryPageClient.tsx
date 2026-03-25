@@ -214,7 +214,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
       </header>
 
       <div className="grid gap-8 lg:grid-cols-[260px,minmax(0,1fr)]">
-        <aside className="card-panel h-fit p-4 lg:sticky lg:top-28">
+        <aside className="card-panel h-fit p-4 lg:sticky lg:top-[130px]">
           <div className="flex items-center justify-between gap-3">
             <div>
               <h2 className="flex items-center gap-2 text-sm font-semibold" style={{ color: "var(--cream)" }}>

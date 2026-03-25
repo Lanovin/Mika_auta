@@ -106,7 +106,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
         </Link>
 
         {/* Right nav — desktop */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '32px', fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '160px' }} className="lg:!flex">
+        <div style={{ display: 'none', alignItems: 'center', gap: '36px', fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '190px' }} className="lg:!flex">
           {rightNav.map((item) => (
             <Link
               key={item.href}

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef, useCallback } from "react";
 import { ArrowRight, ShieldCheck, CircleDollarSign, BadgeCheck } from "lucide-react";
 import { FilterForm, type FilterValues } from "@/src/components/FilterForm";
 import { VehicleCard } from "@/src/components/VehicleCard";
@@ -35,9 +35,34 @@ function useInitialFilterValues(): FilterValues {
   return { make: "", model: "", maxPrice: "" };
 }
 
+function useScrollReveal() {
+  const observerRef = useRef<IntersectionObserver | null>(null);
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            observerRef.current?.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = document.querySelectorAll(".reveal-on-scroll");
+    elements.forEach((el) => observerRef.current?.observe(el));
+
+    return () => observerRef.current?.disconnect();
+  }, []);
+}
+
 export function HomePageClient({ vehicles }: HomePageClientProps) {
   const [filters, setFilters] = useState<FilterValues>(useInitialFilterValues);
   const { data: c } = useContent<HomepageContent>("homepage");
+
+  useScrollReveal();
 
   const allMakes = Array.from(new Set(vehicles.map((vehicle) => vehicle.make))).sort();
   const allModels = Array.from(new Set(vehicles.map((vehicle) => vehicle.model))).sort();
@@ -117,7 +142,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
       </section>
 
       {/* Featured cars */}
-      <section className="container-page" style={{ padding: '80px 40px 0' }}>
+      <section className="container-page reveal-on-scroll" style={{ padding: '80px 40px 0' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
           <div>
             <p className="section-kicker">{c?.featured.kicker ?? 'Doporučené vozy'}</p>
@@ -139,7 +164,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
       </section>
 
       {/* Quick search */}
-      <section className="container-page" style={{ padding: '80px 40px 0' }}>
+      <section className="container-page reveal-on-scroll" style={{ padding: '80px 40px 0' }}>
         <div className="card-panel" style={{ padding: '32px' }}>
           <p className="section-kicker">{c?.search.kicker ?? 'Rychlé vyhledávání'}</p>
           <p style={{ marginTop: '8px', fontSize: '13px', color: 'var(--text-muted)' }}>
@@ -160,7 +185,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
       </section>
 
       {/* Stats bar */}
-      <section className="container-page" style={{ padding: '60px 40px 0' }}>
+      <section className="container-page reveal-on-scroll" style={{ padding: '60px 40px 0' }}>
         <div className="stats-bar" style={{ border: '1px solid var(--black-border)', background: 'var(--black-card)' }}>
           <div>
             <div className="stat-value">{vehicles.length}+</div>
@@ -177,11 +202,11 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
 
       {/* Gold divider */}
       <div className="container-page">
-        <div className="gold-divider">{'\u2726'}</div>
+        <div className="gold-divider"><span className="gold-divider--symbol" /></div>
       </div>
 
       {/* Features grid */}
-      <section className="container-page" style={{ padding: '0 40px' }}>
+      <section className="container-page reveal-on-scroll" style={{ padding: '0 40px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <p className="section-kicker">{c?.features.kicker ?? 'Proč lidé volí Mika Auto'}</p>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
@@ -207,11 +232,11 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
 
       {/* Gold divider */}
       <div className="container-page">
-        <div className="gold-divider">{'\u2726'}</div>
+        <div className="gold-divider"><span className="gold-divider--symbol" /></div>
       </div>
 
       {/* Reviews */}
-      <section className="container-page" style={{ padding: '0 40px 80px' }}>
+      <section className="container-page reveal-on-scroll" style={{ padding: '0 40px 80px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
           <p className="section-kicker">{c?.reviews.kicker ?? 'Zkušenosti zákazníků'}</p>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>

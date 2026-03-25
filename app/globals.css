@@ -54,7 +54,7 @@ body {
 .container-page {
   margin: 0 auto;
   width: 100%;
-  max-width: 1100px;
+  max-width: 1200px;
   padding-left: 40px;
   padding-right: 40px;
 }
@@ -70,7 +70,7 @@ body {
 
 .section-kicker {
   font-family: 'Raleway', sans-serif;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.32em;
   text-transform: uppercase;
@@ -276,7 +276,7 @@ body {
   max-width: 520px;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1023px) {
   .hero-flex {
     flex-direction: column;
     gap: 32px;
@@ -305,6 +305,12 @@ body {
   width: 100%;
   aspect-ratio: 16 / 10;
   overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .hero-slider__track {
+    aspect-ratio: 4 / 3;
+  }
 }
 
 .hero-slider__slide {
@@ -366,8 +372,8 @@ body {
 }
 
 .hero-slider__dot {
-  width: 8px;
-  height: 8px;
+  width: 12px;
+  height: 12px;
   border-radius: 50%;
   border: 1px solid var(--gold-dim);
   background: transparent;
@@ -384,6 +390,21 @@ body {
 @media (max-width: 768px) {
   .hero-section {
     padding: 48px 0;
+  }
+
+  .hero-corner-ornament {
+    width: 40px;
+    height: 40px;
+  }
+
+  .hero-corner-ornament--tl {
+    top: 12px;
+    left: 12px;
+  }
+
+  .hero-corner-ornament--br {
+    bottom: 12px;
+    right: 12px;
   }
 }
 
@@ -422,6 +443,26 @@ body {
 .stats-bar {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
+}
+
+@media (max-width: 640px) {
+  .stats-bar {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .stats-bar > div + div {
+    border-left: none;
+  }
+
+  .stats-bar > div:nth-child(even) {
+    border-left: 1px solid var(--black-border);
+  }
+
+  .stats-bar > div:nth-child(n+3) {
+    border-top: 1px solid var(--black-border);
+  }
 }
 
 .stats-bar > div {
@@ -534,5 +575,146 @@ input[type="checkbox"] {
 
 input[type="range"] {
   accent-color: var(--gold);
+  -webkit-appearance: none;
+  appearance: none;
+  height: 4px;
+  background: var(--black-border);
+  border-radius: 2px;
+  border: none;
+  padding: 0;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--black);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  background: var(--gold-light);
+}
+
+input[type="range"]::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 2px solid var(--black);
+  cursor: pointer;
+}
+
+input[type="range"]::-moz-range-track {
+  height: 4px;
+  background: var(--black-border);
+  border-radius: 2px;
+  border: none;
+}
+
+/* ─── Focus states ─────────────────────────────────── */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.btn-primary:focus-visible {
+  outline: 2px solid var(--gold-light);
+  outline-offset: 3px;
+}
+
+.btn-secondary:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 3px;
+}
+
+/* ─── Select dark dropdown improvement ────────────── */
+
+select option {
+  background: var(--black-rich);
+  color: var(--cream);
+}
+
+/* ─── btn-primary mobile padding ──────────────────── */
+
+@media (max-width: 480px) {
+  .btn-primary,
+  .btn-secondary {
+    padding: 12px 24px;
+    font-size: 11px;
+  }
+}
+
+/* ─── Hero slider arrows ─────────────────────────── */
+
+.hero-slider__arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  background: rgba(10, 10, 10, 0.7);
+  border: 1px solid var(--gold-dim);
+  color: var(--gold);
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.25s ease, border-color 0.25s ease;
+  padding: 0;
+}
+
+.hero-slider__arrow:hover {
+  background: rgba(10, 10, 10, 0.9);
+  border-color: var(--gold);
+}
+
+.hero-slider__arrow--prev {
+  left: 12px;
+}
+
+.hero-slider__arrow--next {
+  right: 12px;
+}
+
+@media (max-width: 768px) {
+  .hero-slider__arrow {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* ─── Scroll reveal animation ─────────────────────── */
+
+.reveal-on-scroll {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.reveal-on-scroll.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Gold divider SVG-safe ───────────────────────── */
+
+.gold-divider--symbol {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background: var(--gold-dim);
+  clip-path: polygon(50% 0%, 61% 35%, 100% 50%, 61% 65%, 50% 100%, 39% 65%, 0% 50%, 39% 35%);
+  flex-shrink: 0;
 }
 

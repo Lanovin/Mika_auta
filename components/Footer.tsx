@@ -23,7 +23,7 @@ export async function Footer() {
   return (
     <footer style={{ marginTop: '80px', borderTop: '1px solid var(--black-border)', background: 'var(--black)' }}>
       <div className="container-page" style={{ paddingTop: '60px', paddingBottom: '60px' }}>
-        <div style={{ display: 'grid', gap: '40px', gridTemplateColumns: 'repeat(4, 1fr)' }} className="footer-grid">
+        <div style={{ display: 'grid', gap: '40px', gridTemplateColumns: 'repeat(3, 1fr)' }} className="footer-grid">
           <div>
             <div style={{ fontFamily: "var(--font-display)", fontSize: '20px', fontWeight: 700, color: 'var(--white)' }}>
               Mika <span style={{ color: 'var(--gold)' }}>Auto</span>
@@ -31,10 +31,7 @@ export async function Footer() {
             <p style={{ marginTop: '12px', fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 300 }}>
               {f.description}
             </p>
-          </div>
-
-          <div>
-            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: '16px' }}>Sociální sítě</div>
+            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '20px', marginBottom: '10px' }}>Sociální sítě</div>
             <a
               href="https://www.instagram.com/mikaauto.cz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
@@ -83,8 +80,8 @@ export async function Footer() {
 
       <div style={{ borderTop: '1px solid var(--black-border)', padding: '16px 0' }}>
         <div className="container-page" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: 'var(--text-muted)', flexWrap: 'wrap', gap: '8px' }}>
-          <span>{f.copyright}</span>
-          <span>{f.tagline}</span>
+          <span style={{ textAlign: 'center', flex: '1 1 auto' }}>{f.copyright}</span>
+          <span style={{ textAlign: 'center', flex: '1 1 auto' }}>{f.tagline}</span>
         </div>
       </div>
 
