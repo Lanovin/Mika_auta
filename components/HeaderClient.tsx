@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import { Phone } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 type CurrentUser = {
@@ -51,14 +52,14 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
 
   return (
     <header style={{ position: 'sticky', top: 0, zIndex: 30, background: 'var(--black)', borderBottom: '1px solid rgba(201,168,76,0.08)' }}>
-      <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 'var(--header-height)', gap: '16px' }}>
+      <div className="container-page" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '100px', gap: '16px' }}>
         {/* Left nav — desktop */}
-        <nav style={{ display: 'none', alignItems: 'center', gap: '32px', fontFamily: "'Raleway', sans-serif", fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const }} className="lg:!flex">
+        <nav style={{ display: 'none', alignItems: 'center', gap: '32px', fontFamily: "var(--font-body)", fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-end', paddingRight: '120px' }} className="lg:!flex">
           {leftNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              style={{ color: pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)', transition: 'color 0.2s ease', textDecoration: 'none' }}
+              style={{ whiteSpace: 'nowrap', color: pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)', transition: 'color 0.2s ease', textDecoration: 'none' }}
               onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold)')}
               onMouseLeave={(e) => (e.currentTarget.style.color = pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)')}
             >
@@ -67,47 +68,75 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
           ))}
         </nav>
 
-        {/* Logo — desktop */}
-        <Link href="/" style={{ display: 'none', alignItems: 'center', justifyContent: 'center' }} className="lg:!flex" onClick={closeMenu}>
+        {/* Logo + phone — desktop (absolute center) */}
+        <Link
+          href="/"
+          style={{
+            display: 'none',
+            flexDirection: 'column',
+            alignItems: 'center',
+            position: 'absolute',
+            left: '50%',
+            top: '50%',
+            transform: 'translate(-50%, -50%)',
+            textDecoration: 'none'
+          }}
+          className="lg:!flex"
+          onClick={closeMenu}
+        >
           <img
-            src="/auto_mika_logo.png"
+            src="/auto_mika_logo1.png"
             alt="Autobazar MIKA Logo"
             style={{ height: '56px', width: 'auto', objectFit: 'contain' }}
           />
+          <span style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '5px',
+            marginTop: '2px',
+            fontSize: '11px',
+            fontWeight: 500,
+            color: 'var(--gold)',
+            letterSpacing: '0.08em',
+            fontFamily: 'var(--font-body)'
+          }}>
+            <Phone style={{ width: '11px', height: '11px' }} />
+            +420 774 333 774
+          </span>
         </Link>
 
         {/* Right nav — desktop */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '28px', fontFamily: "'Raleway', sans-serif", fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const }} className="lg:!flex">
+        <div style={{ display: 'none', alignItems: 'center', gap: '28px', fontFamily: "var(--font-body)", fontSize: '11px', fontWeight: 500, letterSpacing: '0.2em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '120px' }} className="lg:!flex">
           {rightNav.map((item) => (
             <Link
               key={item.href}
               href={item.href}
-              style={{ color: pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)', transition: 'color 0.2s ease', textDecoration: 'none' }}
+              style={{ whiteSpace: 'nowrap', color: pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)', transition: 'color 0.2s ease', textDecoration: 'none' }}
               onMouseEnter={(e) => (e.currentTarget.style.color = 'var(--gold)')}
               onMouseLeave={(e) => (e.currentTarget.style.color = pathname === item.href ? 'var(--gold)' : 'var(--cream-muted)')}
             >
               {item.label}
             </Link>
           ))}
-          <Link href="/kontakt" className="btn-primary" style={{ padding: '12px 28px', fontSize: '11px' }}>
+          <Link href="/kontakt" className="btn-primary" style={{ padding: '12px 20px', fontSize: '11px', marginLeft: 'auto', whiteSpace: 'nowrap' }}>
             Domluvit prohlídku
           </Link>
         </div>
 
-        {/* Mobile logo */}
-        <Link href="/" style={{ display: 'flex', alignItems: 'center', gap: '10px', textDecoration: 'none' }} className="lg:!hidden" onClick={closeMenu}>
-          <img
-            src="/auto_mika_logo.png"
-            alt="Autobazar MIKA Logo"
-            style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
-          />
-          <div>
-            <div style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: '16px', fontWeight: 700, color: 'var(--white)', letterSpacing: '0.04em' }}>
-              Autobazar <span style={{ color: 'var(--gold)' }}>Mika</span>
-            </div>
-            <div style={{ fontFamily: "'Raleway', sans-serif", fontSize: '10px', letterSpacing: '0.24em', textTransform: 'uppercase' as const, color: 'var(--text-muted)' }}>Praha 9</div>
-          </div>
-        </Link>
+        {/* Mobile logo + phone */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }} className="lg:!hidden">
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }} onClick={closeMenu}>
+            <img
+              src="/auto_mika_logo1.png"
+              alt="Autobazar MIKA Logo"
+              style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
+            />
+          </Link>
+          <a href="tel:+420774333774" style={{ fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--gold)', display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}>
+            <Phone style={{ width: '14px', height: '14px' }} />
+            +420 774 333 774
+          </a>
+        </div>
 
         {/* Hamburger */}
         <button

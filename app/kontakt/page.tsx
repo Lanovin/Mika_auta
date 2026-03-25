@@ -1,25 +1,37 @@
-export default function ContactPage() {
-  const reasons = [
-    "Chci rezervovat prohlídku konkrétního vozu",
-    "Potřebuji kalkulaci financování nebo pojištění",
-    "Mám zájem o výkup nebo protiúčet"
-  ];
+import { readContent } from "@/src/lib/content-store";
+
+export const dynamic = "force-dynamic";
+
+export default async function ContactPage() {
+  const content = await readContent();
+  const c = content.kontakt as {
+    header: { kicker: string; title: string; description: string };
+    reasons: string[];
+    phone: string;
+    phoneNote: string;
+    address: { name: string; street: string; city: string; note1: string; note2: string };
+    email: string;
+    hours: { weekdays: string; saturday: string; sunday: string; note: string };
+    billing: { ico: string; dic: string };
+    bank: { csob: string; sporitelna: string };
+    process: string[];
+    formTitle: string;
+    formNote: string;
+  };
 
   return (
     <div className="container-page py-10 pb-16">
       {/* Header */}
       <header className="max-w-3xl">
-        <p className="section-kicker">Kontakt</p>
+        <p className="section-kicker">{c.header.kicker}</p>
         <h1
           className="mt-2 text-3xl font-semibold uppercase tracking-[0.03em] sm:text-4xl"
-          style={{ fontFamily: "Playfair Display, serif", color: "var(--cream)" }}
+          style={{ fontFamily: "var(--font-display)", color: "var(--cream)" }}
         >
-          Kontakt
+          {c.header.title}
         </h1>
         <p className="mt-3 text-sm text-secondary">
-          Máte dotaz k vybranému vozu, financování nebo chcete jen nezávazně
-          poradit? Ozvěte se nám a společně najdeme řešení, které vám bude
-          vyhovovat.
+          {c.header.description}
         </p>
       </header>
 
@@ -27,7 +39,7 @@ export default function ContactPage() {
 
       {/* Důvody */}
       <section className="mt-6 grid gap-4 md:grid-cols-3">
-        {reasons.map((reason) => (
+        {c.reasons.map((reason: string) => (
           <div
             key={reason}
             className="card-panel px-5 py-4 text-sm font-medium text-secondary"
@@ -57,12 +69,12 @@ export default function ContactPage() {
             </div>
             <div
               className="mt-3 text-2xl font-semibold"
-              style={{ fontFamily: "Playfair Display, serif", color: "var(--gold-light)" }}
+              style={{ fontFamily: "var(--font-display)", color: "var(--gold-light)" }}
             >
-              +420 774 333 774
+              {c.phone}
             </div>
             <div className="mt-2 text-sm text-secondary">
-              Odpovídáme rychle během provozní doby a umíme připravit i nezávaznou kalkulaci.
+              {c.phoneNote}
             </div>
           </div>
 
@@ -74,15 +86,15 @@ export default function ContactPage() {
               Adresa
             </h2>
             <p className="mt-1">
-              Autobazar MIKA
+              {c.address.name}
               <br />
-              Kostelecká 1144/85
+              {c.address.street}
               <br />
-              196 00 Praha 9 - Čakovice
+              {c.address.city}
               <br />
-              Areál nákupního centra Globus
+              {c.address.note1}
               <br />
-              Vedle pneuservisu PROCHAZKA
+              {c.address.note2}
             </p>
           </div>
 
@@ -94,9 +106,9 @@ export default function ContactPage() {
               Kontakt
             </h2>
             <p className="mt-1">
-              Telefon: <a href="tel:+420774333774" className="link-primary">+420 774 333 774</a>
+              Telefon: <a href={`tel:${c.phone.replace(/\s/g, "")}`} className="link-primary">{c.phone}</a>
               <br />
-              E-mail: <a href="mailto:info@mikaauto.cz" className="link-primary">info@mikaauto.cz</a>
+              E-mail: <a href={`mailto:${c.email}`} className="link-primary">{c.email}</a>
             </p>
           </div>
 
@@ -108,13 +120,13 @@ export default function ContactPage() {
               Otevírací doba
             </h2>
             <p className="mt-1">
-              Pondělí až pátek: 9:00 - 17:00
+              {c.hours.weekdays}
               <br />
-              Sobota: 9:00 - 13:00
+              {c.hours.saturday}
               <br />
-              Neděle: zavřeno
+              {c.hours.sunday}
               <br />
-              Mimo otevírací hodiny dle dohody
+              {c.hours.note}
             </p>
           </div>
 
@@ -132,9 +144,9 @@ export default function ContactPage() {
               Fakturační údaje
             </h2>
             <p className="mt-2 text-sm text-secondary">
-              IČO: 27941523
+              IČO: {c.billing.ico}
               <br />
-              DIČ: CZ27941523
+              DIČ: {c.billing.dic}
             </p>
           </div>
 
@@ -152,9 +164,9 @@ export default function ContactPage() {
               Bankovní spojení
             </h2>
             <p className="mt-2 text-sm text-secondary">
-              ČSOB: 216 326 472 / 0300
+              ČSOB: {c.bank.csob}
               <br />
-              Česká spořitelna: 248 841 7369 / 0800
+              Česká spořitelna: {c.bank.sporitelna}
             </p>
           </div>
 
@@ -172,9 +184,9 @@ export default function ContactPage() {
               Co můžete čekat
             </h2>
             <div className="mt-3 space-y-3 text-sm text-secondary">
-              <div>Nejprve si upřesníme, o jaký vůz nebo službu máte zájem.</div>
-              <div>Připravíme termín prohlídky, rezervaci a orientační kalkulaci.</div>
-              <div>Pokud chcete, navážeme rovnou výkupem nebo protiúčtem vašeho vozu.</div>
+              {c.process.map((step: string, i: number) => (
+                <div key={i}>{step}</div>
+              ))}
             </div>
           </div>
         </div>
@@ -183,12 +195,12 @@ export default function ContactPage() {
         <form className="card-panel p-6">
           <h2
             className="text-sm font-semibold"
-            style={{ fontFamily: "Playfair Display, serif", color: "var(--cream)" }}
+            style={{ fontFamily: "var(--font-display)", color: "var(--cream)" }}
           >
-            Napište nám zprávu
+            {c.formTitle}
           </h2>
           <p className="mt-1 text-xs text-muted">
-            Ozveme se vám zpět co nejdříve s odpovědí nebo nezávaznou nabídkou.
+            {c.formNote}
           </p>
 
           <div className="mt-4 space-y-4 text-sm">

@@ -7,10 +7,28 @@ import { ArrowRight, ShieldCheck, CircleDollarSign, BadgeCheck } from "lucide-re
 import { FilterForm, type FilterValues } from "@/src/components/FilterForm";
 import { VehicleCard } from "@/src/components/VehicleCard";
 import type { Vehicle } from "@/src/lib/vehicle-types";
+import { useContent } from "@/src/lib/useContent";
 
 interface HomePageClientProps {
   vehicles: Vehicle[];
 }
+
+interface HomepageContent {
+  hero: { kicker: string; title: string; titleHighlight: string; ctaPrimary: string; ctaSecondary: string };
+  featured: { kicker: string; title: string; titleHighlight: string; linkText: string };
+  search: { kicker: string; description: string; buttonText: string };
+  stats: { value: string; label: string }[];
+  features: {
+    kicker: string; title: string; titleHighlight: string;
+    items: { title: string; description: string }[];
+  };
+  reviews: {
+    kicker: string; title: string;
+    items: { author: string; text: string }[];
+  };
+}
+
+const featureIcons = [ShieldCheck, CircleDollarSign, BadgeCheck];
 
 function useInitialFilterValues(): FilterValues {
   return { make: "", model: "", maxPrice: "" };
@@ -18,6 +36,7 @@ function useInitialFilterValues(): FilterValues {
 
 export function HomePageClient({ vehicles }: HomePageClientProps) {
   const [filters, setFilters] = useState<FilterValues>(useInitialFilterValues);
+  const { data: c } = useContent<HomepageContent>("homepage");
 
   const allMakes = Array.from(new Set(vehicles.map((vehicle) => vehicle.make))).sort();
   const allModels = Array.from(new Set(vehicles.map((vehicle) => vehicle.model))).sort();
@@ -60,21 +79,6 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
     return queryString ? `/vozy?${queryString}` : "/vozy";
   }, [filters]);
 
-  const reviews = [
-    {
-      author: "Martin K.",
-      text: "Výběr proběhl bez tlaku, dostal jsem jasné informace o historii auta a druhý den jsme měli vyřízené financování."
-    },
-    {
-      author: "Petra a Tomáš",
-      text: "Potřebovali jsme rodinné auto a protiúčet. Všechno bylo srozumitelné, rychlé a bez nepříjemných překvapení."
-    },
-    {
-      author: "Jakub S.",
-      text: "Ocenil jsem hlavně to, že na detailu auta nic neskrývali a rovnou jsme dostali návrh pojištění i rezervaci testovací jízdy."
-    }
-  ];
-
   return (
     <div>
       {/* Hero section */}
@@ -85,68 +89,27 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
 
         <div className="container-page" style={{ position: 'relative', zIndex: 1 }}>
           <div style={{ maxWidth: '700px' }}>
-            <p className="section-kicker">Autobazar Mika</p>
+            <p className="section-kicker">{c?.hero.kicker ?? 'Autobazar Mika'}</p>
             <h1 style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
+              fontFamily: "var(--font-display)",
               fontSize: 'clamp(32px, 5vw, 56px)',
               fontWeight: 700,
               color: 'var(--white)',
               lineHeight: 1.1,
               marginTop: '16px'
             }}>
-              Prověřené vozy{'\u00a0'}
-              <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>bez stresu.</span>
+              {c?.hero.title ?? 'Prověřené vozy'}{'\u00a0'}
+              <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c?.hero.titleHighlight ?? 'bez stresu.'}</span>
             </h1>
-            <p style={{ marginTop: '20px', fontSize: '15px', color: 'var(--text-muted)', maxWidth: '500px', lineHeight: 1.7 }}>
-              Vyberte si auto během pár minut. Rychle, přehledně a bez zbytečného papírování.
-            </p>
-
             <div style={{ marginTop: '32px', display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
               <Link href="/vozy" className="btn-primary" style={{ gap: '8px' }}>
-                Projít nabídku
+                {c?.hero.ctaPrimary ?? 'Projít nabídku'}
                 <ArrowRight style={{ width: '16px', height: '16px' }} />
               </Link>
               <Link href="/kontakt" className="btn-secondary" style={{ gap: '8px' }}>
-                Rezervovat prohlídku
+                {c?.hero.ctaSecondary ?? 'Rezervovat prohlídku'}
               </Link>
             </div>
-          </div>
-
-          {/* Stats bar */}
-          <div className="stats-bar" style={{ marginTop: '60px', border: '1px solid var(--black-border)', background: 'var(--black-card)' }}>
-            <div>
-              <div className="stat-value">{vehicles.length}+</div>
-              <div className="stat-label">vozů v nabídce</div>
-            </div>
-            <div>
-              <div className="stat-value">24 h</div>
-              <div className="stat-label">předběžné schválení</div>
-            </div>
-            <div>
-              <div className="stat-value">100%</div>
-              <div className="stat-label">ověřený původ</div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Quick search */}
-      <section className="container-page" style={{ padding: '80px 40px 0' }}>
-        <div className="card-panel" style={{ padding: '32px' }}>
-          <p className="section-kicker">Rychlé vyhledávání</p>
-          <p style={{ marginTop: '8px', fontSize: '13px', color: 'var(--text-muted)' }}>
-            Zadejte pár údajů a zobrazíme vám nejvhodnější vozy.
-          </p>
-
-          <div style={{ marginTop: '20px' }}>
-            <FilterForm allMakes={allMakes} allModels={allModels} modelsByMake={modelsByMake} values={filters} onChange={setFilters} layout="horizontal" />
-          </div>
-
-          <div style={{ marginTop: '20px' }}>
-            <Link href={quickSearchHref} className="btn-primary" style={{ gap: '8px' }}>
-              Vyhledat
-              <ArrowRight style={{ width: '16px', height: '16px' }} />
-            </Link>
           </div>
         </div>
       </section>
@@ -155,20 +118,57 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
       <section className="container-page" style={{ padding: '80px 40px 0' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
           <div>
-            <p className="section-kicker">Doporučené vozy</p>
-            <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px', lineHeight: 1.15 }}>
-              Nejžádanější auta <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>v nabídce</span>
+            <p className="section-kicker">{c?.featured.kicker ?? 'Doporučené vozy'}</p>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px', lineHeight: 1.15 }}>
+              {c?.featured.title ?? 'Nejžádanější auta'} <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c?.featured.titleHighlight ?? 'v nabídce'}</span>
             </h2>
           </div>
           <Link href="/vozy" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 600, color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}>
-            Zobrazit všechny vozy
+            {c?.featured.linkText ?? 'Zobrazit všechny vozy'}
             <ArrowRight style={{ width: '14px', height: '14px' }} />
           </Link>
         </div>
 
-        <div style={{ display: 'grid', gap: '24px', marginTop: '32px', gridTemplateColumns: 'repeat(auto-fill, minmax(260px, 1fr))' }}>
+        <div style={{ display: 'grid', gap: '24px', marginTop: '32px', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
           {carsToRender.map((car) => (
             <VehicleCard key={car.id} car={car} />
+          ))}
+        </div>
+      </section>
+
+      {/* Quick search */}
+      <section className="container-page" style={{ padding: '80px 40px 0' }}>
+        <div className="card-panel" style={{ padding: '32px' }}>
+          <p className="section-kicker">{c?.search.kicker ?? 'Rychlé vyhledávání'}</p>
+          <p style={{ marginTop: '8px', fontSize: '13px', color: 'var(--text-muted)' }}>
+            {c?.search.description ?? 'Zadejte pár údajů a zobrazíme vám nejvhodnější vozy.'}
+          </p>
+
+          <div style={{ marginTop: '20px' }}>
+            <FilterForm allMakes={allMakes} allModels={allModels} modelsByMake={modelsByMake} values={filters} onChange={setFilters} layout="horizontal" />
+          </div>
+
+          <div style={{ marginTop: '20px' }}>
+            <Link href={quickSearchHref} className="btn-primary" style={{ gap: '8px' }}>
+              {c?.search.buttonText ?? 'Vyhledat'}
+              <ArrowRight style={{ width: '16px', height: '16px' }} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Stats bar */}
+      <section className="container-page" style={{ padding: '60px 40px 0' }}>
+        <div className="stats-bar" style={{ border: '1px solid var(--black-border)', background: 'var(--black-card)' }}>
+          <div>
+            <div className="stat-value">{vehicles.length}+</div>
+            <div className="stat-label">vozů v nabídce</div>
+          </div>
+          {(c?.stats ?? []).map((stat, i) => (
+            <div key={i}>
+              <div className="stat-value">{stat.value}</div>
+              <div className="stat-label">{stat.label}</div>
+            </div>
           ))}
         </div>
       </section>
@@ -181,40 +181,25 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
       {/* Features grid */}
       <section className="container-page" style={{ padding: '0 40px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <p className="section-kicker">Proč lidé volí Mika Auto</p>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
-            Jasný původ, férový proces, <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>rychlá domluva</span>
+          <p className="section-kicker">{c?.features.kicker ?? 'Proč lidé volí Mika Auto'}</p>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
+            {c?.features.title ?? 'Jasný původ, férový proces,'} <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c?.features.titleHighlight ?? 'rychlá domluva'}</span>
           </h2>
         </div>
 
         <div className="features-grid">
-          <div className="features-grid-cell">
-            <div className="features-grid-icon">
-              <ShieldCheck style={{ width: '20px', height: '20px' }} />
-            </div>
-            <div className="features-grid-title">Prověřený technický stav</div>
-            <div className="features-grid-desc">
-              Každý vůz detailně kontrolujeme včetně diagnostiky, karoserie i servisní historie.
-            </div>
-          </div>
-          <div className="features-grid-cell">
-            <div className="features-grid-icon">
-              <CircleDollarSign style={{ width: '20px', height: '20px' }} />
-            </div>
-            <div className="features-grid-title">Férové financování</div>
-            <div className="features-grid-desc">
-              Společně najdeme řešení, které nezatíží váš rozpočet. Vše srozumitelně vysvětlíme.
-            </div>
-          </div>
-          <div className="features-grid-cell">
-            <div className="features-grid-icon">
-              <BadgeCheck style={{ width: '20px', height: '20px' }} />
-            </div>
-            <div className="features-grid-title">Rychlý výkup a protiúčet</div>
-            <div className="features-grid-desc">
-              Váš současný vůz férově oceníme a můžete ho pohodlně započítat proti novému.
-            </div>
-          </div>
+          {(c?.features.items ?? []).map((item, i) => {
+            const Icon = featureIcons[i] ?? ShieldCheck;
+            return (
+              <div key={i} className="features-grid-cell">
+                <div className="features-grid-icon">
+                  <Icon style={{ width: '20px', height: '20px' }} />
+                </div>
+                <div className="features-grid-title">{item.title}</div>
+                <div className="features-grid-desc">{item.description}</div>
+              </div>
+            );
+          })}
         </div>
       </section>
 
@@ -226,14 +211,14 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
       {/* Reviews */}
       <section className="container-page" style={{ padding: '0 40px 80px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <p className="section-kicker">Zkušenosti zákazníků</p>
-          <h2 style={{ fontFamily: "'Playfair Display', Georgia, serif", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
-            Důvěra nevzniká sloganem
+          <p className="section-kicker">{c?.reviews.kicker ?? 'Zkušenosti zákazníků'}</p>
+          <h2 style={{ fontFamily: "var(--font-display)", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
+            {c?.reviews.title ?? 'Důvěra nevzniká sloganem'}
           </h2>
         </div>
 
         <div style={{ display: 'grid', gap: '24px', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
-          {reviews.map((review) => (
+          {(c?.reviews.items ?? []).map((review) => (
             <article key={review.author} className="pull-quote">
               <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--cream-muted)', marginTop: '8px' }}>
                 {review.text}

@@ -58,7 +58,7 @@ export function VehicleCard({ car }: VehicleCardProps) {
               background: 'var(--gold)',
               color: 'var(--black)',
               fontSize: '9px',
-              fontFamily: "'Raleway', sans-serif",
+              fontFamily: "var(--font-body)",
               fontWeight: 600,
               letterSpacing: '0.2em',
               textTransform: 'uppercase',
@@ -77,7 +77,7 @@ export function VehicleCard({ car }: VehicleCardProps) {
             letterSpacing: '0.3em',
             textTransform: 'uppercase',
             color: 'var(--gold)',
-            fontFamily: "'Raleway', sans-serif",
+            fontFamily: "var(--font-body)",
             fontWeight: 600
           }}>
             {car.make}
@@ -85,12 +85,13 @@ export function VehicleCard({ car }: VehicleCardProps) {
 
           {/* Name */}
           <h3 style={{
-            fontFamily: "'Playfair Display', Georgia, serif",
+            fontFamily: "var(--font-display)",
             fontSize: '22px',
             fontWeight: 700,
             color: 'var(--white)',
             margin: 0,
-            lineHeight: 1.2
+            lineHeight: 1.2,
+            fontVariantNumeric: 'lining-nums'
           }}>
             {car.make} {car.model}
           </h3>
@@ -119,9 +120,10 @@ export function VehicleCard({ car }: VehicleCardProps) {
           {/* Divider + price */}
           <div style={{ marginTop: 'auto', borderTop: '1px solid var(--black-border)', paddingTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
             <div style={{
-              fontFamily: "'Playfair Display', Georgia, serif",
+              fontFamily: "var(--font-display)",
               fontSize: '24px',
-              color: 'var(--gold-light)'
+              color: 'var(--gold-light)',
+              fontVariantNumeric: 'lining-nums'
             }}>
               {formattedPrice}
             </div>

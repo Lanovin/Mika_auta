@@ -152,7 +152,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
             <p className="section-kicker">Detail vozu</p>
             <h1
               className="mt-2 text-3xl font-semibold uppercase tracking-[0.03em]"
-              style={{ fontFamily: "'Playfair Display', Georgia, serif", color: "var(--white)" }}
+              style={{ fontFamily: "var(--font-display)", color: "var(--white)" }}
             >
               {car.make} {car.model}
             </h1>
@@ -175,7 +175,7 @@ export default async function CarDetailPage({ params }: CarDetailPageProps) {
             <div
               className="mt-2"
               style={{
-                fontFamily: "'Playfair Display', Georgia, serif",
+                fontFamily: "var(--font-display)",
                 fontSize: "28px",
                 fontWeight: 600,
                 color: "var(--gold-light)",

@@ -37,12 +37,15 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div>
           <p className="section-kicker">Interní administrace</p>
-          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Správa nabídky vozů</h1>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white" style={{ fontFamily: "var(--font-display)" }}>Správa nabídky vozů</h1>
           <p className="mt-2 max-w-2xl text-sm text-secondary">
             Odtud klient pohodlně přidá nový vůz, upraví cenu, skryje neaktuální inzerát nebo vymění fotky. Veřejné stránky se po uložení automaticky aktualizují.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
+          <Link href="/admin/obsah" className="btn-secondary">
+            Správa obsahu
+          </Link>
           <Link href="/admin/novy" className="btn-primary">
             Přidat nový vůz
           </Link>

@@ -24,7 +24,7 @@ export function VehicleForm({ mode, action, vehicle }: VehicleFormProps) {
       <div>
         <h1
           className="text-2xl font-semibold tracking-tight"
-          style={{ fontFamily: "'Playfair Display', serif", color: "var(--white)" }}
+          style={{ fontFamily: "var(--font-display)", color: "var(--white)" }}
         >
           {heading}
         </h1>

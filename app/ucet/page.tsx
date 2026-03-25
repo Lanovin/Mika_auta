@@ -21,7 +21,7 @@ export default async function AccountPage({ searchParams }: AccountPageProps) {
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <p className="section-kicker">Můj účet</p>
-            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Vítejte, {user.username}</h1>
+            <h1 className="mt-2 text-3xl font-semibold tracking-tight text-white" style={{ fontFamily: "var(--font-display)" }}>Vítejte, {user.username}</h1>
             <p className="mt-2 text-sm text-secondary">
               Přihlášení proběhlo úspěšně. Odtud můžete přejít do správy účtu nebo, pokud jste administrátor, i do správy inzerátů.
             </p>

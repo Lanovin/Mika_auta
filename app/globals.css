@@ -24,6 +24,10 @@
   --cream-muted:    #d4c9a8;
   --white:          #ffffff;
   --text-muted:     #7a7060;
+
+  /* Fonty */
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body:    'Raleway', sans-serif;
 }
 
 html {
@@ -33,7 +37,7 @@ html {
 body {
   background-color: var(--black);
   color: var(--cream);
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-body);
   font-weight: 300;
   line-height: 1.75;
   min-height: 100vh;
@@ -166,6 +170,24 @@ body {
   .nav-link:hover {
     color: var(--gold);
   }
+
+  .cms-input {
+    display: block;
+    width: 100%;
+    background: var(--black);
+    border: 1px solid var(--black-border);
+    color: var(--cream);
+    font-size: 14px;
+    padding: 10px 14px;
+    font-family: 'Raleway', sans-serif;
+    transition: border-color 0.2s ease;
+    resize: vertical;
+  }
+
+  .cms-input:focus {
+    outline: none;
+    border-color: var(--gold-dim);
+  }
 }
 
 /* ─── Text highlight ──────────────────────────────── */
@@ -291,6 +313,7 @@ body {
   font-family: 'Playfair Display', Georgia, serif;
   font-size: 32px;
   color: var(--gold-light);
+  font-variant-numeric: lining-nums;
 }
 
 .stats-bar .stat-label {

@@ -39,7 +39,7 @@ export default async function LoginPage({ searchParams }: LoginPageProps) {
       <div className="mx-auto grid max-w-5xl gap-8 lg:grid-cols-[minmax(0,1fr),minmax(0,1fr)]">
         <section className="card-panel p-8 text-white">
           <p className="section-kicker">Účet a přihlášení</p>
-          <h1 className="mt-3 text-3xl font-semibold tracking-tight" style={{ fontFamily: "'Playfair Display', Georgia, serif" }}>Přihlášení do webu autobazaru</h1>
+          <h1 className="mt-3 text-3xl font-semibold tracking-tight" style={{ fontFamily: "var(--font-display)" }}>Přihlášení do webu autobazaru</h1>
           <p className="mt-4 text-sm text-secondary">
             Návštěvníci si mohou vytvořit běžný účet přes e-mail a uživatelské jméno. Speciální účet admin odemkne správu inzerátů a kompletní administraci vozů.
           </p>

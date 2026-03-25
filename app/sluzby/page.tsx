@@ -2,9 +2,29 @@
 
 import { CreditCard, ShieldCheck, Car, ChevronDown, ChevronUp } from "lucide-react";
 import { useState } from "react";
+import { useContent } from "@/src/lib/useContent";
+
+interface ServiceItem {
+  icon: string;
+  title: string;
+  shortDesc: string;
+  longDesc: string;
+}
+
+interface SummaryCard {
+  kicker: string;
+  title: string;
+}
+
+interface SluzbyContent {
+  header: { kicker: string; title: string; description: string };
+  summaryCards: SummaryCard[];
+  services: ServiceItem[];
+}
 
 export default function ServicesPage() {
   const [expanded, setExpanded] = useState<number | null>(null);
+  const { data: c, loading } = useContent<SluzbyContent>("sluzby");
 
   const toggleExpanded = (index: number) => {
     setExpanded(expanded === index ? null : index);
@@ -23,71 +43,22 @@ export default function ServicesPage() {
     }
   };
 
-  const services = [
-    {
-      icon: "CreditCard",
-      title: "Financování vozu",
-      shortDesc: "Nabízíme různé možnosti financování vašeho nového vozu za nejlepších podmínek. Zahrnuje nákup na úvěr, výpočet splátek a podmínky pro fyzické osoby, firmy a OSVČ.",
-      longDesc: "Financování vašeho nového vozu za nejlepších možných podmínek od profesionálů z MIKAAUTO. Nabízíme nákup vozu na úvěr, výpočet splátek a obecné podmínky pro fyzické osoby, firmy a OSVČ. Dokumenty ke stažení jsou k dispozici."
-    },
-    {
-      icon: "ShieldCheck",
-      title: "Pojištění",
-      shortDesc: "Zajistíme kompletní pojištění vašeho vozu včetně povinného ručení a havarijního pojištění. Individuální posouzení, výběr nejvhodnějšího pojištění a sleva až 25% při kompletním pojištění.",
-      longDesc: "Našim zákazníkům nabízíme možnost sjednat si přímo v našem autobazaru pojištění odpovědnosti z provozu vozidla a havarijní pojištění. Povinné ručení je zákonem stanovená povinnost. Výhody: individuální posouzení, výběr nejvhodnějšího pojištění dle potřeb klienta, při uzavření kompletního pojištění sleva až 25%."
-    },
-    {
-      icon: "Car",
-      title: "Výkup vozů za hotové",
-      shortDesc: "Jsme připraveni nabídnout nejvyšší možnou nabídku za váš starý vůz. Možnost prodeje za hotové nebo na protiúčet.",
-      longDesc: "Jsme připraveni Vám nabídnout nejvyšší možnou nabídku za Váš starý vůz. Nabízíme výkup vozů za hotové, zprostředkování prodeje a prodej na protiúčet."
-    },
-    {
-      icon: "Car",
-      title: "Zprostředkování prodeje",
-      shortDesc: "Pokud chcete prodat svůj starý vůz a nepotřebujete neprodleně hotovost, zprostředkujeme prodej za vás.",
-      longDesc: "Pokud chcete prodat svůj starý vůz a nepotřebujete neprodleně hotovost, zprostředkujeme prodej za vás. Dokumenty ke stažení, ocenění vašeho vozu a kupóny jsou k dispozici."
-    },
-    {
-      icon: "Car",
-      title: "Nákup na protiúčet",
-      shortDesc: "Pokud jste se rozhodli prodat svůj starý vůz za hotovost nebo jej vyměnit za jiný nabízený vůz.",
-      longDesc: "Pokud jste se rozhodli prodat svůj starý vůz za hotovost nebo jej vyměnit za jiný Námi nabízený vůz. Nabízíme kompletní vyčištění vozidel a převody vozidel na městském úřadě."
-    },
-    {
-      icon: "Car",
-      title: "Nákup za hotové",
-      shortDesc: "Pokud jste si vybrali vůz z naší nabídky, kontaktujte naše prodejce pro informace o vozidle.",
-      longDesc: "Pokud jste si vybrali vůz z naší aktuální nabídky, neváhejte kontaktovat naše prodejce a informujte se o konkrétním vozidle. Doklady ke koupi, dokumenty ke stažení a poptávkový formulář jsou k dispozici."
-    },
-    {
-      icon: "Car",
-      title: "Nákup na úvěr",
-      shortDesc: "Financování vašeho nového vozu za nejlepších možných podmínek od profesionálů z MIKAAUTO.",
-      longDesc: "Financování vašeho nové vozu za nejlepších možných podmínek od profesionálů z MIKAAUTO. Nabízíme nákup na úvěr s výpočtem splátek."
-    },
-    {
-      icon: "Car",
-      title: "Převody vozidel na městském úřadě",
-      shortDesc: "Zprostředkujeme převody vozidel.",
-      longDesc: "Zprostředkujeme převody vozidel na městském úřadě. Kompletní vyčištění vozidel je také součástí našich služeb."
-    }
-  ];
+  if (loading || !c) return <div className="container-page py-12" />;
 
   return (
     <div className="min-h-screen">
       <div className="container-page py-12">
         {/* Header */}
         <div className="mx-auto max-w-3xl text-center">
-          <p className="section-kicker">Služby</p>
+          <p className="section-kicker">{c.header.kicker}</p>
           <h1
             className="mt-2 text-4xl font-semibold uppercase tracking-[0.03em]"
-            style={{ fontFamily: "Playfair Display, serif", color: "var(--cream)" }}
+            style={{ fontFamily: "var(--font-display)", color: "var(--cream)" }}
           >
-            Naše služby
+            {c.header.title}
           </h1>
           <p className="mt-4 text-lg text-secondary">
-            Komplexní služby pro nákup, prodej a financování vozidel
+            {c.header.description}
           </p>
         </div>
 
@@ -95,53 +66,27 @@ export default function ServicesPage() {
 
         {/* Summary cards */}
         <div className="mt-8 grid gap-4 md:grid-cols-3">
-          <div className="card-panel px-6 py-5">
-            <div
-              className="text-xs uppercase tracking-[0.24em]"
-              style={{ color: "var(--gold)" }}
-            >
-              Financování
+          {c.summaryCards.map((card: SummaryCard, i: number) => (
+            <div key={i} className="card-panel px-6 py-5">
+              <div
+                className="text-xs uppercase tracking-[0.24em]"
+                style={{ color: "var(--gold)" }}
+              >
+                {card.kicker}
+              </div>
+              <div
+                className="mt-2 text-xl font-semibold"
+                style={{ color: "var(--cream)" }}
+              >
+                {card.title}
+              </div>
             </div>
-            <div
-              className="mt-2 text-xl font-semibold"
-              style={{ color: "var(--cream)" }}
-            >
-              Rychlé schválení a jasné podmínky
-            </div>
-          </div>
-          <div className="card-panel px-6 py-5">
-            <div
-              className="text-xs uppercase tracking-[0.24em]"
-              style={{ color: "var(--gold)" }}
-            >
-              Pojištění
-            </div>
-            <div
-              className="mt-2 text-xl font-semibold"
-              style={{ color: "var(--cream)" }}
-            >
-              Povinné ručení i havarijní pojištění
-            </div>
-          </div>
-          <div className="card-panel px-6 py-5">
-            <div
-              className="text-xs uppercase tracking-[0.24em]"
-              style={{ color: "var(--gold)" }}
-            >
-              Výkup
-            </div>
-            <div
-              className="mt-2 text-xl font-semibold"
-              style={{ color: "var(--cream)" }}
-            >
-              Hotově, komisně i na protiúčet
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Service cards */}
         <div className="mt-12 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {services.map((service, index) => {
+          {c.services.map((service: ServiceItem, index: number) => {
             const Icon = getIcon(service.icon);
             return (
               <div
