@@ -28,7 +28,7 @@ const config: Config = {
       },
       fontFamily: {
         sans: ["'Raleway'", "sans-serif"],
-        display: ["'Playfair Display'", "Georgia", "serif"]
+        display: ["'Raleway'", "sans-serif"]
       },
       boxShadow: {
         "soft": "none",

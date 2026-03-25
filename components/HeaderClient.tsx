@@ -76,7 +76,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
             flexDirection: 'column',
             alignItems: 'center',
             position: 'absolute',
-            left: '50%',
+            left: 'calc(50% - 30px)',
             top: '50%',
             transform: 'translate(-50%, -50%)',
             textDecoration: 'none'
@@ -106,7 +106,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
         </Link>
 
         {/* Right nav — desktop */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '36px', fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '190px' }} className="lg:!flex">
+        <div style={{ display: 'none', alignItems: 'center', gap: '36px', fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '180px' }} className="lg:!flex">
           {rightNav.map((item) => (
             <Link
               key={item.href}
@@ -124,16 +124,16 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
         </div>
 
         {/* Mobile logo + phone */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }} className="lg:!hidden">
-          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }} onClick={closeMenu}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }} className="lg:!hidden">
+          <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }} onClick={closeMenu}>
             <img
               src="/auto_mika_logo1.png"
               alt="Autobazar MIKA Logo"
               style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
             />
           </Link>
-          <a href="tel:+420774333774" style={{ fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--gold)', display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none' }}>
-            <Phone style={{ width: '14px', height: '14px' }} />
+          <a href="tel:+420774333774" className="mobile-phone-link" style={{ fontFamily: "var(--font-body)", fontSize: '13px', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--gold)', display: 'inline-flex', alignItems: 'center', gap: '5px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
+            <Phone style={{ width: '13px', height: '13px', flexShrink: 0 }} />
             +420 774 333 774
           </a>
         </div>
