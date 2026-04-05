@@ -182,25 +182,43 @@ export async function fetchTipcarsVehicles(): Promise<Vehicle[]> {
     return cachedVehicles;
   }
 
-  const res = await fetch(TIPCARS_URL, { next: { revalidate: 300 } });
-  const buffer = await res.arrayBuffer();
+  try {
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 15000);
 
-  // Decode from windows-1250
-  const decoder = new TextDecoder("windows-1250");
-  const xml = decoder.decode(buffer);
+    const res = await fetch(TIPCARS_URL, {
+      next: { revalidate: 300 },
+      signal: controller.signal,
+    });
+    clearTimeout(timeout);
 
-  const carBlocks = getAllBlocks(xml, "car");
-  const vehicles: Vehicle[] = [];
-
-  for (const block of carBlocks) {
-    const vehicle = parseCarXml(block);
-    if (vehicle) {
-      vehicles.push(vehicle);
+    if (!res.ok) {
+      console.error(`Tipcars fetch failed: ${res.status} ${res.statusText}`);
+      return cachedVehicles ?? [];
     }
+
+    const buffer = await res.arrayBuffer();
+
+    // Decode from windows-1250
+    const decoder = new TextDecoder("windows-1250");
+    const xml = decoder.decode(buffer);
+
+    const carBlocks = getAllBlocks(xml, "car");
+    const vehicles: Vehicle[] = [];
+
+    for (const block of carBlocks) {
+      const vehicle = parseCarXml(block);
+      if (vehicle) {
+        vehicles.push(vehicle);
+      }
+    }
+
+    cachedVehicles = vehicles;
+    cacheTimestamp = now;
+
+    return vehicles;
+  } catch (err) {
+    console.error("Tipcars fetch error:", err);
+    return cachedVehicles ?? [];
   }
-
-  cachedVehicles = vehicles;
-  cacheTimestamp = now;
-
-  return vehicles;
 }

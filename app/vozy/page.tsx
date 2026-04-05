@@ -2,6 +2,7 @@ import { InventoryPageClient } from "@/src/components/InventoryPageClient";
 import { readPublishedVehicles } from "@/src/lib/vehicle-store";
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 interface InventoryPageProps {
   searchParams?: {

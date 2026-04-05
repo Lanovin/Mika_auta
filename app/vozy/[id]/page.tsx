@@ -9,6 +9,7 @@ interface CarDetailPageProps {
 }
 
 export const dynamic = "force-dynamic";
+export const runtime = "nodejs";
 
 export default async function CarDetailPage({ params }: CarDetailPageProps) {
   const car = await readVehicleById(params.id);
