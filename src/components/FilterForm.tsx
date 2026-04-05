@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
+import { useLanguage } from "@/src/lib/LanguageContext";
+import { t } from "@/src/lib/translations";
 
 export interface FilterValues {
   make: string;
@@ -37,6 +39,7 @@ export function FilterForm({
   };
 
   const isHorizontal = layout === "horizontal";
+  const { lang } = useLanguage();
 
   return (
     <form
@@ -46,14 +49,14 @@ export function FilterForm({
     >
       <div className="flex-1">
         <label className="block text-xs font-medium uppercase tracking-wide text-muted">
-          Značka
+          {t("filter.make", lang)}
         </label>
         <select
           value={values.make}
           onChange={(e) => handleValueChange("make", e.target.value)}
           className="mt-1 w-full"
         >
-          <option value="">Jakákoliv značka</option>
+          <option value="">{t("filter.anyMake", lang)}</option>
           {allMakes.map((make) => (
             <option key={make} value={make}>
               {make}
@@ -64,14 +67,14 @@ export function FilterForm({
 
       <div className="flex-1">
         <label className="block text-xs font-medium uppercase tracking-wide text-muted">
-          Model
+          {t("filter.model", lang)}
         </label>
         <select
           value={values.model}
           onChange={(e) => handleValueChange("model", e.target.value)}
           className="mt-1 w-full"
         >
-          <option value="">Jakýkoliv model</option>
+          <option value="">{t("filter.anyModel", lang)}</option>
           {filteredModels.map((model) => (
             <option key={model} value={model}>
               {model}
@@ -82,14 +85,14 @@ export function FilterForm({
 
       <div className="flex-1">
         <label className="block text-xs font-medium uppercase tracking-wide text-muted">
-          Cena do
+          {t("filter.priceUpTo", lang)}
         </label>
         <select
           value={values.maxPrice}
           onChange={(e) => handleValueChange("maxPrice", e.target.value)}
           className="mt-1 w-full"
         >
-          <option value="">Neomezeně</option>
+          <option value="">{t("filter.unlimited", lang)}</option>
           <option value="300000">300 000 Kč</option>
           <option value="400000">400 000 Kč</option>
           <option value="500000">500 000 Kč</option>

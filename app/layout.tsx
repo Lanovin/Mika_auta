@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import { LanguageProvider } from "@/src/lib/LanguageContext";
+import CookieConsent from "@/src/components/CookieConsent";
 
 export const metadata: Metadata = {
   title: "Mika Auto – Autobazar | Kvalitní ojeté vozy",
@@ -22,9 +24,12 @@ export default function RootLayout({
   return (
     <html lang="cs">
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-        <Header />
-        <main style={{ flex: 1 }}>{children}</main>
-        <Footer />
+        <LanguageProvider>
+          <Header />
+          <main style={{ flex: 1 }}>{children}</main>
+          <Footer />
+          <CookieConsent />
+        </LanguageProvider>
       </body>
     </html>
   );

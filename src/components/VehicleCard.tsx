@@ -2,19 +2,23 @@ import Image from "next/image";
 import Link from "next/link";
 import { ArrowRight, Fuel, Gauge, CalendarRange, Settings2 } from "lucide-react";
 import type { Vehicle } from "@/src/lib/vehicle-types";
+import { useLanguage } from "@/src/lib/LanguageContext";
+import { t } from "@/src/lib/translations";
 
 interface VehicleCardProps {
   car: Vehicle;
 }
 
 export function VehicleCard({ car }: VehicleCardProps) {
-  const formattedPrice = new Intl.NumberFormat("cs-CZ", {
+  const { lang } = useLanguage();
+  const locale = lang === 'cs' ? 'cs-CZ' : 'en-US';
+  const formattedPrice = new Intl.NumberFormat(locale, {
     style: "currency",
     currency: "CZK",
     maximumFractionDigits: 0
   }).format(car.price);
 
-  const formattedMileage = new Intl.NumberFormat("cs-CZ").format(car.mileage);
+  const formattedMileage = new Intl.NumberFormat(locale).format(car.mileage);
 
   return (
     <Link
@@ -42,13 +46,18 @@ export function VehicleCard({ car }: VehicleCardProps) {
       <article style={{ display: 'flex', flexDirection: 'column', height: '100%', cursor: 'pointer' }}>
         {/* Image */}
         <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
-          <Image
-            src={car.imageUrl}
-            alt={`${car.make} ${car.model}`}
-            fill
-            className="object-cover transition-transform duration-500 group-hover:scale-105"
-            sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
-          />
+          {car.imageUrl ? (
+            <Image
+              src={car.imageUrl}
+              alt={`${car.make} ${car.model}`}
+              fill
+              className="object-cover transition-transform duration-500 group-hover:scale-105"
+              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+              unoptimized
+            />
+          ) : (
+            <div style={{ width: '100%', height: '100%', background: 'var(--black-rich)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cream-muted)', fontSize: '12px' }}>Bez fotky</div>
+          )}
           {/* Badge */}
           {car.featured ? (
             <div style={{
@@ -64,7 +73,7 @@ export function VehicleCard({ car }: VehicleCardProps) {
               textTransform: 'uppercase',
               padding: '6px 12px'
             }}>
-              TOP nabídka
+              {t("card.topOffer", lang)}
             </div>
           ) : null}
         </div>
@@ -128,7 +137,7 @@ export function VehicleCard({ car }: VehicleCardProps) {
               {formattedPrice}
             </div>
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>
-              Detail
+              {t("card.detail", lang)}
               <ArrowRight style={{ width: '14px', height: '14px', transition: 'transform 0.3s' }} className="group-hover:translate-x-1" />
             </span>
           </div>

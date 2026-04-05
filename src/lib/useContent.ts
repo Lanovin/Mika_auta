@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import type { Lang } from "./LanguageContext";
 
-export function useContent<T = Record<string, unknown>>(page: string) {
+export function useContent<T = Record<string, unknown>>(page: string, lang?: Lang) {
+  const key = lang === "en" ? `${page}_en` : page;
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -13,7 +15,7 @@ export function useContent<T = Record<string, unknown>>(page: string) {
       .then((res) => res.json())
       .then((json) => {
         if (!cancelled) {
-          setData(json[page] ?? null);
+          setData(json[key] ?? json[page] ?? null);
           setLoading(false);
         }
       })
@@ -22,7 +24,7 @@ export function useContent<T = Record<string, unknown>>(page: string) {
       });
 
     return () => { cancelled = true; };
-  }, [page]);
+  }, [page, key]);
 
   return { data, loading };
 }

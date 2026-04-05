@@ -33,6 +33,10 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "stimg.cardekho.com"
+      },
+      {
+        protocol: "https",
+        hostname: "img.tipcars.com"
       }
     ]
   }

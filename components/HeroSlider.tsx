@@ -1,35 +1,76 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Calendar, Gauge } from "lucide-react";
 import type { Vehicle } from "@/src/lib/vehicle-types";
+import { useLanguage } from "@/src/lib/LanguageContext";
+import { t } from "@/src/lib/translations";
 
 interface HeroSliderProps {
   vehicles: Vehicle[];
 }
 
+const SLIDE_DURATION = 5000;
+
 export function HeroSlider({ vehicles }: HeroSliderProps) {
+  const { lang } = useLanguage();
   const slides = vehicles.slice(0, 6);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const progressRef = useRef<number>(0);
+  const rafRef = useRef<number>(0);
+  const lastTimeRef = useRef<number>(0);
 
   const next = useCallback(() => {
+    setProgress(0);
+    progressRef.current = 0;
     setCurrent((prev) => (prev + 1) % slides.length);
   }, [slides.length]);
 
   const prev = useCallback(() => {
+    setProgress(0);
+    progressRef.current = 0;
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   }, [slides.length]);
 
+  const goTo = useCallback((i: number) => {
+    setProgress(0);
+    progressRef.current = 0;
+    setCurrent(i);
+  }, []);
+
+  // Progress animation + auto-advance
   useEffect(() => {
     if (paused || slides.length <= 1) return;
-    const timer = setInterval(next, 4000);
-    return () => clearInterval(timer);
-  }, [paused, next, slides.length]);
+
+    lastTimeRef.current = performance.now();
+
+    const tick = (now: number) => {
+      const dt = now - lastTimeRef.current;
+      lastTimeRef.current = now;
+      progressRef.current += dt;
+      const pct = Math.min(progressRef.current / SLIDE_DURATION, 1);
+      setProgress(pct);
+
+      if (pct >= 1) {
+        setCurrent((p) => (p + 1) % slides.length);
+        progressRef.current = 0;
+        setProgress(0);
+      }
+
+      rafRef.current = requestAnimationFrame(tick);
+    };
+
+    rafRef.current = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [paused, slides.length, current]);
 
   if (slides.length === 0) return null;
+
+  const car = slides[current];
 
   return (
     <div
@@ -42,27 +83,51 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
           <Link
             key={car.id}
             href={`/vozy/${car.id}`}
-            className="hero-slider__slide"
+            className={`hero-slider__slide ${i === current ? "hero-slider__slide--active" : ""}`}
             style={{ opacity: i === current ? 1 : 0, pointerEvents: i === current ? "auto" : "none" }}
             aria-hidden={i !== current}
           >
-            <Image
-              src={car.imageUrl || "/placeholder-car.jpg"}
-              alt={car.title}
-              fill
-              sizes="(max-width: 768px) 100vw, 50vw"
-              style={{ objectFit: "cover" }}
-              priority={i === 0}
-            />
+            <div className={`hero-slider__img-wrap ${i === current ? "hero-slider__img-wrap--zoom" : ""}`}>
+              <Image
+                src={car.imageUrl || "/placeholder-car.jpg"}
+                alt={car.title}
+                fill
+                sizes="(max-width: 768px) 100vw, 50vw"
+                style={{ objectFit: "cover" }}
+                priority={i === 0}
+                unoptimized
+              />
+            </div>
+
+            {/* Slide counter */}
+            <span className="hero-slider__counter">
+              {String(i + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+            </span>
 
             {/* Badge */}
-            <span className="hero-slider__badge">Doporučujeme</span>
+            <span className="hero-slider__badge">{t("slider.badge", lang)}</span>
 
             {/* Bottom gradient overlay with text */}
             <div className="hero-slider__info">
               <div className="hero-slider__title">{car.title}</div>
+              <div className="hero-slider__meta">
+                {car.year > 0 && (
+                  <span className="hero-slider__meta-item">
+                    <Calendar style={{ width: "13px", height: "13px" }} />
+                    {car.year}
+                  </span>
+                )}
+                {car.mileage > 0 && (
+                  <span className="hero-slider__meta-item">
+                    <Gauge style={{ width: "13px", height: "13px" }} />
+                    {car.mileage.toLocaleString(lang === "cs" ? "cs-CZ" : "en-US")} km
+                  </span>
+                )}
+              </div>
               <div className="hero-slider__price">
-                {car.price.toLocaleString("cs-CZ")}&nbsp;Kč
+                {lang === "cs"
+                  ? `${car.price.toLocaleString("cs-CZ")}\u00a0Kč`
+                  : `CZK ${car.price.toLocaleString("en-US")}`}
               </div>
             </div>
           </Link>
@@ -74,35 +139,43 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
             <button
               type="button"
               className="hero-slider__arrow hero-slider__arrow--prev"
-              aria-label="Předchozí slide"
+              aria-label={t("slider.prevSlide", lang)}
               onClick={(e) => { e.preventDefault(); prev(); }}
             >
-              <ChevronLeft style={{ width: '20px', height: '20px' }} />
+              <ChevronLeft style={{ width: "20px", height: "20px" }} />
             </button>
             <button
               type="button"
               className="hero-slider__arrow hero-slider__arrow--next"
-              aria-label="Následující slide"
+              aria-label={t("slider.nextSlide", lang)}
               onClick={(e) => { e.preventDefault(); next(); }}
             >
-              <ChevronRight style={{ width: '20px', height: '20px' }} />
+              <ChevronRight style={{ width: "20px", height: "20px" }} />
             </button>
           </>
         )}
       </div>
 
-      {/* Dots */}
+      {/* Progress dots + bar */}
       {slides.length > 1 && (
-        <div className="hero-slider__dots">
-          {slides.map((_, i) => (
-            <button
-              key={i}
-              type="button"
-              aria-label={`Slide ${i + 1}`}
-              className={`hero-slider__dot ${i === current ? "hero-slider__dot--active" : ""}`}
-              onClick={() => setCurrent(i)}
+        <div className="hero-slider__footer">
+          <div className="hero-slider__dots">
+            {slides.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                aria-label={`Slide ${i + 1}`}
+                className={`hero-slider__dot ${i === current ? "hero-slider__dot--active" : ""}`}
+                onClick={() => goTo(i)}
+              />
+            ))}
+          </div>
+          <div className="hero-slider__progress">
+            <div
+              className="hero-slider__progress-bar"
+              style={{ width: `${progress * 100}%` }}
             />
-          ))}
+          </div>
         </div>
       )}
     </div>

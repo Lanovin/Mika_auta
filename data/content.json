@@ -1,9 +1,15 @@
 {
+  "alert": {
+    "active": false,
+    "text": "O velikonocích budeme mít zavřeno",
+    "text_en": ""
+  },
   "homepage": {
+    "_layout": ["hero", "featured", "stats", "features", "reviews"],
     "hero": {
       "kicker": "Autobazar Mika",
       "title": "Prověřené vozy",
-      "titleHighlight": "bez stresu.",
+      "titleHighlight": "bez nátlaku.",
       "ctaPrimary": "Projít nabídku",
       "ctaSecondary": "Rezervovat prohlídku"
     },
@@ -19,8 +25,14 @@
       "buttonText": "Vyhledat"
     },
     "stats": [
-      { "value": "24 h", "label": "předběžné schválení" },
-      { "value": "100%", "label": "ověřený původ" }
+      {
+        "value": "24 h",
+        "label": "předběžné schválení"
+      },
+      {
+        "value": "100%",
+        "label": "ověřený původ"
+      }
     ],
     "features": {
       "kicker": "Proč lidé volí Mika Auto",
@@ -61,6 +73,7 @@
     }
   },
   "onas": {
+    "_layout": ["header", "history", "stats", "approach"],
     "header": {
       "kicker": "O nás",
       "title": "O nás – Autobazar MIKA",
@@ -77,9 +90,18 @@
       ]
     },
     "stats": [
-      { "value": "18+ let", "label": "na trhu" },
-      { "value": "1000+", "label": "spokojených klientů" },
-      { "value": "100%", "label": "garance původu vozu" }
+      {
+        "value": "18+ let",
+        "label": "na trhu"
+      },
+      {
+        "value": "1000+",
+        "label": "spokojených klientů"
+      },
+      {
+        "value": "100%",
+        "label": "garance původu vozu"
+      }
     ],
     "approach": [
       {
@@ -100,6 +122,7 @@
     ]
   },
   "sluzby": {
+    "_layout": ["header", "summaryCards", "services"],
     "header": {
       "kicker": "Služby",
       "title": "Naše služby",
@@ -171,6 +194,7 @@
     ]
   },
   "kontakt": {
+    "_layout": ["header", "reasons", "contactInfo", "billing", "bank", "process", "form", "map"],
     "header": {
       "kicker": "Kontakt",
       "title": "Kontakt",
@@ -211,13 +235,281 @@
       "Pokud chcete, navážeme rovnou výkupem nebo protiúčtem vašeho vozu."
     ],
     "formTitle": "Napište nám zprávu",
-    "formNote": "Ozveme se vám zpět co nejdříve s odpovědí nebo nezávaznou nabídkou."
+    "formNote": "Ozveme se vám zpět co nejdříve s odpovědí nebo nezávaznou nabídkou.",
+    "mapUrl": "https://mapy.com/s/meludoreha"
+  },
+  "inventory": {
+    "kicker": "",
+    "title": "Nabídka vozů",
+    "subtitle": ""
   },
   "footer": {
     "brand": "Mika Auto",
     "description": "Pomáháme lidem bezpečně a pohodlně koupit kvalitní ojetý vůz, který sedne jejich životnímu stylu i rozpočtu.",
     "copyright": "© 2026 Mika Auto – férové jednání a osobní přístup ke každému zákazníkovi.",
     "tagline": "Praha 9 • prověřené vozy • osobní servis",
-    "partners": ["GE Money", "Sauto Leasing", "Essox", "Home Credit", "Česká pojišťovna", "Defend Insurance", "Cebia"]
+    "partners": [
+      "GE Money",
+      "Sauto Leasing",
+      "Essox",
+      "Home Credit",
+      "Česká pojišťovna",
+      "Defend Insurance",
+      "Cebia"
+    ]
+  },
+  "homepage_en": {
+    "_layout": ["hero", "featured", "stats", "features", "reviews"],
+    "hero": {
+      "kicker": "Mika Auto Dealership",
+      "title": "Verified Vehicles",
+      "titleHighlight": "stress-free.",
+      "ctaPrimary": "Browse Vehicles",
+      "ctaSecondary": "Book a Viewing"
+    },
+    "featured": {
+      "kicker": "Featured Vehicles",
+      "title": "Most Popular Cars",
+      "titleHighlight": "in Stock",
+      "linkText": "View All Vehicles"
+    },
+    "search": {
+      "kicker": "Quick Search",
+      "description": "Enter a few details and we'll show you the best matching vehicles.",
+      "buttonText": "Search"
+    },
+    "stats": [
+      {
+        "value": "24 h",
+        "label": "preliminary approval"
+      },
+      {
+        "value": "100%",
+        "label": "verified origin"
+      }
+    ],
+    "features": {
+      "kicker": "Why People Choose Mika Auto",
+      "title": "Clear origin, fair process,",
+      "titleHighlight": "quick agreement",
+      "items": [
+        {
+          "title": "Verified Technical Condition",
+          "description": "We thoroughly inspect each vehicle including diagnostics, bodywork and service history."
+        },
+        {
+          "title": "Fair Financing",
+          "description": "Together we'll find a solution that won't strain your budget. We explain everything clearly."
+        },
+        {
+          "title": "Quick Purchase & Trade-In",
+          "description": "We'll fairly value your current car and you can conveniently offset it against a new one."
+        }
+      ]
+    },
+    "reviews": {
+      "kicker": "Customer Reviews",
+      "title": "Trust Isn't Built on Slogans",
+      "items": [
+        {
+          "author": "Martin K.",
+          "text": "The selection was pressure-free, I got clear information about the car's history and the next day we had the financing arranged."
+        },
+        {
+          "author": "Petra & Tomáš",
+          "text": "We needed a family car and a trade-in. Everything was clear, fast and without unpleasant surprises."
+        },
+        {
+          "author": "Jakub S.",
+          "text": "I especially appreciated that they didn't hide anything in the car details and we immediately got an insurance proposal and test drive reservation."
+        }
+      ]
+    }
+  },
+  "onas_en": {
+    "_layout": ["header", "history", "stats", "approach"],
+    "header": {
+      "kicker": "About Us",
+      "title": "About Us – MIKA Auto Dealership",
+      "description": "MIKAAUTO s.r.o. has been buying and selling used and nearly-new vehicles of all makes since 2007."
+    },
+    "history": {
+      "title": "Our History & Mission",
+      "text1": "We always offer our customers a rich selection of quality vehicles of various makes and types, all of which undergo thorough inspection, thus guaranteeing 100% provenance.",
+      "text2": "Our main goal is a satisfied customer, which is why we offer the highest quality services. MIKA Auto Dealership brings you: a rich selection of quality vehicles, 100% origin guarantee, individual and professional approach to every customer.",
+      "milestones": [
+        "Since 2007, we have been selecting vehicles with emphasis on origin, condition and real usability for everyday life.",
+        "We handle every deal personally, not through anonymous forms without context.",
+        "We rely on long-term customer recommendations and a transparent, pressure-free process."
+      ]
+    },
+    "stats": [
+      {
+        "value": "18+ years",
+        "label": "on the market"
+      },
+      {
+        "value": "1000+",
+        "label": "satisfied clients"
+      },
+      {
+        "value": "100%",
+        "label": "vehicle origin guarantee"
+      }
+    ],
+    "approach": [
+      {
+        "kicker": "Approach",
+        "title": "No Pressure, No Ambiguity",
+        "description": "Our goal is not just to sell a car, but to recommend one that will make sense even after several years of use."
+      },
+      {
+        "kicker": "Selection",
+        "title": "Verified Selection Instead of Overflow",
+        "description": "We prefer a smaller, higher-quality selection over a warehouse full of cars we don't want to vouch for."
+      },
+      {
+        "kicker": "Service",
+        "title": "Support Even After Signing",
+        "description": "We can handle insurance, financing and transfer to make the whole process simple for you."
+      }
+    ]
+  },
+  "sluzby_en": {
+    "_layout": ["header", "summaryCards", "services"],
+    "header": {
+      "kicker": "Services",
+      "title": "Our Services",
+      "description": "Comprehensive services for buying, selling and financing vehicles"
+    },
+    "summaryCards": [
+      {
+        "kicker": "Financing",
+        "title": "Quick Approval & Clear Terms"
+      },
+      {
+        "kicker": "Insurance",
+        "title": "Liability & Comprehensive Insurance"
+      },
+      {
+        "kicker": "Purchase",
+        "title": "Cash, Commission or Trade-In"
+      }
+    ],
+    "services": [
+      {
+        "icon": "CreditCard",
+        "title": "Vehicle Financing",
+        "shortDesc": "We offer various financing options for your new vehicle at the best terms. Includes credit purchase, instalment calculation and conditions for individuals, companies and self-employed.",
+        "longDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals. We offer credit vehicle purchase, instalment calculation and general conditions for individuals, companies and self-employed. Documents are available for download."
+      },
+      {
+        "icon": "ShieldCheck",
+        "title": "Insurance",
+        "shortDesc": "We arrange complete vehicle insurance including liability and comprehensive coverage. Individual assessment, selection of the most suitable insurance and up to 25% discount with complete insurance.",
+        "longDesc": "We offer our customers the possibility to arrange vehicle liability and comprehensive insurance directly at our dealership. Third-party liability insurance is a legal requirement. Benefits: individual assessment, selection of the most suitable insurance according to client needs, up to 25% discount when taking out complete insurance."
+      },
+      {
+        "icon": "Car",
+        "title": "Vehicle Purchase for Cash",
+        "shortDesc": "We are ready to offer the highest possible price for your old vehicle. Option to sell for cash or trade-in.",
+        "longDesc": "We are ready to offer you the highest possible price for your old vehicle. We offer cash purchase, sales mediation and trade-in."
+      },
+      {
+        "icon": "Car",
+        "title": "Sales Mediation",
+        "shortDesc": "If you want to sell your old car and don't need immediate cash, we'll mediate the sale for you.",
+        "longDesc": "If you want to sell your old car and don't need immediate cash, we'll mediate the sale for you. Documents for download, vehicle valuation and coupons are available."
+      },
+      {
+        "icon": "Car",
+        "title": "Trade-In Purchase",
+        "shortDesc": "If you've decided to sell your old car for cash or exchange it for another vehicle we offer.",
+        "longDesc": "If you've decided to sell your old car for cash or exchange it for another vehicle we offer. We provide complete vehicle cleaning and registration transfers at the municipal office."
+      },
+      {
+        "icon": "Car",
+        "title": "Cash Purchase",
+        "shortDesc": "If you've chosen a vehicle from our offer, contact our sales team for vehicle information.",
+        "longDesc": "If you've chosen a vehicle from our current offer, don't hesitate to contact our sales team for details. Purchase documents, downloads and enquiry form are available."
+      },
+      {
+        "icon": "Car",
+        "title": "Credit Purchase",
+        "shortDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals.",
+        "longDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals. We offer credit purchase with instalment calculation."
+      },
+      {
+        "icon": "Car",
+        "title": "Vehicle Registration Transfers",
+        "shortDesc": "We mediate vehicle registration transfers.",
+        "longDesc": "We mediate vehicle registration transfers at the municipal office. Complete vehicle cleaning is also part of our services."
+      }
+    ]
+  },
+  "kontakt_en": {
+    "_layout": ["header", "reasons", "contactInfo", "billing", "bank", "process", "form", "map"],
+    "header": {
+      "kicker": "Contact",
+      "title": "Contact",
+      "description": "Have a question about a specific vehicle, financing, or just want some no-obligation advice? Get in touch and together we'll find a solution that suits you."
+    },
+    "reasons": [
+      "I want to book a viewing of a specific vehicle",
+      "I need a financing or insurance calculation",
+      "I'm interested in a purchase or trade-in"
+    ],
+    "phone": "+420 774 333 774",
+    "phoneNote": "We respond quickly during business hours and can prepare a non-binding calculation.",
+    "address": {
+      "name": "MIKA Auto Dealership",
+      "street": "Kostelecká 1144/85",
+      "city": "196 00 Prague 9 - Čakovice",
+      "note1": "Globus Shopping Centre area",
+      "note2": "Next to PROCHAZKA tyre service"
+    },
+    "email": "info@mikaauto.cz",
+    "hours": {
+      "weekdays": "Monday to Friday: 9:00 - 17:00",
+      "saturday": "Saturday: 9:00 - 13:00",
+      "sunday": "Sunday: closed",
+      "note": "Outside opening hours by arrangement"
+    },
+    "billing": {
+      "ico": "27941523",
+      "dic": "CZ27941523"
+    },
+    "bank": {
+      "csob": "216 326 472 / 0300",
+      "sporitelna": "248 841 7369 / 0800"
+    },
+    "process": [
+      "First, we'll clarify which vehicle or service you're interested in.",
+      "We'll prepare a viewing appointment, reservation and indicative calculation.",
+      "If you want, we'll follow up directly with a purchase or trade-in of your vehicle."
+    ],
+    "formTitle": "Send Us a Message",
+    "formNote": "We'll get back to you as soon as possible with a reply or non-binding offer.",
+    "mapUrl": "https://mapy.com/s/meludoreha"
+  },
+  "inventory_en": {
+    "kicker": "Stock Offer",
+    "title": "Verified Vehicle Offer",
+    "subtitle": "Browse our current stock of vehicles ready for immediate pickup. Every unit has a clear history and carefully traced origin."
+  },
+  "footer_en": {
+    "brand": "Mika Auto",
+    "description": "We help people safely and comfortably buy a quality used car that fits their lifestyle and budget.",
+    "copyright": "© 2026 Mika Auto – fair dealing and personal approach to every customer.",
+    "tagline": "Prague 9 • verified vehicles • personal service",
+    "partners": [
+      "GE Money",
+      "Sauto Leasing",
+      "Essox",
+      "Home Credit",
+      "Česká pojišťovna",
+      "Defend Insurance",
+      "Cebia"
+    ]
   }
 }

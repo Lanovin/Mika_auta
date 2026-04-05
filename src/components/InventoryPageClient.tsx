@@ -5,6 +5,9 @@ import { ArrowUpDown, RotateCcw, SlidersHorizontal } from "lucide-react";
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { SkeletonCard } from "@/src/components/SkeletonCard";
 import type { Vehicle } from "@/src/lib/vehicle-types";
+import { useLanguage } from "@/src/lib/LanguageContext";
+import { t } from "@/src/lib/translations";
+import { useContent } from "@/src/lib/useContent";
 
 interface InventoryFilters {
   makes: string[];
@@ -55,6 +58,8 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
   const [pendingFilters, setPendingFilters] = useState<InventoryFilters>(() => getInitialFilters(initialQuickFilters));
   const [isLoading, setIsLoading] = useState(false);
   const [sort, setSort] = useState<SortOption>("recommended");
+  const { lang } = useLanguage();
+  const { data: invContent } = useContent<{ kicker?: string; title?: string; subtitle?: string }>("inventory", lang);
 
   const allMakes = useMemo(() => Array.from(new Set(vehicles.map((vehicle) => vehicle.make))).sort(), [vehicles]);
 
@@ -72,8 +77,8 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
   }, [vehicles]);
 
   const allBodies = useMemo(() => Array.from(new Set(vehicles.map((vehicle) => vehicle.body))).sort(), [vehicles]);
-  const allTransmissions = ["manuální", "automatická"];
-  const allFuels = ["benzín", "nafta", "hybrid", "elektro"];
+  const allTransmissions = [t("trans.manual", lang), t("trans.auto", lang)];
+  const allFuels = [t("fuel.benzin", lang), t("fuel.nafta", lang), t("fuel.hybrid", lang), t("fuel.elektro", lang)];
 
   const filteredCars = useMemo(() => {
     const nextCars = vehicles.filter((car) => {
@@ -143,10 +148,10 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
     ...(filters.transmission ? [{ label: filters.transmission, onRemove: () => removeFilter({ transmission: "" }) }] : []),
     ...(filters.fuel ? [{ label: filters.fuel, onRemove: () => removeFilter({ fuel: "" }) }] : []),
     ...(filters.minPrice > 0 || filters.maxPrice < INITIAL_FILTERS.maxPrice
-      ? [{ label: `${filters.minPrice.toLocaleString()}–${filters.maxPrice.toLocaleString()} Kč`, onRemove: () => removeFilter({ minPrice: INITIAL_FILTERS.minPrice, maxPrice: INITIAL_FILTERS.maxPrice }) }]
+      ? [{ label: `${filters.minPrice.toLocaleString("cs-CZ")}–${filters.maxPrice.toLocaleString("cs-CZ")} Kč`, onRemove: () => removeFilter({ minPrice: INITIAL_FILTERS.minPrice, maxPrice: INITIAL_FILTERS.maxPrice }) }]
       : []),
     ...(filters.minMileage > 0 || filters.maxMileage < INITIAL_FILTERS.maxMileage
-      ? [{ label: `${filters.minMileage.toLocaleString()}–${filters.maxMileage.toLocaleString()} km`, onRemove: () => removeFilter({ minMileage: INITIAL_FILTERS.minMileage, maxMileage: INITIAL_FILTERS.maxMileage }) }]
+      ? [{ label: `${filters.minMileage.toLocaleString("cs-CZ")}–${filters.maxMileage.toLocaleString("cs-CZ")} km`, onRemove: () => removeFilter({ minMileage: INITIAL_FILTERS.minMileage, maxMileage: INITIAL_FILTERS.maxMileage }) }]
       : [])
   ];
 
@@ -197,19 +202,19 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
     <div className="container-page py-10">
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="section-kicker">Skladová nabídka</p>
+          <p className="section-kicker">{invContent?.kicker || t("inv.kicker", lang)}</p>
           <h1
             className="mt-2 text-3xl font-semibold uppercase tracking-[0.03em] sm:text-4xl"
             style={{ fontFamily: "var(--font-display)", color: "var(--cream)" }}
           >
-            Nabídka prověřených vozů
+            {invContent?.title || t("inv.title", lang)}
           </h1>
           <p className="mt-1 text-sm text-secondary">
-            Prohlédněte si aktuální skladovou nabídku vozů připravených ihned k odběru. Každý kus má jasnou historii a pečlivě dohledaný původ.
+            {invContent?.subtitle || t("inv.subtitle", lang)}
           </p>
         </div>
         <div className="card-panel px-4 py-3 text-sm text-secondary">
-          Zobrazeno <span className="font-semibold" style={{ color: "var(--cream)" }}>{filteredCars.length}</span> z {vehicles.length} vozů
+          {t("inv.showing", lang)} <span className="font-semibold" style={{ color: "var(--cream)" }}>{filteredCars.length}</span> {t("inv.of", lang)} {vehicles.length} {t("inv.vehicles", lang)}
         </div>
       </header>
 
@@ -219,9 +224,9 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
             <div>
               <h2 className="flex items-center gap-2 text-sm font-semibold" style={{ color: "var(--cream)" }}>
                 <SlidersHorizontal className="h-4 w-4" style={{ color: "var(--gold)" }} />
-                Zúžit výběr
+                {t("inv.narrow", lang)}
               </h2>
-              <p className="mt-1 text-xs text-muted">Vyberte značku, model nebo cenové rozpětí, které vám dává smysl.</p>
+              <p className="mt-1 text-xs text-muted">{t("inv.narrowDesc", lang)}</p>
             </div>
             <button type="button" onClick={resetFilters} className="inline-flex items-center gap-1 text-xs font-semibold transition" style={{ color: "var(--gold)" }}>
               <RotateCcw className="h-3.5 w-3.5" />
@@ -231,7 +236,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
 
           <div className="mt-4 space-y-4 text-sm">
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Značka</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("filter.make", lang)}</label>
               <div className="mt-2 space-y-2">
                 {allMakes.map((make) => (
                   <div key={make}>
@@ -255,35 +260,35 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Cena (Kč)</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.price", lang)}</label>
               <div className="mt-2 space-y-2">
                 <div>
-                  <label className="text-xs text-secondary">Od: {pendingFilters.minPrice.toLocaleString()} Kč</label>
+                  <label className="text-xs text-secondary">{t("inv.from", lang)} {pendingFilters.minPrice.toLocaleString("cs-CZ")} Kč</label>
                   <input type="range" min="0" max="5000000" step="50000" value={pendingFilters.minPrice} onChange={(event) => handleFilterChange({ minPrice: Number(event.target.value) })} className="w-full" />
                 </div>
                 <div>
-                  <label className="text-xs text-secondary">Do: {pendingFilters.maxPrice.toLocaleString()} Kč</label>
+                  <label className="text-xs text-secondary">{t("inv.to", lang)} {pendingFilters.maxPrice.toLocaleString("cs-CZ")} Kč</label>
                   <input type="range" min="0" max="5000000" step="50000" value={pendingFilters.maxPrice} onChange={(event) => handleFilterChange({ maxPrice: Number(event.target.value) })} className="w-full" />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Kilometrage (km)</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.mileage", lang)}</label>
               <div className="mt-2 space-y-2">
                 <div>
-                  <label className="text-xs text-secondary">Od: {pendingFilters.minMileage.toLocaleString()} km</label>
+                  <label className="text-xs text-secondary">{t("inv.from", lang)} {pendingFilters.minMileage.toLocaleString("cs-CZ")} km</label>
                   <input type="range" min="0" max="400000" step="10000" value={pendingFilters.minMileage} onChange={(event) => handleFilterChange({ minMileage: Number(event.target.value) })} className="w-full" />
                 </div>
                 <div>
-                  <label className="text-xs text-secondary">Do: {pendingFilters.maxMileage.toLocaleString()} km</label>
+                  <label className="text-xs text-secondary">{t("inv.to", lang)} {pendingFilters.maxMileage.toLocaleString("cs-CZ")} km</label>
                   <input type="range" min="0" max="400000" step="10000" value={pendingFilters.maxMileage} onChange={(event) => handleFilterChange({ maxMileage: Number(event.target.value) })} className="w-full" />
                 </div>
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Karoserie</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.body", lang)}</label>
               <div className="mt-2 flex flex-wrap gap-2">
                 {allBodies.map((body) => (
                   <label
@@ -303,9 +308,9 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Převodovka</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.transmission", lang)}</label>
               <select value={pendingFilters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full">
-                <option value="">Všechny</option>
+                <option value="">{t("inv.allTrans", lang)}</option>
                 {allTransmissions.map((transmission) => (
                   <option key={transmission} value={transmission}>{transmission}</option>
                 ))}
@@ -313,9 +318,9 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
             </div>
 
             <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">Palivo</label>
+              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.fuel", lang)}</label>
               <select value={pendingFilters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full">
-                <option value="">Všechna</option>
+                <option value="">{t("inv.allFuel", lang)}</option>
                 {allFuels.map((fuel) => (
                   <option key={fuel} value={fuel}>{fuel}</option>
                 ))}
@@ -328,7 +333,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
               className="btn-primary mt-2 w-full"
               style={{ padding: '14px 20px', fontSize: '12px' }}
             >
-              Vyhledat
+              {t("inv.search", lang)}
             </button>
           </div>
         </aside>
@@ -336,7 +341,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
         <section>
           <div className="card-panel mb-5 flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <div className="text-sm font-semibold" style={{ color: "var(--cream)" }}>Aktivní filtry</div>
+              <div className="text-sm font-semibold" style={{ color: "var(--cream)" }}>{t("inv.activeFilters", lang)}</div>
               <div className="mt-2 flex flex-wrap gap-2">
                 {activeFilterChips.length > 0 ? activeFilterChips.map((chip) => (
                   <button
@@ -352,21 +357,21 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
                   >
                     {chip.label} ×
                   </button>
-                )) : <span className="text-sm text-muted">Zatím nemáte aktivní žádný filtr.</span>}
+                )) : <span className="text-sm text-muted">{t("inv.noFilters", lang)}</span>}
               </div>
             </div>
 
             <label className="block text-sm font-medium" style={{ color: "var(--cream-muted)" }}>
               <span className="mb-2 flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-muted">
                 <ArrowUpDown className="h-3.5 w-3.5" />
-                Řazení
+                {t("inv.sorting", lang)}
               </span>
               <select value={sort} onChange={(event) => setSort(event.target.value as SortOption)} className="w-full sm:min-w-64">
-                <option value="recommended">Doporučené</option>
-                <option value="price-asc">Cena od nejnižší</option>
-                <option value="price-desc">Cena od nejvyšší</option>
-                <option value="year-desc">Nejnovější ročník</option>
-                <option value="mileage-asc">Nejnižší nájezd</option>
+                <option value="recommended">{t("inv.recommended", lang)}</option>
+                <option value="price-asc">{t("inv.priceAsc", lang)}</option>
+                <option value="price-desc">{t("inv.priceDesc", lang)}</option>
+                <option value="year-desc">{t("inv.yearDesc", lang)}</option>
+                <option value="mileage-asc">{t("inv.mileageAsc", lang)}</option>
               </select>
             </label>
           </div>
@@ -385,8 +390,8 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
             </div>
           ) : (
             <div className="card-panel p-8 text-center">
-              <h2 className="text-lg font-semibold" style={{ color: "var(--cream)" }}>Žádné vozy neodpovídají filtru</h2>
-              <p className="mt-2 text-sm text-secondary">Upravte filtr nebo kontaktujte prodejce a pomůžeme vám najít vhodnou alternativu.</p>
+              <h2 className="text-lg font-semibold" style={{ color: "var(--cream)" }}>{t("inv.noResults", lang)}</h2>
+              <p className="mt-2 text-sm text-secondary">{t("inv.noResultsDesc", lang)}</p>
             </div>
           )}
         </section>

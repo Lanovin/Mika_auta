@@ -2,22 +2,24 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, useEffect, useRef, useCallback } from "react";
+import { useEffect, useRef } from "react";
 import { ArrowRight, ShieldCheck, CircleDollarSign, BadgeCheck } from "lucide-react";
-import { FilterForm, type FilterValues } from "@/src/components/FilterForm";
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { HeroSlider } from "@/components/HeroSlider";
 import type { Vehicle } from "@/src/lib/vehicle-types";
 import { useContent } from "@/src/lib/useContent";
+import { useLanguage } from "@/src/lib/LanguageContext";
+import { t } from "@/src/lib/translations";
 
 interface HomePageClientProps {
   vehicles: Vehicle[];
 }
 
 interface HomepageContent {
+  _layout?: string[];
   hero: { kicker: string; title: string; titleHighlight: string; ctaPrimary: string; ctaSecondary: string };
   featured: { kicker: string; title: string; titleHighlight: string; linkText: string };
-  search: { kicker: string; description: string; buttonText: string };
+
   stats: { value: string; label: string }[];
   features: {
     kicker: string; title: string; titleHighlight: string;
@@ -30,10 +32,6 @@ interface HomepageContent {
 }
 
 const featureIcons = [ShieldCheck, CircleDollarSign, BadgeCheck];
-
-function useInitialFilterValues(): FilterValues {
-  return { make: "", model: "", maxPrice: "" };
-}
 
 function useScrollReveal() {
   const observerRef = useRef<IntersectionObserver | null>(null);
@@ -59,50 +57,23 @@ function useScrollReveal() {
 }
 
 export function HomePageClient({ vehicles }: HomePageClientProps) {
-  const [filters, setFilters] = useState<FilterValues>(useInitialFilterValues);
-  const { data: c } = useContent<HomepageContent>("homepage");
+  const { lang } = useLanguage();
+  const { data: c } = useContent<HomepageContent>("homepage", lang);
 
   useScrollReveal();
 
-  const allMakes = Array.from(new Set(vehicles.map((vehicle) => vehicle.make))).sort();
-  const allModels = Array.from(new Set(vehicles.map((vehicle) => vehicle.model))).sort();
-  const modelsByMake = vehicles.reduce<Record<string, string[]>>((accumulator, vehicle) => {
-    if (!accumulator[vehicle.make]) {
-      accumulator[vehicle.make] = [];
-    }
+  const featuredCars = vehicles.filter((vehicle) => vehicle.featured).slice(0, 4);
+  const carsToRender = featuredCars.length > 0 ? featuredCars : vehicles.slice(0, 4);
+  const featuredSlider = vehicles.filter((v) => v.featured && v.imageUrl);
+  const sliderCars = (featuredSlider.length > 0 ? featuredSlider : vehicles.filter((v) => v.imageUrl)).slice(0, 6);
 
-    if (!accumulator[vehicle.make].includes(vehicle.model)) {
-      accumulator[vehicle.make].push(vehicle.model);
-    }
-
-    return accumulator;
-  }, {});
-
-  const filteredCars = vehicles;
-
-  const featuredCars = filteredCars.filter((vehicle) => vehicle.featured).slice(0, 4);
-  const carsToRender = featuredCars.length > 0 ? featuredCars : filteredCars.slice(0, 4);
-  const sliderCars = vehicles.filter((v) => v.featured && v.imageUrl).slice(0, 6);
-  const quickSearchHref = useMemo(() => {
-    const params = new URLSearchParams();
-
-    if (filters.make) {
-      params.set("make", filters.make);
-    }
-    if (filters.model) {
-      params.set("model", filters.model);
-    }
-    if (filters.maxPrice) {
-      params.set("maxPrice", filters.maxPrice);
-    }
-
-    const queryString = params.toString();
-    return queryString ? `/vozy?${queryString}` : "/vozy";
-  }, [filters]);
+  const layout = c?._layout as string[] | undefined;
+  const show = (key: string) => !layout || layout.includes(key);
 
   return (
     <div>
       {/* Hero section */}
+      {show("hero") && (
       <section className="hero-section">
         <div className="hero-grid-overlay" />
         <div className="hero-corner-ornament hero-corner-ornament--tl" />
@@ -110,7 +81,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
 
         <div className="container-page hero-flex" style={{ position: 'relative', zIndex: 1 }}>
           <div className="hero-flex__text">
-            <p className="section-kicker">{c?.hero.kicker ?? 'Autobazar Mika'}</p>
+            <p className="section-kicker">{c ? c.hero.kicker : t('hero.kicker', lang)}</p>
             <h1 style={{
               fontFamily: "var(--font-display)",
               fontSize: 'clamp(32px, 5vw, 56px)',
@@ -119,16 +90,13 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
               lineHeight: 1.1,
               marginTop: '16px'
             }}>
-              {c?.hero.title ?? 'Prověřené vozy'}{'\u00a0'}
-              <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c?.hero.titleHighlight ?? 'bez stresu.'}</span>
+              {c ? c.hero.title : t('hero.title', lang)}{' '}
+              <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c ? c.hero.titleHighlight : t('hero.titleHighlight', lang)}</span>
             </h1>
             <div style={{ marginTop: '32px', display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
               <Link href="/vozy" className="btn-primary" style={{ gap: '8px' }}>
-                {c?.hero.ctaPrimary ?? 'Projít nabídku'}
+                {c ? c.hero.ctaPrimary : t('hero.ctaPrimary', lang)}
                 <ArrowRight style={{ width: '16px', height: '16px' }} />
-              </Link>
-              <Link href="/kontakt" className="btn-secondary" style={{ gap: '8px' }}>
-                {c?.hero.ctaSecondary ?? 'Rezervovat prohlídku'}
               </Link>
             </div>
           </div>
@@ -140,18 +108,20 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
           )}
         </div>
       </section>
+      )}
 
       {/* Featured cars */}
+      {show("featured") && (
       <section className="container-page reveal-on-scroll" style={{ padding: '80px 40px 0' }}>
         <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', justifyContent: 'space-between', gap: '16px' }}>
           <div>
-            <p className="section-kicker">{c?.featured.kicker ?? 'Doporučené vozy'}</p>
+            <p className="section-kicker">{c ? c.featured.kicker : t('featured.kicker', lang)}</p>
             <h2 style={{ fontFamily: "var(--font-display)", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px', lineHeight: 1.15 }}>
-              {c?.featured.title ?? 'Nejžádanější auta'} <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c?.featured.titleHighlight ?? 'v nabídce'}</span>
+              {c ? c.featured.title : t('featured.title', lang)} <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c ? c.featured.titleHighlight : t('featured.titleHighlight', lang)}</span>
             </h2>
           </div>
           <Link href="/vozy" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 600, color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}>
-            {c?.featured.linkText ?? 'Zobrazit všechny vozy'}
+            {c ? c.featured.linkText : t('featured.linkText', lang)}
             <ArrowRight style={{ width: '14px', height: '14px' }} />
           </Link>
         </div>
@@ -162,34 +132,15 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
           ))}
         </div>
       </section>
-
-      {/* Quick search */}
-      <section className="container-page reveal-on-scroll" style={{ padding: '80px 40px 0' }}>
-        <div className="card-panel" style={{ padding: '32px' }}>
-          <p className="section-kicker">{c?.search.kicker ?? 'Rychlé vyhledávání'}</p>
-          <p style={{ marginTop: '8px', fontSize: '13px', color: 'var(--text-muted)' }}>
-            {c?.search.description ?? 'Zadejte pár údajů a zobrazíme vám nejvhodnější vozy.'}
-          </p>
-
-          <div style={{ marginTop: '20px' }}>
-            <FilterForm allMakes={allMakes} allModels={allModels} modelsByMake={modelsByMake} values={filters} onChange={setFilters} layout="horizontal" />
-          </div>
-
-          <div style={{ marginTop: '20px' }}>
-            <Link href={quickSearchHref} className="btn-primary" style={{ gap: '8px' }}>
-              {c?.search.buttonText ?? 'Vyhledat'}
-              <ArrowRight style={{ width: '16px', height: '16px' }} />
-            </Link>
-          </div>
-        </div>
-      </section>
+      )}
 
       {/* Stats bar */}
+      {show("stats") && (
       <section className="container-page reveal-on-scroll" style={{ padding: '60px 40px 0' }}>
         <div className="stats-bar" style={{ border: '1px solid var(--black-border)', background: 'var(--black-card)' }}>
           <div>
             <div className="stat-value">{vehicles.length}+</div>
-            <div className="stat-label">vozů v nabídce</div>
+            <div className="stat-label">{t('stats.vehicles', lang)}</div>
           </div>
           {(c?.stats ?? []).map((stat, i) => (
             <div key={i}>
@@ -199,6 +150,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
           ))}
         </div>
       </section>
+      )}
 
       {/* Gold divider */}
       <div className="container-page">
@@ -206,11 +158,12 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
       </div>
 
       {/* Features grid */}
+      {show("features") && (
       <section className="container-page reveal-on-scroll" style={{ padding: '0 40px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <p className="section-kicker">{c?.features.kicker ?? 'Proč lidé volí Mika Auto'}</p>
+          <p className="section-kicker">{c ? c.features.kicker : t('features.kicker', lang)}</p>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
-            {c?.features.title ?? 'Jasný původ, férový proces,'} <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c?.features.titleHighlight ?? 'rychlá domluva'}</span>
+            {c ? c.features.title : t('features.title', lang)} <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c ? c.features.titleHighlight : t('features.titleHighlight', lang)}</span>
           </h2>
         </div>
 
@@ -229,6 +182,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
           })}
         </div>
       </section>
+      )}
 
       {/* Gold divider */}
       <div className="container-page">
@@ -236,16 +190,17 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
       </div>
 
       {/* Reviews */}
+      {show("reviews") && (
       <section className="container-page reveal-on-scroll" style={{ padding: '0 40px 80px' }}>
         <div style={{ textAlign: 'center', marginBottom: '40px' }}>
-          <p className="section-kicker">{c?.reviews.kicker ?? 'Zkušenosti zákazníků'}</p>
+          <p className="section-kicker">{c ? c.reviews.kicker : t('reviews.kicker', lang)}</p>
           <h2 style={{ fontFamily: "var(--font-display)", fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700, color: 'var(--white)', marginTop: '8px' }}>
-            {c?.reviews.title ?? 'Důvěra nevzniká sloganem'}
+            {c ? c.reviews.title : t('reviews.title', lang)}
           </h2>
         </div>
 
         <div style={{ display: 'grid', gap: '24px', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))' }}>
-          {(c?.reviews.items ?? []).map((review) => (
+          {(c?.reviews.items ?? []).map((review, i) => (
             <article key={review.author} className="pull-quote">
               <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--cream-muted)', marginTop: '8px' }}>
                 {review.text}
@@ -257,6 +212,7 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
           ))}
         </div>
       </section>
+      )}
     </div>
   );
 }
