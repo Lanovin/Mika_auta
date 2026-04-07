@@ -345,31 +345,26 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
           </button>
         </div>
 
-        {/* Mobile logo + phone */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', minWidth: 0 }} className="lg:!hidden">
-          <Link href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textDecoration: 'none', flexShrink: 0 }} onClick={closeMenu}>
-            <img
-              src="/mikalogo2.png"
-              alt="MIKA AUTO Logo"
-              style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
-            />
-            <span style={{
-              fontSize: '8px',
-              fontWeight: 500,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase' as const,
-              color: 'var(--gold)',
-              fontFamily: 'var(--font-body)',
-              marginTop: '1px',
-            }}>
-              since 2007
-            </span>
-          </Link>
-          <a href="tel:+420774333774" className="mobile-phone-link" style={{ fontFamily: "var(--font-body)", fontSize: '13px', fontWeight: 600, letterSpacing: '0.06em', color: 'var(--gold)', display: 'inline-flex', alignItems: 'center', gap: '5px', textDecoration: 'none', whiteSpace: 'nowrap' }}>
-            <Phone style={{ width: '13px', height: '13px', flexShrink: 0 }} />
-            +420 774 333 774
-          </a>
-        </div>
+        {/* Mobile: spacer + logo (centered) + hamburger */}
+        <div style={{ width: '40px', flexShrink: 0 }} className="lg:!hidden" />
+        <Link href="/" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textDecoration: 'none', flexShrink: 0, position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }} className="lg:!hidden" onClick={closeMenu}>
+          <img
+            src="/mikalogo2.png"
+            alt="MIKA AUTO Logo"
+            style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
+          />
+          <span style={{
+            fontSize: '8px',
+            fontWeight: 500,
+            letterSpacing: '0.2em',
+            textTransform: 'uppercase' as const,
+            color: 'var(--gold)',
+            fontFamily: 'var(--font-body)',
+            marginTop: '1px',
+          }}>
+            since 2007
+          </span>
+        </Link>
 
         {/* Hamburger */}
         <button
@@ -478,14 +473,6 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
                   {t("nav.admin", lang)}
                 </Link>
               ) : null}
-              <Link
-                href={currentUser ? "/ucet" : "/prihlaseni"}
-                onClick={closeMenu}
-                className="btn-secondary"
-                style={{ textAlign: 'center' }}
-              >
-                {currentUser ? `${t("nav.account", lang)}: ${currentUser.username}` : t("nav.login", lang)}
-              </Link>
             </div>
           </div>
         </div>

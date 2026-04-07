@@ -18,7 +18,7 @@ interface HomePageClientProps {
 interface HomepageContent {
   _layout?: string[];
   hero: { kicker: string; title: string; titleHighlight: string; ctaPrimary: string; ctaSecondary: string };
-  featured: { kicker: string; title: string; titleHighlight: string; linkText: string };
+  featured: { kicker: string; title: string; titleHighlight: string; linkText: string; desktopCount?: number; mobileCount?: number };
 
   stats: { value: string; label: string }[];
   features: {
@@ -62,8 +62,10 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
 
   useScrollReveal();
 
-  const featuredCars = vehicles.filter((vehicle) => vehicle.featured).slice(0, 4);
-  const carsToRender = featuredCars.length > 0 ? featuredCars : vehicles.slice(0, 4);
+  const desktopCount = c?.featured.desktopCount ?? 4;
+  const mobileCount = c?.featured.mobileCount ?? 3;
+  const featuredCars = vehicles.filter((vehicle) => vehicle.featured).slice(0, desktopCount);
+  const carsToRender = featuredCars.length > 0 ? featuredCars : vehicles.slice(0, desktopCount);
   const featuredSlider = vehicles.filter((v) => v.featured && v.imageUrl);
   const sliderCars = (featuredSlider.length > 0 ? featuredSlider : vehicles.filter((v) => v.imageUrl)).slice(0, 6);
 
@@ -127,8 +129,10 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
         </div>
 
         <div style={{ display: 'grid', gap: '24px', marginTop: '32px', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
-          {carsToRender.map((car) => (
-            <VehicleCard key={car.id} car={car} />
+          {carsToRender.map((car, i) => (
+            <div key={car.id} className={i >= mobileCount ? 'mobile-hidden-card' : ''}>
+              <VehicleCard car={car} />
+            </div>
           ))}
         </div>
       </section>

@@ -17,7 +17,9 @@
       "kicker": "Doporučené vozy",
       "title": "Nejžádanější auta",
       "titleHighlight": "v nabídce",
-      "linkText": "Zobrazit všechny vozy"
+      "linkText": "Zobrazit všechny vozy",
+      "desktopCount": 4,
+      "mobileCount": 3
     },
     "search": {
       "kicker": "Rychlé vyhledávání",

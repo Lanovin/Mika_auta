@@ -88,10 +88,10 @@ a.topbar-item:hover {
   }
 }
 
-/* ─── Mobile phone link ───────────────────────────── */
+/* ─── Hide extra featured cards on mobile ─────────── */
 
-@media (max-width: 374px) {
-  .mobile-phone-link {
+@media (max-width: 768px) {
+  .mobile-hidden-card {
     display: none !important;
   }
 }
