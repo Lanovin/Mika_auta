@@ -1,6 +1,6 @@
 {
   "alert": {
-    "active": false,
+    "active": true,
     "text": "O velikonocích budeme mít zavřeno",
     "text_en": ""
   },
