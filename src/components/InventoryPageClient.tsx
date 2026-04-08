@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { ArrowUpDown, RotateCcw, SlidersHorizontal } from "lucide-react";
+import { useMemo, useState, useEffect } from "react";
+import { ArrowUpDown, RotateCcw, SlidersHorizontal, X } from "lucide-react";
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { SkeletonCard } from "@/src/components/SkeletonCard";
 import type { Vehicle } from "@/src/lib/vehicle-types";
@@ -19,6 +19,7 @@ interface InventoryFilters {
   bodies: string[];
   transmission: string;
   fuel: string;
+  kind: string;
 }
 
 const INITIAL_FILTERS: InventoryFilters = {
@@ -30,7 +31,8 @@ const INITIAL_FILTERS: InventoryFilters = {
   maxMileage: 400000,
   bodies: [],
   transmission: "",
-  fuel: ""
+  fuel: "",
+  kind: ""
 };
 
 interface InventoryPageClientProps {
@@ -77,6 +79,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
   }, [vehicles]);
 
   const allBodies = useMemo(() => Array.from(new Set(vehicles.map((vehicle) => vehicle.body))).sort(), [vehicles]);
+  const allKinds = useMemo(() => Array.from(new Set(vehicles.map((vehicle) => vehicle.kind).filter(Boolean))).sort(), [vehicles]);
   const allTransmissions = [t("trans.manual", lang), t("trans.auto", lang)];
   const allFuels = [t("fuel.benzin", lang), t("fuel.nafta", lang), t("fuel.hybrid", lang), t("fuel.elektro", lang)];
 
@@ -89,8 +92,9 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
       const matchesBody = filters.bodies.length === 0 || filters.bodies.includes(car.body);
       const matchesTransmission = !filters.transmission || car.transmission === filters.transmission;
       const matchesFuel = !filters.fuel || car.fuel === filters.fuel;
+      const matchesKind = !filters.kind || car.kind === filters.kind;
 
-      return matchesMake && matchesModel && matchesPrice && matchesMileage && matchesBody && matchesTransmission && matchesFuel;
+      return matchesMake && matchesModel && matchesPrice && matchesMileage && matchesBody && matchesTransmission && matchesFuel && matchesKind;
     });
 
     return [...nextCars].sort((first, second) => {
@@ -147,6 +151,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
     ...filters.bodies.map((body) => ({ label: body, onRemove: () => removeToggleBody(body) })),
     ...(filters.transmission ? [{ label: filters.transmission, onRemove: () => removeFilter({ transmission: "" }) }] : []),
     ...(filters.fuel ? [{ label: filters.fuel, onRemove: () => removeFilter({ fuel: "" }) }] : []),
+    ...(filters.kind ? [{ label: filters.kind, onRemove: () => removeFilter({ kind: "" }) }] : []),
     ...(filters.minPrice > 0 || filters.maxPrice < INITIAL_FILTERS.maxPrice
       ? [{ label: `${filters.minPrice.toLocaleString("cs-CZ")}–${filters.maxPrice.toLocaleString("cs-CZ")} Kč`, onRemove: () => removeFilter({ minPrice: INITIAL_FILTERS.minPrice, maxPrice: INITIAL_FILTERS.maxPrice }) }]
       : []),
@@ -198,6 +203,25 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
     handleFilterChange({ bodies: newBodies });
   };
 
+  const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+  // Lock body scroll when mobile filters are open
+  useEffect(() => {
+    if (mobileFiltersOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileFiltersOpen]);
+
+  const applyAndClose = () => {
+    applyFilters();
+    setMobileFiltersOpen(false);
+  };
+
+  const activeCount = activeFilterChips.length;
+
   return (
     <div className="container-page py-10">
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
@@ -218,122 +242,181 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
         </div>
       </header>
 
-      <div className="grid gap-8 lg:grid-cols-[260px,minmax(0,1fr)]">
-        <aside className="card-panel h-fit p-4 lg:sticky lg:top-[130px]">
-          <div className="flex items-center justify-between gap-3">
-            <div>
+      {/* Mobile filter toggle button */}
+      <div className="mb-4 lg:hidden">
+        <button
+          type="button"
+          onClick={() => setMobileFiltersOpen(true)}
+          className="btn-secondary inline-flex items-center gap-2 px-5 py-3 text-sm font-semibold"
+        >
+          <SlidersHorizontal className="h-4 w-4" />
+          {t("inv.narrow", lang)}
+          {activeCount > 0 && (
+            <span
+              className="ml-1 inline-flex h-5 w-5 items-center justify-center text-[10px] font-bold"
+              style={{ background: "var(--gold)", color: "var(--black-rich)", borderRadius: "50%" }}
+            >
+              {activeCount}
+            </span>
+          )}
+        </button>
+      </div>
+
+      {/* Mobile overlay */}
+      {mobileFiltersOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/60 lg:hidden"
+          onClick={() => setMobileFiltersOpen(false)}
+        />
+      )}
+
+      <div className="grid gap-8 lg:grid-cols-[280px,minmax(0,1fr)]">
+        <aside
+          className={`${
+            mobileFiltersOpen
+              ? "fixed inset-y-0 left-0 z-50 w-[85vw] max-w-[340px] translate-x-0"
+              : "fixed -translate-x-full lg:translate-x-0"
+          } flex flex-col transition-transform duration-300 ease-in-out lg:sticky lg:inset-auto lg:z-auto lg:w-auto lg:max-w-none lg:top-[100px] lg:max-h-[calc(100vh-120px)]`}
+          style={{ background: "var(--black-card)", border: "1px solid var(--black-border)" }}
+        >
+          {/* Filter header – always visible */}
+          <div className="flex items-center justify-between gap-3 border-b p-4" style={{ borderColor: "var(--black-border)" }}>
+            <div className="min-w-0">
               <h2 className="flex items-center gap-2 text-sm font-semibold" style={{ color: "var(--cream)" }}>
-                <SlidersHorizontal className="h-4 w-4" style={{ color: "var(--gold)" }} />
+                <SlidersHorizontal className="h-4 w-4 shrink-0" style={{ color: "var(--gold)" }} />
                 {t("inv.narrow", lang)}
               </h2>
-              <p className="mt-1 text-xs text-muted">{t("inv.narrowDesc", lang)}</p>
+              <p className="mt-1 truncate text-xs text-muted">{t("inv.narrowDesc", lang)}</p>
             </div>
-            <button type="button" onClick={resetFilters} className="inline-flex items-center gap-1 text-xs font-semibold transition" style={{ color: "var(--gold)" }}>
-              <RotateCcw className="h-3.5 w-3.5" />
-              Reset
-            </button>
+            <div className="flex items-center gap-2">
+              <button type="button" onClick={resetFilters} className="inline-flex items-center gap-1 text-xs font-semibold transition" style={{ color: "var(--gold)" }}>
+                <RotateCcw className="h-3.5 w-3.5" />
+                Reset
+              </button>
+              <button type="button" onClick={() => setMobileFiltersOpen(false)} className="lg:hidden" style={{ color: "var(--cream-muted)" }}>
+                <X className="h-5 w-5" />
+              </button>
+            </div>
           </div>
 
-          <div className="mt-4 space-y-4 text-sm">
-            <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("filter.make", lang)}</label>
-              <div className="mt-2 space-y-2">
-                {allMakes.map((make) => (
-                  <div key={make}>
-                    <label className="flex items-center" style={{ color: "var(--cream-muted)" }}>
-                      <input type="checkbox" checked={pendingFilters.makes.includes(make)} onChange={() => toggleMake(make)} className="mr-2" />
-                      {make}
-                    </label>
-                    {pendingFilters.makes.includes(make) && (
-                      <div className="ml-4 mt-1 space-y-1">
-                        {(modelsByMake[make] ?? []).map((model) => (
-                          <label key={model} className="flex items-center text-xs text-secondary">
-                            <input type="checkbox" checked={pendingFilters.models.includes(model)} onChange={() => toggleModel(model)} className="mr-2" />
-                            {model}
-                          </label>
-                        ))}
-                      </div>
-                    )}
+          {/* Scrollable filter content */}
+          <div className="flex-1 overflow-y-auto overscroll-contain p-4" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--black-border) transparent" }}>
+            <div className="space-y-5 text-sm">
+              <div>
+                <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("filter.make", lang)}</label>
+                <div className="mt-2 max-h-52 space-y-2 overflow-y-auto pr-1" style={{ scrollbarWidth: "thin", scrollbarColor: "var(--black-border) transparent" }}>
+                  {allMakes.map((make) => (
+                    <div key={make}>
+                      <label className="flex cursor-pointer items-center" style={{ color: "var(--cream-muted)" }}>
+                        <input type="checkbox" checked={pendingFilters.makes.includes(make)} onChange={() => toggleMake(make)} className="mr-2" />
+                        {make}
+                      </label>
+                      {pendingFilters.makes.includes(make) && (
+                        <div className="ml-4 mt-1 space-y-1">
+                          {(modelsByMake[make] ?? []).map((model) => (
+                            <label key={model} className="flex cursor-pointer items-center text-xs text-secondary">
+                              <input type="checkbox" checked={pendingFilters.models.includes(model)} onChange={() => toggleModel(model)} className="mr-2" />
+                              {model}
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.price", lang)}</label>
+                <div className="mt-2 space-y-2">
+                  <div>
+                    <label className="text-xs text-secondary">{t("inv.from", lang)} {pendingFilters.minPrice.toLocaleString("cs-CZ")} Kč</label>
+                    <input type="range" min="0" max="5000000" step="50000" value={pendingFilters.minPrice} onChange={(event) => handleFilterChange({ minPrice: Number(event.target.value) })} className="w-full" />
                   </div>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.price", lang)}</label>
-              <div className="mt-2 space-y-2">
-                <div>
-                  <label className="text-xs text-secondary">{t("inv.from", lang)} {pendingFilters.minPrice.toLocaleString("cs-CZ")} Kč</label>
-                  <input type="range" min="0" max="5000000" step="50000" value={pendingFilters.minPrice} onChange={(event) => handleFilterChange({ minPrice: Number(event.target.value) })} className="w-full" />
-                </div>
-                <div>
-                  <label className="text-xs text-secondary">{t("inv.to", lang)} {pendingFilters.maxPrice.toLocaleString("cs-CZ")} Kč</label>
-                  <input type="range" min="0" max="5000000" step="50000" value={pendingFilters.maxPrice} onChange={(event) => handleFilterChange({ maxPrice: Number(event.target.value) })} className="w-full" />
+                  <div>
+                    <label className="text-xs text-secondary">{t("inv.to", lang)} {pendingFilters.maxPrice.toLocaleString("cs-CZ")} Kč</label>
+                    <input type="range" min="0" max="5000000" step="50000" value={pendingFilters.maxPrice} onChange={(event) => handleFilterChange({ maxPrice: Number(event.target.value) })} className="w-full" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.mileage", lang)}</label>
-              <div className="mt-2 space-y-2">
-                <div>
-                  <label className="text-xs text-secondary">{t("inv.from", lang)} {pendingFilters.minMileage.toLocaleString("cs-CZ")} km</label>
-                  <input type="range" min="0" max="400000" step="10000" value={pendingFilters.minMileage} onChange={(event) => handleFilterChange({ minMileage: Number(event.target.value) })} className="w-full" />
-                </div>
-                <div>
-                  <label className="text-xs text-secondary">{t("inv.to", lang)} {pendingFilters.maxMileage.toLocaleString("cs-CZ")} km</label>
-                  <input type="range" min="0" max="400000" step="10000" value={pendingFilters.maxMileage} onChange={(event) => handleFilterChange({ maxMileage: Number(event.target.value) })} className="w-full" />
+              <div>
+                <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.mileage", lang)}</label>
+                <div className="mt-2 space-y-2">
+                  <div>
+                    <label className="text-xs text-secondary">{t("inv.from", lang)} {pendingFilters.minMileage.toLocaleString("cs-CZ")} km</label>
+                    <input type="range" min="0" max="400000" step="10000" value={pendingFilters.minMileage} onChange={(event) => handleFilterChange({ minMileage: Number(event.target.value) })} className="w-full" />
+                  </div>
+                  <div>
+                    <label className="text-xs text-secondary">{t("inv.to", lang)} {pendingFilters.maxMileage.toLocaleString("cs-CZ")} km</label>
+                    <input type="range" min="0" max="400000" step="10000" value={pendingFilters.maxMileage} onChange={(event) => handleFilterChange({ maxMileage: Number(event.target.value) })} className="w-full" />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.body", lang)}</label>
-              <div className="mt-2 flex flex-wrap gap-2">
-                {allBodies.map((body) => (
-                  <label
-                    key={body}
-                    className="inline-flex items-center gap-2 px-3 py-1 text-xs"
-                    style={{
-                      border: "1px solid var(--black-border)",
-                      background: "var(--black-card)",
-                      color: "var(--cream-muted)"
-                    }}
-                  >
-                    <input type="checkbox" checked={pendingFilters.bodies.includes(body)} onChange={() => toggleBody(body)} />
-                    {body}
-                  </label>
-                ))}
+              <div>
+                <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.body", lang)}</label>
+                <div className="mt-2 flex flex-wrap gap-2">
+                  {allBodies.map((body) => (
+                    <label
+                      key={body}
+                      className="inline-flex cursor-pointer items-center gap-2 px-3 py-1.5 text-xs transition-colors"
+                      style={{
+                        border: pendingFilters.bodies.includes(body) ? "1px solid var(--gold-dim)" : "1px solid var(--black-border)",
+                        background: pendingFilters.bodies.includes(body) ? "rgba(212,175,55,0.08)" : "var(--black-card)",
+                        color: pendingFilters.bodies.includes(body) ? "var(--gold)" : "var(--cream-muted)"
+                      }}
+                    >
+                      <input type="checkbox" checked={pendingFilters.bodies.includes(body)} onChange={() => toggleBody(body)} className="hidden" />
+                      {body}
+                    </label>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.transmission", lang)}</label>
-              <select value={pendingFilters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full">
-                <option value="">{t("inv.allTrans", lang)}</option>
-                {allTransmissions.map((transmission) => (
-                  <option key={transmission} value={transmission}>{transmission}</option>
-                ))}
-              </select>
-            </div>
+              <div>
+                <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.transmission", lang)}</label>
+                <select value={pendingFilters.transmission} onChange={(event) => handleFilterChange({ transmission: event.target.value })} className="mt-1 w-full">
+                  <option value="">{t("inv.allTrans", lang)}</option>
+                  {allTransmissions.map((transmission) => (
+                    <option key={transmission} value={transmission}>{transmission}</option>
+                  ))}
+                </select>
+              </div>
 
-            <div>
-              <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.fuel", lang)}</label>
-              <select value={pendingFilters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full">
-                <option value="">{t("inv.allFuel", lang)}</option>
-                {allFuels.map((fuel) => (
-                  <option key={fuel} value={fuel}>{fuel}</option>
-                ))}
-              </select>
-            </div>
+              <div>
+                <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.fuel", lang)}</label>
+                <select value={pendingFilters.fuel} onChange={(event) => handleFilterChange({ fuel: event.target.value })} className="mt-1 w-full">
+                  <option value="">{t("inv.allFuel", lang)}</option>
+                  {allFuels.map((fuel) => (
+                    <option key={fuel} value={fuel}>{fuel}</option>
+                  ))}
+                </select>
+              </div>
 
+              {allKinds.length > 1 && (
+              <div>
+                <label className="block text-xs font-medium uppercase tracking-wide text-muted">{t("inv.kind", lang)}</label>
+                <select value={pendingFilters.kind} onChange={(event) => handleFilterChange({ kind: event.target.value })} className="mt-1 w-full">
+                  <option value="">{t("inv.allKinds", lang)}</option>
+                  {allKinds.map((kind) => (
+                    <option key={kind} value={kind}>{kind}</option>
+                  ))}
+                </select>
+              </div>
+              )}
+            </div>
+          </div>
+
+          {/* Sticky apply button at bottom */}
+          <div className="border-t p-4" style={{ borderColor: "var(--black-border)", background: "var(--black-card)" }}>
             <button
               type="button"
-              onClick={applyFilters}
-              className="btn-primary mt-2 w-full"
+              onClick={applyAndClose}
+              className="btn-primary w-full"
               style={{ padding: '14px 20px', fontSize: '12px' }}
             >
-              {t("inv.search", lang)}
+              {t("inv.search", lang)} ({filteredCars.length})
             </button>
           </div>
         </aside>

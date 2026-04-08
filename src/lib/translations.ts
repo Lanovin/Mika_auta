@@ -92,6 +92,8 @@ const translations: Record<string, Record<Lang, string>> = {
   "inv.fuel": { cs: "Palivo", en: "Fuel" },
   "inv.allTrans": { cs: "Všechny", en: "All" },
   "inv.allFuel": { cs: "Všechna", en: "All" },
+  "inv.kind": { cs: "Typ vozidla", en: "Vehicle Type" },
+  "inv.allKinds": { cs: "Všechny", en: "All" },
   "inv.search": { cs: "Vyhledat", en: "Search" },
   "inv.activeFilters": { cs: "Aktivní filtry", en: "Active Filters" },
   "inv.noFilters": { cs: "Zatím nemáte aktivní žádný filtr.", en: "No active filters yet." },

@@ -18,6 +18,7 @@ export interface Vehicle {
   body: string;
   powerKw: number;
   engineVolume: number;
+  kind: string;
   color: string;
   vin: string;
   stk: string;

@@ -5,7 +5,13 @@
     "text_en": ""
   },
   "homepage": {
-    "_layout": ["hero", "featured", "stats", "features", "reviews"],
+    "_layout": [
+      "hero",
+      "featured",
+      "stats",
+      "features",
+      "reviews"
+    ],
     "hero": {
       "kicker": "Autobazar Mika",
       "title": "Prověřené vozy",
@@ -75,7 +81,12 @@
     }
   },
   "onas": {
-    "_layout": ["header", "history", "stats", "approach"],
+    "_layout": [
+      "header",
+      "history",
+      "stats",
+      "approach"
+    ],
     "header": {
       "kicker": "O nás",
       "title": "O nás – Autobazar MIKA",
@@ -124,7 +135,11 @@
     ]
   },
   "sluzby": {
-    "_layout": ["header", "summaryCards", "services"],
+    "_layout": [
+      "header",
+      "summaryCards",
+      "services"
+    ],
     "header": {
       "kicker": "Služby",
       "title": "Naše služby",
@@ -196,7 +211,16 @@
     ]
   },
   "kontakt": {
-    "_layout": ["header", "reasons", "contactInfo", "billing", "bank", "process", "form", "map"],
+    "_layout": [
+      "header",
+      "reasons",
+      "contactInfo",
+      "billing",
+      "bank",
+      "process",
+      "form",
+      "map"
+    ],
     "header": {
       "kicker": "Kontakt",
       "title": "Kontakt",
@@ -261,7 +285,13 @@
     ]
   },
   "homepage_en": {
-    "_layout": ["hero", "featured", "stats", "features", "reviews"],
+    "_layout": [
+      "hero",
+      "featured",
+      "stats",
+      "features",
+      "reviews"
+    ],
     "hero": {
       "kicker": "Mika Auto Dealership",
       "title": "Verified Vehicles",
@@ -329,7 +359,12 @@
     }
   },
   "onas_en": {
-    "_layout": ["header", "history", "stats", "approach"],
+    "_layout": [
+      "header",
+      "history",
+      "stats",
+      "approach"
+    ],
     "header": {
       "kicker": "About Us",
       "title": "About Us – MIKA Auto Dealership",
@@ -378,7 +413,11 @@
     ]
   },
   "sluzby_en": {
-    "_layout": ["header", "summaryCards", "services"],
+    "_layout": [
+      "header",
+      "summaryCards",
+      "services"
+    ],
     "header": {
       "kicker": "Services",
       "title": "Our Services",
@@ -450,7 +489,16 @@
     ]
   },
   "kontakt_en": {
-    "_layout": ["header", "reasons", "contactInfo", "billing", "bank", "process", "form", "map"],
+    "_layout": [
+      "header",
+      "reasons",
+      "contactInfo",
+      "billing",
+      "bank",
+      "process",
+      "form",
+      "map"
+    ],
     "header": {
       "kicker": "Contact",
       "title": "Contact",

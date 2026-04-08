@@ -1,7 +1,7 @@
 import type { Vehicle, FuelType, Transmission } from "@/src/lib/vehicle-types";
 
 const TIPCARS_URL =
-  "http://export.tipcars.com/inzerce_xml.php?R=ste26244a&F=1454&T=N&Z=N&V=N";
+  "http://export.tipcars.com/inzerce_xml.php?R=ste26244a&F=2529&T=N&Z=N&V=N";
 
 const PHOTO_ZDROJOVE = "https://img.tipcars.com/fotky_zdrojove/";
 
@@ -40,9 +40,9 @@ function getAllBlocks(xml: string, tag: string): string[] {
 
 function mapFuel(raw: string): FuelType {
   const lower = raw.toLowerCase();
+  if (lower.includes("hybrid")) return "hybrid";
   if (lower.includes("nafta") || lower.includes("diesel")) return "nafta";
   if (lower.includes("benz")) return "benzín";
-  if (lower.includes("hybrid")) return "hybrid";
   if (lower.includes("elekt")) return "elektro";
   if (lower.includes("lpg")) return "LPG";
   if (lower.includes("cng")) return "CNG";
@@ -93,6 +93,7 @@ function parseCarXml(carXml: string): Vehicle | null {
   const manufacturer = decodeEntities(getTag(carXml, "manufacturer_text"));
   const model = decodeEntities(getTag(carXml, "model_text"));
   const typeInfo = decodeEntities(getTag(carXml, "type_info"));
+  const kindText = decodeEntities(getTag(carXml, "kind_text"));
   const bodyText = decodeEntities(getTag(carXml, "body_text"));
   const price = parseInt(getTag(carXml, "price"), 10) || 0;
   const mileage = parseInt(getTag(carXml, "tachometr"), 10) || 0;
@@ -160,7 +161,8 @@ function parseCarXml(carXml: string): Vehicle | null {
     vin,
     stk,
     condition: conditionText,
-    location: "Praha 8 - Libeň",
+    kind: kindText || "Osobní",
+    location: "Praha 9 – Čakovice",
     description: note,
     imageUrl: mainPhoto,
     gallery,

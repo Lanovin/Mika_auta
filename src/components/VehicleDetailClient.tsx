@@ -488,6 +488,15 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
                 <dd className="font-medium text-right">{car.condition}</dd>
               </div>
             )}
+            {car.kind && (
+              <div
+                className="flex justify-between gap-4 py-2"
+                style={{ borderBottom: "1px solid var(--black-border)" }}
+              >
+                <dt className="text-muted">{lang === "cs" ? "Typ" : "Type"}</dt>
+                <dd className="font-medium text-right">{car.kind}</dd>
+              </div>
+            )}
             <div
               className="flex justify-between gap-4 py-2"
               style={{ borderBottom: "1px solid var(--black-border)" }}
