@@ -109,7 +109,9 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
 
             {/* Bottom gradient overlay with text */}
             <div className="hero-slider__info">
-              <div className="hero-slider__title">{car.title}</div>
+              <div className="hero-slider__title">
+                {car.make && car.model ? `${car.make} ${car.model}` : car.title.split(/\s+/).slice(0, 2).join(" ")}
+              </div>
               <div className="hero-slider__meta">
                 {car.year > 0 && (
                   <span className="hero-slider__meta-item">

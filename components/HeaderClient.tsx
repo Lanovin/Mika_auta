@@ -341,7 +341,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
           >
             <span style={{ opacity: lang === 'cs' ? 1 : 0.4, fontSize: '20px', lineHeight: 1 }}>🇨🇿</span>
             <span style={{ color: 'var(--gold-dim)', fontSize: '13px' }}>/</span>
-            <span style={{ opacity: lang === 'en' ? 1 : 0.4, fontSize: '20px', lineHeight: 1 }}>🇬🇧</span>
+            <span style={{ opacity: lang === 'en' ? 1 : 0.4, fontSize: '13px', lineHeight: 1, fontWeight: 600, letterSpacing: '0.05em' }}>ENG</span>
           </button>
         </div>
 
@@ -466,7 +466,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
                 className="btn-primary"
                 style={{ textAlign: 'center', cursor: 'pointer' }}
               >
-                {lang === 'cs' ? '🇬🇧 Switch to English' : '🇨🇿 Přepnout do češtiny'}
+                {lang === 'cs' ? 'ENG Switch to English' : '🇨🇿 Přepnout do češtiny'}
               </button>
               {currentUser?.role === "admin" ? (
                 <Link href="/admin" onClick={closeMenu} className="btn-secondary" style={{ textAlign: 'center' }}>

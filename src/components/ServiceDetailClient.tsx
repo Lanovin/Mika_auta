@@ -89,7 +89,7 @@ export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug
         </Link>
       </section>
 
-      <section className="container-page mt-10 sm:mt-16">
+      <section className="container-page mt-20 sm:mt-16">
         <h2
           className="text-xl font-semibold uppercase tracking-[0.03em]"
           style={{ fontFamily: "var(--font-display)", color: "var(--cream)" }}

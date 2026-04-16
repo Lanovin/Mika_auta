@@ -76,7 +76,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
       </header>
       )}
 
-      <div className="gold-divider" />
+      <div className="gold-divider hidden md:block" />
 
       {/* Důvody */}
       {show("reasons") && (
@@ -92,7 +92,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
       </section>
       )}
 
-      <div className="gold-divider" />
+      <div className="gold-divider hidden md:block" />
 
       {/* Kontaktní info + Formulář */}
       <section className="mt-8 grid gap-10 md:grid-cols-2">
@@ -335,7 +335,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
         )}
       </section>
 
-      <div className="gold-divider" />
+      <div className="gold-divider hidden md:block" />
 
       {/* Mapa */}
       {show("map") && (

@@ -100,9 +100,9 @@ export function AboutPageClient({ cs, en }: { cs: AboutContent; en: AboutContent
       {/* Statistiky */}
       {show("stats") && (
       <section className="container-page mt-12">
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           {c.stats.map((stat: StatItem, i: number) => (
-            <div key={i} className="card-panel px-6 py-6 text-center">
+            <div key={i} className={`card-panel px-6 py-6 text-center${i === c.stats.length - 1 && c.stats.length % 2 !== 0 ? " col-span-2 sm:col-span-1" : ""}`}>
               <div
                 style={{
                   fontFamily: "var(--font-display)",
