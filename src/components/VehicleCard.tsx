@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowRight, Fuel, Gauge, CalendarRange, Settings2 } from "lucide-react";
+import { ArrowRight, Fuel, Gauge, CalendarRange } from "lucide-react";
 import type { Vehicle } from "@/src/lib/vehicle-types";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
@@ -23,122 +23,67 @@ export function VehicleCard({ car }: VehicleCardProps) {
   return (
     <Link
       href={`/vozy/${car.id}`}
-      className="group"
-      style={{
-        display: 'flex',
-        flexDirection: 'column',
-        height: '100%',
-        overflow: 'hidden',
-        background: 'var(--black-card)',
-        border: '1px solid var(--black-border)',
-        transition: 'border-color 0.3s ease, transform 0.3s ease',
-        textDecoration: 'none'
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.borderColor = 'var(--gold-dim)';
-        e.currentTarget.style.transform = 'translateY(-4px)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.borderColor = 'var(--black-border)';
-        e.currentTarget.style.transform = 'translateY(0)';
-      }}
+      className="group vehicle-card"
     >
-      <article style={{ display: 'flex', flexDirection: 'column', height: '100%', cursor: 'pointer' }}>
+      <article className="vehicle-card__inner">
         {/* Image */}
-        <div style={{ position: 'relative', aspectRatio: '16/9', overflow: 'hidden' }}>
+        <div className="vehicle-card__img-wrap">
           {car.imageUrl ? (
             <Image
               src={car.imageUrl}
               alt={`${car.make} ${car.model}`}
               fill
               className="object-cover transition-transform duration-500 group-hover:scale-105"
-              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 100vw"
+              sizes="(min-width: 1024px) 25vw, (min-width: 768px) 33vw, 50vw"
               unoptimized
             />
           ) : (
-            <div style={{ width: '100%', height: '100%', background: 'var(--black-rich)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--cream-muted)', fontSize: '12px' }}>Bez fotky</div>
+            <div className="vehicle-card__no-img">Bez fotky</div>
           )}
-          {/* Badge */}
           {car.featured ? (
-            <div style={{
-              position: 'absolute',
-              top: '12px',
-              right: '12px',
-              background: 'var(--gold)',
-              color: 'var(--black)',
-              fontSize: '9px',
-              fontFamily: "var(--font-body)",
-              fontWeight: 600,
-              letterSpacing: '0.2em',
-              textTransform: 'uppercase',
-              padding: '6px 12px'
-            }}>
+            <div className="vehicle-card__badge">
               {t("card.topOffer", lang)}
             </div>
           ) : null}
         </div>
 
         {/* Body */}
-        <div style={{ display: 'flex', flexDirection: 'column', flex: 1, gap: '12px', padding: '20px' }}>
+        <div className="vehicle-card__body">
           {/* Brand eyebrow */}
-          <div style={{
-            fontSize: '10px',
-            letterSpacing: '0.3em',
-            textTransform: 'uppercase',
-            color: 'var(--gold)',
-            fontFamily: "var(--font-body)",
-            fontWeight: 600
-          }}>
-            {car.make}
-          </div>
+          <div className="vehicle-card__eyebrow">{car.make}</div>
 
           {/* Name */}
-          <h3 style={{
-            fontFamily: "var(--font-display)",
-            fontSize: '22px',
-            fontWeight: 700,
-            color: 'var(--white)',
-            margin: 0,
-            lineHeight: 1.2,
-            fontVariantNumeric: 'lining-nums'
-          }}>
+          <h3 className="vehicle-card__title">
             {car.make} {car.model}
           </h3>
 
           {/* Year / transmission */}
-          <div style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
-            {car.year} • {car.transmission}
+          <div className="vehicle-card__subtitle">
+            {car.year} &bull; {car.transmission}
           </div>
 
           {/* Tech specs row */}
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', fontSize: '12px', color: 'var(--cream-muted)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Gauge style={{ width: '14px', height: '14px', color: 'var(--gold-dim)' }} />
-              {car.powerKw} kW
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <CalendarRange style={{ width: '14px', height: '14px', color: 'var(--gold-dim)' }} />
-              {formattedMileage} km
-            </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-              <Fuel style={{ width: '14px', height: '14px', color: 'var(--gold-dim)' }} />
+          <div className="vehicle-card__specs">
+            <span className="vehicle-card__spec">
+              <Gauge className="vehicle-card__spec-icon" />
+              {car.powerKw}&nbsp;kW
+            </span>
+            <span className="vehicle-card__spec">
+              <CalendarRange className="vehicle-card__spec-icon" />
+              {formattedMileage}&nbsp;km
+            </span>
+            <span className="vehicle-card__spec">
+              <Fuel className="vehicle-card__spec-icon" />
               {car.fuel}
-            </div>
+            </span>
           </div>
 
           {/* Divider + price */}
-          <div style={{ marginTop: 'auto', borderTop: '1px solid var(--black-border)', paddingTop: '16px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-            <div style={{
-              fontFamily: "var(--font-display)",
-              fontSize: '24px',
-              color: 'var(--gold-light)',
-              fontVariantNumeric: 'lining-nums'
-            }}>
-              {formattedPrice}
-            </div>
-            <span style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '12px', color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', fontWeight: 500 }}>
+          <div className="vehicle-card__footer">
+            <div className="vehicle-card__price">{formattedPrice}</div>
+            <span className="vehicle-card__cta">
               {t("card.detail", lang)}
-              <ArrowRight style={{ width: '14px', height: '14px', transition: 'transform 0.3s' }} className="group-hover:translate-x-1" />
+              <ArrowRight className="vehicle-card__cta-arrow group-hover:translate-x-1" />
             </span>
           </div>
         </div>

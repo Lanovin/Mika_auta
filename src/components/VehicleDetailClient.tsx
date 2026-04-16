@@ -108,7 +108,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
   };
 
   return (
-    <div className="container-page py-6 pb-24 lg:py-8 lg:pb-16">
+    <div className="container-page py-6 pb-24 lg:py-8 lg:pb-16 overflow-x-hidden">
       {/* Lightbox */}
       {lightboxOpen && allImages.length > 0 && (
         <div
@@ -183,31 +183,30 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
         </span>
       </nav>
 
-      {/* Mobile title - visible only on mobile above the gallery */}
-      <div className="mb-4 lg:hidden">
-        <p className="section-kicker">{t("detail.kicker", lang)}</p>
+      {/* Mobile header – title + price + quick specs */}
+      <div className="mb-3 lg:hidden">
         <h1
-          className="mt-1 text-2xl font-semibold uppercase tracking-[0.03em]"
-          style={{ fontFamily: "var(--font-display)", color: "var(--white)" }}
+          className="text-xl font-semibold uppercase tracking-[0.02em]"
+          style={{ fontFamily: "var(--font-display)", color: "var(--white)", lineHeight: 1.25 }}
         >
           {car.make} {car.model}
         </h1>
-        <div className="mt-2 flex flex-wrap items-center gap-3 text-xs" style={{ color: "var(--cream-muted)" }}>
-          <span className="flex items-center gap-1"><CalendarRange size={13} style={{ color: "var(--gold-dim)" }} />{car.year}</span>
-          <span className="flex items-center gap-1"><Gauge size={13} style={{ color: "var(--gold-dim)" }} />{formattedMileage} km</span>
-          <span className="flex items-center gap-1"><Fuel size={13} style={{ color: "var(--gold-dim)" }} />{car.fuel}</span>
-          <span className="flex items-center gap-1"><Settings2 size={13} style={{ color: "var(--gold-dim)" }} />{car.transmission}</span>
+        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-[11px]" style={{ color: "var(--cream-muted)" }}>
+          <span className="flex items-center gap-1"><CalendarRange size={12} style={{ color: "var(--gold-dim)" }} />{car.year}</span>
+          <span className="flex items-center gap-1"><Gauge size={12} style={{ color: "var(--gold-dim)" }} />{formattedMileage}&nbsp;km</span>
+          <span className="flex items-center gap-1"><Fuel size={12} style={{ color: "var(--gold-dim)" }} />{car.fuel}</span>
+          <span className="flex items-center gap-1"><Settings2 size={12} style={{ color: "var(--gold-dim)" }} />{car.transmission}</span>
         </div>
         <div
-          className="mt-3"
-          style={{ fontFamily: "var(--font-display)", fontSize: "26px", fontWeight: 600, color: "var(--gold-light)" }}
+          className="mt-2"
+          style={{ fontFamily: "var(--font-display)", fontSize: "22px", fontWeight: 600, color: "var(--gold-light)" }}
         >
           {formattedPrice}
         </div>
       </div>
 
       <div className="grid gap-6 lg:gap-8 lg:grid-cols-[minmax(0,3fr),minmax(0,2fr)]">
-        <section className="space-y-3 sm:space-y-4">
+        <section className="min-w-0 space-y-3 sm:space-y-4">
           {/* Main image gallery */}
           <div className="card-panel overflow-hidden p-2 sm:p-3">
             <div
@@ -365,7 +364,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
           {/* Thumbnail strip */}
           {allImages.length > 1 && (
             <div
-              className="flex gap-2 overflow-x-auto pb-1"
+              className="flex gap-1.5 sm:gap-2 overflow-x-auto pb-1"
               style={{ scrollbarWidth: "thin", scrollbarColor: "var(--black-border) transparent" }}
             >
               {allImages.map((image, index) => (
@@ -374,8 +373,8 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
                   onClick={() => setSelectedIdx(index)}
                   className="relative flex-shrink-0 overflow-hidden"
                   style={{
-                    width: "5rem",
-                    height: "3.5rem",
+                    width: "4rem",
+                    height: "2.8rem",
                     background: "var(--black-rich)",
                     border: index === selectedIdx ? "2px solid var(--gold)" : "2px solid transparent",
                     cursor: "pointer",
@@ -404,13 +403,13 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
           {/* Quick reasons */}
           <div className="card-panel p-4 sm:p-6">
             <p className="section-kicker">{t("detail.whyThis", lang)}</p>
-            <div className="mt-3 sm:mt-4 grid gap-3 sm:gap-4 sm:grid-cols-3">
+            <div className="mt-3 sm:mt-4 grid gap-2 sm:gap-4 sm:grid-cols-3">
               {quickReasons.map((reason) => (
                 <div
                   key={reason}
                   style={{
-                    padding: "14px 16px",
-                    fontSize: "13px",
+                    padding: "10px 12px",
+                    fontSize: "12px",
                     fontWeight: 500,
                     color: "var(--cream)",
                     background: "var(--black-rich)",
@@ -425,16 +424,13 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
           </div>
         </section>
 
-        <aside className="card-panel flex flex-col gap-4 p-4 sm:p-6 lg:sticky lg:top-[130px] lg:h-fit">
-          {/* Desktop only title/price - on mobile it's above gallery */}
-          <div className="hidden lg:block">
+        {/* ─── Desktop sidebar ─── */}
+        <aside className="hidden lg:flex card-panel flex-col gap-4 p-6 lg:sticky lg:top-[130px] lg:h-fit">
+          <div>
             <p className="section-kicker">{t("detail.kicker", lang)}</p>
             <h1
               className="mt-2 text-3xl font-semibold uppercase tracking-[0.03em]"
-              style={{
-                fontFamily: "var(--font-display)",
-                color: "var(--white)",
-              }}
+              style={{ fontFamily: "var(--font-display)", color: "var(--white)" }}
             >
               {car.make} {car.model}
             </h1>
@@ -451,72 +447,38 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
               background: "var(--black-rich)",
               border: "1px solid var(--black-border)",
               padding: "16px 20px",
-              borderRadius: 0,
             }}
           >
-            <div className="hidden lg:block text-xs uppercase tracking-wide text-secondary">
+            <div className="text-xs uppercase tracking-wide text-secondary">
               {t("detail.price", lang)}
             </div>
             <div
-              className="hidden lg:block mt-2"
-              style={{
-                fontFamily: "var(--font-display)",
-                fontSize: "28px",
-                fontWeight: 600,
-                color: "var(--gold-light)",
-              }}
+              className="mt-2"
+              style={{ fontFamily: "var(--font-display)", fontSize: "28px", fontWeight: 600, color: "var(--gold-light)" }}
             >
               {formattedPrice}
             </div>
-            <div className="grid gap-2 text-sm text-secondary lg:mt-3">
+            <div className="mt-3 grid gap-2 text-sm text-secondary">
               <div>{t("detail.tradeIn", lang)}</div>
               <div>{t("detail.financing", lang)}</div>
             </div>
           </div>
-
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-1 lg:grid-cols-1">
+          <div className="grid gap-3">
             <a href="tel:+420774333774" className="btn-primary w-full py-3 text-center">
               {t("detail.callSeller", lang)}
             </a>
-            <a
-              href={`/kontakt?car=${car.id}`}
-              className="btn-secondary w-full py-3 text-center"
-            >
+            <a href={`/kontakt?car=${car.id}`} className="btn-secondary w-full py-3 text-center">
               {t("detail.bookViewing", lang)}
             </a>
           </div>
-
-          <div
-            style={{
-              background: "var(--black-rich)",
-              border: "1px solid var(--black-border)",
-              padding: "16px",
-              borderRadius: 0,
-            }}
-          >
-            <div
-              style={{
-                fontSize: "14px",
-                fontWeight: 600,
-                color: "var(--white)",
-              }}
-            >
+          <div style={{ background: "var(--black-rich)", border: "1px solid var(--black-border)", padding: "16px" }}>
+            <div style={{ fontSize: "14px", fontWeight: 600, color: "var(--white)" }}>
               {t("detail.extras", lang)}
             </div>
             <div className="mt-3 space-y-3 text-sm text-secondary">
               {trustPoints.map((point) => (
                 <div key={point} className="flex gap-3">
-                  <span
-                    className="mt-1"
-                    style={{
-                      display: "inline-block",
-                      width: "10px",
-                      height: "10px",
-                      minWidth: "10px",
-                      background: "var(--gold-dim)",
-                      borderRadius: 0,
-                    }}
-                  />
+                  <span className="mt-1" style={{ display: "inline-block", width: "10px", height: "10px", minWidth: "10px", background: "var(--gold-dim)" }} />
                   <span>{point}</span>
                 </div>
               ))}
@@ -524,15 +486,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
           </div>
 
           {inquirySent ? (
-            <div
-              style={{
-                border: "1px solid var(--black-border)",
-                background: "var(--black-rich)",
-                padding: "24px 16px",
-                borderRadius: 0,
-                textAlign: "center",
-              }}
-            >
+            <div style={{ border: "1px solid var(--black-border)", background: "var(--black-rich)", padding: "24px 16px", textAlign: "center" }}>
               <div style={{ fontSize: "36px", marginBottom: "12px" }}>✓</div>
               <div style={{ fontSize: "14px", fontWeight: 600, color: "var(--white)" }}>
                 {lang === "cs" ? "Poptávka odeslána" : "Inquiry Sent"}
@@ -542,66 +496,98 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
               </p>
             </div>
           ) : (
-          <form
-            onSubmit={handleInquiry}
-            style={{
-              border: "1px solid var(--black-border)",
-              background: "var(--black-rich)",
-              padding: "16px",
-              borderRadius: 0,
-            }}
-          >
-            <div
-              style={{
-                fontSize: "14px",
-                fontWeight: 600,
-                color: "var(--white)",
-              }}
-            >
-              {t("detail.wantMore", lang)}
+            <form onSubmit={handleInquiry} style={{ border: "1px solid var(--black-border)", background: "var(--black-rich)", padding: "16px" }}>
+              <div style={{ fontSize: "14px", fontWeight: 600, color: "var(--white)" }}>
+                {t("detail.wantMore", lang)}
+              </div>
+              <p className="mt-1 text-xs text-muted">{t("detail.wantMoreDesc", lang)}</p>
+              {inquiryError && (
+                <div className="mt-2 border-l-4 border-red-500/60 px-3 py-2 text-xs text-red-200" style={{ background: "rgba(239,68,68,0.08)" }}>
+                  {inquiryError}
+                </div>
+              )}
+              <div className="mt-4 space-y-3">
+                <input type="text" required placeholder={t("detail.name", lang)} className="w-full px-3 py-2.5 text-sm" value={inquiryName} onChange={(e) => setInquiryName(e.target.value)} />
+                <input type="tel" placeholder={t("detail.phone", lang)} className="w-full px-3 py-2.5 text-sm" value={inquiryPhone} onChange={(e) => setInquiryPhone(e.target.value)} />
+                <textarea rows={4} required value={inquiryMsg} onChange={(e) => setInquiryMsg(e.target.value)} className="w-full resize-none px-3 py-2.5 text-sm" />
+                <button type="submit" disabled={inquirySending} className="btn-primary w-full">
+                  {inquirySending ? (lang === "cs" ? "Odesílám…" : "Sending…") : t("detail.sendInquiry", lang)}
+                </button>
+              </div>
+            </form>
+          )}
+          <p className="text-xs text-muted">{t("detail.helpText", lang)}</p>
+        </aside>
+      </div>
+
+      {/* ─── Mobile-only CTA + trust section (below gallery, above specs) ─── */}
+      <div className="mt-3 space-y-2.5 lg:hidden">
+        {/* CTA buttons */}
+        <div className="grid grid-cols-2 gap-2">
+          <a href="tel:+420774333774" className="btn-primary w-full text-center" style={{ padding: "10px 8px", fontSize: "10px", letterSpacing: "0.15em" }}>
+            {t("detail.callSeller", lang)}
+          </a>
+          <a href={`/kontakt?car=${car.id}`} className="btn-secondary w-full text-center" style={{ padding: "10px 8px", fontSize: "10px", letterSpacing: "0.15em" }}>
+            {t("detail.bookViewing", lang)}
+          </a>
+        </div>
+
+        {/* Trade-in / financing */}
+        <div
+          className="flex gap-3 text-xs text-secondary"
+          style={{ padding: "10px 12px", background: "var(--black-rich)", border: "1px solid var(--black-border)" }}
+        >
+          <span>{t("detail.tradeIn", lang)}</span>
+          <span style={{ color: "var(--black-border)" }}>|</span>
+          <span>{t("detail.financing", lang)}</span>
+        </div>
+
+        {/* Trust points */}
+        <div
+          style={{ background: "var(--black-rich)", border: "1px solid var(--black-border)", padding: "12px" }}
+        >
+          <div className="space-y-2 text-xs text-secondary">
+            {trustPoints.map((point) => (
+              <div key={point} className="flex gap-2 items-start">
+                <span style={{ display: "inline-block", width: "8px", height: "8px", minWidth: "8px", marginTop: "3px", background: "var(--gold-dim)" }} />
+                <span>{point}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Inquiry form */}
+        {inquirySent ? (
+          <div style={{ border: "1px solid var(--black-border)", background: "var(--black-rich)", padding: "20px 14px", textAlign: "center" }}>
+            <div style={{ fontSize: "28px", marginBottom: "8px" }}>✓</div>
+            <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--white)" }}>
+              {lang === "cs" ? "Poptávka odeslána" : "Inquiry Sent"}
             </div>
             <p className="mt-1 text-xs text-muted">
-              {t("detail.wantMoreDesc", lang)}
+              {lang === "cs" ? "Ozveme se vám co nejdříve." : "We'll get back to you shortly."}
             </p>
+          </div>
+        ) : (
+          <form onSubmit={handleInquiry} style={{ border: "1px solid var(--black-border)", background: "var(--black-rich)", padding: "14px" }}>
+            <div style={{ fontSize: "13px", fontWeight: 600, color: "var(--white)" }}>
+              {t("detail.wantMore", lang)}
+            </div>
+            <p className="mt-1 text-[11px] text-muted">{t("detail.wantMoreDesc", lang)}</p>
             {inquiryError && (
               <div className="mt-2 border-l-4 border-red-500/60 px-3 py-2 text-xs text-red-200" style={{ background: "rgba(239,68,68,0.08)" }}>
                 {inquiryError}
               </div>
             )}
-            <div className="mt-4 space-y-3">
-              <input
-                type="text"
-                required
-                placeholder={t("detail.name", lang)}
-                className="w-full px-3 py-2.5 text-sm"
-                value={inquiryName}
-                onChange={(e) => setInquiryName(e.target.value)}
-              />
-              <input
-                type="tel"
-                placeholder={t("detail.phone", lang)}
-                className="w-full px-3 py-2.5 text-sm"
-                value={inquiryPhone}
-                onChange={(e) => setInquiryPhone(e.target.value)}
-              />
-              <textarea
-                rows={4}
-                required
-                value={inquiryMsg}
-                onChange={(e) => setInquiryMsg(e.target.value)}
-                className="w-full resize-none px-3 py-2.5 text-sm"
-              />
-              <button type="submit" disabled={inquirySending} className="btn-primary w-full">
-                {inquirySending
-                  ? (lang === "cs" ? "Odesílám…" : "Sending…")
-                  : t("detail.sendInquiry", lang)}
+            <div className="mt-3 space-y-2">
+              <input type="text" required placeholder={t("detail.name", lang)} className="w-full px-3 py-2 text-sm" value={inquiryName} onChange={(e) => setInquiryName(e.target.value)} />
+              <input type="tel" placeholder={t("detail.phone", lang)} className="w-full px-3 py-2 text-sm" value={inquiryPhone} onChange={(e) => setInquiryPhone(e.target.value)} />
+              <textarea rows={3} required value={inquiryMsg} onChange={(e) => setInquiryMsg(e.target.value)} className="w-full resize-none px-3 py-2 text-sm" />
+              <button type="submit" disabled={inquirySending} className="btn-primary w-full py-2.5">
+                {inquirySending ? (lang === "cs" ? "Odesílám…" : "Sending…") : t("detail.sendInquiry", lang)}
               </button>
             </div>
           </form>
-          )}
-
-          <p className="text-xs text-muted">{t("detail.helpText", lang)}</p>
-        </aside>
+        )}
       </div>
 
       <section className="mt-6 sm:mt-10 grid gap-4 sm:gap-6 lg:gap-8 lg:grid-cols-2">
@@ -781,23 +767,24 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
       </section>
 
       <div
-        className="fixed inset-x-0 bottom-0 z-20 px-4 py-2.5 lg:hidden"
+        className="fixed inset-x-0 bottom-0 z-20 px-3 py-2 lg:hidden"
         style={{
-          background: "var(--black-card)",
+          background: "rgba(22,22,22,0.97)",
           borderTop: "1px solid var(--gold-dim)",
           backdropFilter: "blur(12px)",
         }}
       >
-        <div className="container-page flex items-center gap-3 px-0">
-          <div className="flex-shrink-0 mr-auto" style={{ fontFamily: "var(--font-display)", fontSize: "18px", fontWeight: 600, color: "var(--gold-light)" }}>
+        <div className="flex items-center gap-2 max-w-[600px] mx-auto">
+          <div className="flex-shrink-0 mr-auto min-w-0" style={{ fontFamily: "var(--font-display)", fontSize: "16px", fontWeight: 600, color: "var(--gold-light)" }}>
             {formattedPrice}
           </div>
-          <a href="tel:+420774333774" className="btn-secondary px-4 py-2.5 text-xs text-center">
+          <a href="tel:+420774333774" className="btn-secondary flex-shrink-0 px-3 py-2 text-[10px] text-center" style={{ letterSpacing: "0.12em" }}>
             {t("detail.call", lang)}
           </a>
           <a
             href={`/kontakt?car=${car.id}`}
-            className="btn-primary px-4 py-2.5 text-xs text-center"
+            className="btn-primary flex-shrink-0 px-3 py-2 text-[10px] text-center"
+            style={{ letterSpacing: "0.12em" }}
           >
             {t("detail.book", lang)}
           </a>

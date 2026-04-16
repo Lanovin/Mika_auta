@@ -460,13 +460,13 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
           </div>
 
           {isLoading ? (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {Array.from({ length: 6 }).map((_, index) => (
                 <SkeletonCard key={index} />
               ))}
             </div>
           ) : filteredCars.length > 0 ? (
-            <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-3">
+            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 xl:grid-cols-3">
               {filteredCars.map((car) => (
                 <VehicleCard key={car.id} car={car} />
               ))}

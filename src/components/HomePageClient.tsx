@@ -144,7 +144,7 @@ export function HomePageClient({ vehicles, homepageMode = "default", banners = [
           </Link>
         </div>
 
-        <div style={{ display: 'grid', gap: '24px', marginTop: '32px', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))' }}>
+        <div className="grid gap-4 sm:gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4" style={{ marginTop: '24px' }}>
           {carsToRender.map((car, i) => (
             <div key={car.id} className={i >= mobileCount ? 'mobile-hidden-card' : ''}>
               <VehicleCard car={car} />
