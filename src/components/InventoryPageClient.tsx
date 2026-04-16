@@ -275,7 +275,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
           className={`${
             mobileFiltersOpen
               ? "fixed inset-y-0 left-0 z-50 w-[85vw] max-w-[340px] translate-x-0"
-              : "fixed -translate-x-full lg:translate-x-0"
+              : "hidden lg:flex lg:translate-x-0"
           } flex flex-col transition-transform duration-300 ease-in-out lg:sticky lg:inset-auto lg:z-auto lg:w-auto lg:max-w-none lg:top-[100px] lg:max-h-[calc(100vh-120px)]`}
           style={{ background: "var(--black-card)", border: "1px solid var(--black-border)" }}
         >

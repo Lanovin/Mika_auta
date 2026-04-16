@@ -100,13 +100,29 @@ export function AboutPageClient({ cs, en }: { cs: AboutContent; en: AboutContent
       {/* Statistiky */}
       {show("stats") && (
       <section className="container-page mt-12">
-        <div className="stats-bar">
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
           {c.stats.map((stat: StatItem, i: number) => (
-            <div key={i}>
-              <div className="stat-value">
+            <div key={i} className="card-panel px-6 py-6 text-center">
+              <div
+                style={{
+                  fontFamily: "var(--font-display)",
+                  fontSize: "clamp(28px, 4vw, 36px)",
+                  fontWeight: 700,
+                  color: "var(--gold-light)",
+                  fontVariantNumeric: "lining-nums",
+                }}
+              >
                 {stat.value}
               </div>
-              <div className="stat-label">
+              <div
+                className="mt-2"
+                style={{
+                  fontSize: "11px",
+                  letterSpacing: "0.2em",
+                  textTransform: "uppercase",
+                  color: "var(--text-muted)",
+                }}
+              >
                 {stat.label}
               </div>
             </div>

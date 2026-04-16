@@ -80,7 +80,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
 
       {/* Důvody */}
       {show("reasons") && (
-      <section className="mt-6 grid gap-4 md:grid-cols-3">
+      <section className="mt-6 hidden md:grid gap-4 md:grid-cols-3">
         {c.reasons.map((reason: string, i: number) => (
           <div
             key={reason}
