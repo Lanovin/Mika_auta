@@ -1,7 +1,18 @@
+import type { Metadata } from "next";
 import { readContent } from "@/src/lib/content-store";
 import { ContactPageClient } from "@/src/components/ContactPageClient";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "Kontakt – Autobazar Mika Auto Brno",
+  description: "Kontaktujte autobazar Mika Auto – telefon, e-mail, adresa, otevírací doba. Vídeňská 297/99, Brno. Rádi vám poradíme s výběrem vozu.",
+  alternates: { canonical: "/kontakt" },
+  openGraph: {
+    title: "Kontakt | Mika Auto",
+    description: "Kontaktní údaje autobazaru Mika Auto Brno – telefon, e-mail, mapa.",
+  },
+};
 
 export default async function ContactPage() {
   const content = await readContent();

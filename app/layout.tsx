@@ -5,14 +5,56 @@ import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/src/lib/LanguageContext";
 import CookieConsent from "@/src/components/CookieConsent";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.mikaauto.cz";
+
 export const metadata: Metadata = {
-  title: "Mika Auto – Autobazar | Kvalitní ojeté vozy",
-  description: "Najděte svůj ideální ojetý vůz v našem autobazaru. Široká nabídka prověřených vozů s filtrem podle značky, modelu a ceny.",
-  keywords: "autobazar, ojeté vozy, Škoda, Volkswagen, Hyundai, auto prodej",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Mika Auto – Autobazar | Kvalitní ojeté vozy Brno",
+    template: "%s | Mika Auto – Autobazar",
+  },
+  description: "Autobazar Mika Auto v Brně – široká nabídka prověřených ojetých vozů Škoda, Volkswagen, Hyundai a dalších značek. Výkup, financování, pojištění. Od roku 2007.",
+  keywords: ["autobazar", "ojeté vozy", "autobazar Brno", "Škoda", "Volkswagen", "Hyundai", "výkup aut", "financování vozu", "prověřená auta", "Mika Auto"],
+  authors: [{ name: "MIKAAUTO s.r.o." }],
+  creator: "MIKAAUTO s.r.o.",
+  publisher: "MIKAAUTO s.r.o.",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   openGraph: {
-    title: "Mika Auto - Autobazar",
-    description: "Kvalitní ojeté vozy za skvělé ceny.",
-    images: ["https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?auto=format&fit=crop&w=1200&q=80"],
+    type: "website",
+    locale: "cs_CZ",
+    url: SITE_URL,
+    siteName: "Mika Auto – Autobazar",
+    title: "Mika Auto – Autobazar | Kvalitní ojeté vozy Brno",
+    description: "Prověřené ojeté vozy s garancí původu. Výkup, financování, pojištění vozidel. Autobazar Mika Auto – od roku 2007.",
+    images: [
+      {
+        url: "/mikalogo2.png",
+        width: 600,
+        height: 400,
+        alt: "Mika Auto – Autobazar",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Mika Auto – Autobazar | Kvalitní ojeté vozy Brno",
+    description: "Prověřené ojeté vozy s garancí původu. Autobazar Mika Auto – od roku 2007.",
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
+  verification: {
+    google: process.env.GOOGLE_SITE_VERIFICATION || undefined,
   },
 };
 
@@ -21,8 +63,66 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "AutoDealer",
+    name: "Mika Auto",
+    alternateName: "MIKAAUTO s.r.o.",
+    url: SITE_URL,
+    logo: `${SITE_URL}/mikalogo2.png`,
+    image: `${SITE_URL}/mikalogo2.png`,
+    description: "Autobazar Mika Auto v Brně – prověřené ojeté vozy s garancí původu. Výkup, financování, pojištění.",
+    foundingDate: "2007",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "Vídeňská 297/99",
+      addressLocality: "Brno",
+      addressRegion: "Jihomoravský kraj",
+      postalCode: "619 00",
+      addressCountry: "CZ",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "49.1644",
+      longitude: "16.5990",
+    },
+    telephone: "+420 777 235 355",
+    openingHoursSpecification: [
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        opens: "09:00",
+        closes: "18:00",
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: "Saturday",
+        opens: "09:00",
+        closes: "12:00",
+      },
+    ],
+    priceRange: "$$",
+    currenciesAccepted: "CZK",
+    paymentAccepted: "Cash, Credit Card, Bank Transfer",
+    areaServed: {
+      "@type": "GeoCircle",
+      geoMidpoint: { "@type": "GeoCoordinates", latitude: "49.1951", longitude: "16.6068" },
+      geoRadius: "50000",
+    },
+    sameAs: [
+      "https://www.instagram.com/mikaauto.cz",
+    ],
+  };
+
   return (
     <html lang="cs">
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <LanguageProvider>
           <Header />

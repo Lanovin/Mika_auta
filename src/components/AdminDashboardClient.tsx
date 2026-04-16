@@ -23,9 +23,6 @@ interface VehicleRow {
 interface AdminDashboardClientProps {
   vehicles: VehicleRow[];
   notice: string | null;
-  usesDefaults: boolean;
-  adminUsername: string;
-  adminPassword: string;
   logoutAction: () => void;
   toggleFeaturedAction: (tipcarsId: string, currentFeatured: boolean) => void;
   togglePublishedAction: (tipcarsId: string, currentPublished: boolean) => void;
@@ -34,9 +31,6 @@ interface AdminDashboardClientProps {
 export function AdminDashboardClient({
   vehicles,
   notice,
-  usesDefaults,
-  adminUsername,
-  adminPassword,
   logoutAction,
   toggleFeaturedAction,
   togglePublishedAction,
@@ -77,15 +71,6 @@ export function AdminDashboardClient({
           </form>
         </div>
       </div>
-
-      {usesDefaults ? (
-        <div
-          className="mt-6 border-l-4 border-amber-500/60 px-4 py-3 text-sm text-amber-200"
-          style={{ background: "var(--black-rich)" }}
-        >
-          {t("admin.defaultCreds", lang)} {adminUsername} / {adminPassword}.
-        </div>
-      ) : null}
 
       {translatedNotice ? (
         <div

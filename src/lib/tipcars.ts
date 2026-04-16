@@ -1,6 +1,9 @@
+import { readFile } from "node:fs/promises";
+import path from "node:path";
 import type { Vehicle, FuelType, Transmission } from "@/src/lib/vehicle-types";
 
 const TIPCARS_URL =
+  process.env.TIPCARS_URL ||
   "http://export.tipcars.com/inzerce_xml.php?R=ste26244a&F=2529&T=N&Z=N&V=N";
 
 const PHOTO_ZDROJOVE = "https://img.tipcars.com/fotky_zdrojove/";
@@ -178,6 +181,30 @@ let cachedVehicles: Vehicle[] | null = null;
 let cacheTimestamp = 0;
 const CACHE_TTL = 5 * 60 * 1000; // 5 minutes
 
+const INVENTORY_PATH = path.join(process.cwd(), "data", "inventory.json");
+
+async function loadLocalInventory(): Promise<Vehicle[]> {
+  try {
+    const raw = await readFile(INVENTORY_PATH, "utf8");
+    const data = JSON.parse(raw);
+    const vehicles: Vehicle[] = (data.vehicles ?? []).map((v: Record<string, unknown>) => ({
+      tipcarsId: v.id as string,
+      equipment: [],
+      engineVolume: 0,
+      color: "",
+      vin: "",
+      stk: "",
+      condition: "",
+      kind: "Osobní",
+      ...v,
+    }));
+    return vehicles;
+  } catch (e) {
+    console.error("Failed to load local inventory:", e);
+    return [];
+  }
+}
+
 export async function fetchTipcarsVehicles(): Promise<Vehicle[]> {
   const now = Date.now();
   if (cachedVehicles && now - cacheTimestamp < CACHE_TTL) {
@@ -196,7 +223,7 @@ export async function fetchTipcarsVehicles(): Promise<Vehicle[]> {
 
     if (!res.ok) {
       console.error(`Tipcars fetch failed: ${res.status} ${res.statusText}`);
-      return cachedVehicles ?? [];
+      return cachedVehicles ?? await loadLocalInventory();
     }
 
     const buffer = await res.arrayBuffer();
@@ -204,6 +231,16 @@ export async function fetchTipcarsVehicles(): Promise<Vehicle[]> {
     // Decode from windows-1250
     const decoder = new TextDecoder("windows-1250");
     const xml = decoder.decode(buffer);
+
+    // Detect Tipcars error responses (HTTP 200 but XML contains <chyba>)
+    const errorMsg = getTag(xml, "chyba");
+    if (errorMsg) {
+      const errorCode = getTag(xml, "chyba_kod");
+      console.error(
+        `Tipcars XML error [${errorCode}]: ${errorMsg.trim()} — falling back to local inventory`
+      );
+      return cachedVehicles ?? await loadLocalInventory();
+    }
 
     const carBlocks = getAllBlocks(xml, "car");
     const vehicles: Vehicle[] = [];
@@ -215,12 +252,17 @@ export async function fetchTipcarsVehicles(): Promise<Vehicle[]> {
       }
     }
 
+    if (vehicles.length === 0) {
+      console.warn("Tipcars returned 0 vehicles, falling back to local inventory");
+      return cachedVehicles ?? await loadLocalInventory();
+    }
+
     cachedVehicles = vehicles;
     cacheTimestamp = now;
 
     return vehicles;
   } catch (err) {
     console.error("Tipcars fetch error:", err);
-    return cachedVehicles ?? [];
+    return cachedVehicles ?? await loadLocalInventory();
   }
 }

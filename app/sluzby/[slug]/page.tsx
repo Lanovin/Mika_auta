@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { readContent } from "@/src/lib/content-store";
 import { notFound } from "next/navigation";
 import { ServiceDetailClient } from "@/src/components/ServiceDetailClient";
@@ -22,6 +23,27 @@ interface ServiceItem {
 
 interface SluzbyContent {
   services: ServiceItem[];
+}
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const content = await readContent();
+  const cs = content.sluzby as SluzbyContent;
+  const service = cs.services.find((s) => slugify(s.title) === slug);
+  if (!service) return {};
+  return {
+    title: `${service.title} – Služby`,
+    description: service.shortDesc,
+    alternates: { canonical: `/sluzby/${slug}` },
+    openGraph: {
+      title: `${service.title} | Mika Auto`,
+      description: service.shortDesc,
+    },
+  };
 }
 
 export default async function ServiceDetailPage({

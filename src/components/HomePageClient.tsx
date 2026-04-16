@@ -6,13 +6,22 @@ import { useEffect, useRef } from "react";
 import { ArrowRight, ShieldCheck, CircleDollarSign, BadgeCheck } from "lucide-react";
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { HeroSlider } from "@/components/HeroSlider";
+import { BannerSlider } from "@/components/BannerSlider";
 import type { Vehicle } from "@/src/lib/vehicle-types";
 import { useContent } from "@/src/lib/useContent";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
 
+interface Banner {
+  imageUrl: string;
+  linkUrl?: string;
+  alt?: string;
+}
+
 interface HomePageClientProps {
   vehicles: Vehicle[];
+  homepageMode?: string;
+  banners?: Banner[];
 }
 
 interface HomepageContent {
@@ -56,7 +65,7 @@ function useScrollReveal() {
   }, []);
 }
 
-export function HomePageClient({ vehicles }: HomePageClientProps) {
+export function HomePageClient({ vehicles, homepageMode = "default", banners = [] }: HomePageClientProps) {
   const { lang } = useLanguage();
   const { data: c } = useContent<HomepageContent>("homepage", lang);
 
@@ -74,8 +83,15 @@ export function HomePageClient({ vehicles }: HomePageClientProps) {
 
   return (
     <div>
-      {/* Hero section */}
-      {show("hero") && (
+      {/* Banner Slider mode */}
+      {homepageMode === "slider" && banners.length > 0 && (
+        <section>
+          <BannerSlider banners={banners} />
+        </section>
+      )}
+
+      {/* Hero section — default mode */}
+      {homepageMode !== "slider" && show("hero") && (
       <section className="hero-section">
         <div className="hero-grid-overlay" />
         <div className="hero-corner-ornament hero-corner-ornament--tl" />

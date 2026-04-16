@@ -1,4 +1,4 @@
-import { requireAdminAuth, getDefaultAdminCredentials } from "@/src/lib/auth";
+import { requireAdminAuth } from "@/src/lib/auth";
 import { readVehicles } from "@/src/lib/vehicle-store";
 import { toggleFeaturedAction, togglePublishedAction, logoutUserAction } from "@/app/admin/actions";
 import { AdminDashboardClient } from "@/src/components/AdminDashboardClient";
@@ -13,6 +13,10 @@ interface AdminDashboardProps {
 
 export const dynamic = "force-dynamic";
 
+export const metadata = {
+  robots: { index: false, follow: false },
+};
+
 function getNoticeSentinel(searchParams?: AdminDashboardProps["searchParams"]) {
   if (searchParams?.updated === "1") return "__UPDATED__";
   return null;
@@ -22,7 +26,6 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
   await requireAdminAuth();
   const vehicles = await readVehicles();
   const notice = getNoticeSentinel(searchParams);
-  const credentials = getDefaultAdminCredentials();
 
   const vehicleRows = vehicles.map((v) => ({
     id: v.id,
@@ -43,9 +46,6 @@ export default async function AdminDashboard({ searchParams }: AdminDashboardPro
     <AdminDashboardClient
       vehicles={vehicleRows}
       notice={notice}
-      usesDefaults={credentials.usesDefaults}
-      adminUsername={credentials.username}
-      adminPassword={credentials.password}
       logoutAction={logoutUserAction}
       toggleFeaturedAction={toggleFeaturedAction}
       togglePublishedAction={togglePublishedAction}

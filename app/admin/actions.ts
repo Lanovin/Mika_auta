@@ -3,7 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { setVehicleLabel, readVehicleById } from "@/src/lib/vehicle-store";
-import { loginUser, logoutUser, registerUser, requireAdminAuth } from "@/src/lib/auth";
+import { loginUser, logoutUser, requireAdminAuth } from "@/src/lib/auth";
 
 function parseText(formData: FormData, key: string) {
   return String(formData.get(key) ?? "").trim();
@@ -21,29 +21,23 @@ function revalidateVehiclePaths(vehicleId?: string) {
 export async function loginUserAction(formData: FormData) {
   const identifier = parseText(formData, "identifier");
   const password = parseText(formData, "password");
-  const nextPath = parseText(formData, "next") || "/ucet";
+  const nextPath = parseText(formData, "next") || "/admin";
   const user = await loginUser(identifier, password);
 
   if (!user) {
     redirect(`/prihlaseni?error=login&next=${encodeURIComponent(nextPath)}`);
   }
 
-  redirect(user.role === "admin" ? nextPath : "/ucet");
+  if (user.role !== "admin") {
+    redirect("/prihlaseni?error=login");
+  }
+
+  redirect(nextPath);
 }
 
 export async function registerUserAction(formData: FormData) {
-  const username = parseText(formData, "username");
-  const email = parseText(formData, "email");
-  const password = parseText(formData, "password");
-
-  try {
-    await registerUser(username, email, password);
-  } catch (error) {
-    const message = error instanceof Error ? error.message : "Registrace se nepodařila.";
-    redirect(`/prihlaseni?error=register&message=${encodeURIComponent(message)}`);
-  }
-
-  redirect("/ucet?registered=1");
+  // Registration disabled – admin only
+  redirect("/prihlaseni");
 }
 
 export async function logoutUserAction() {

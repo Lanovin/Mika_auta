@@ -1,8 +1,23 @@
 {
   "alert": {
-    "active": true,
+    "active": false,
     "text": "O velikonocích budeme mít zavřeno",
     "text_en": ""
+  },
+  "homepage_settings": {
+    "mode": "default",
+    "banners": [
+      {
+        "imageUrl": "/images/uploads/1776027689942-d328348d-4746-44f9-8105-a60aaa574595-gemini-reklama1.png",
+        "linkUrl": "",
+        "alt": ""
+      },
+      {
+        "imageUrl": "/images/uploads/1776027704801-adfc0361-567c-4b6e-9ac3-9672fbd0caca-Mika-reklama-test1.png",
+        "linkUrl": "",
+        "alt": ""
+      }
+    ]
   },
   "homepage": {
     "_layout": [

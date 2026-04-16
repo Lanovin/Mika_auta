@@ -4,7 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import Link from "next/link";
 import {
   ArrowLeft, Save, Plus, Trash2, ChevronDown, ChevronRight, Bell,
-  EyeOff, ArrowUp, ArrowDown, Layers, GripVertical,
+  EyeOff, ArrowUp, ArrowDown, Layers, GripVertical, Image as ImageIcon, Monitor,
 } from "lucide-react";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
@@ -330,6 +330,183 @@ export default function CmsPage() {
                 )}
               </div>
             )}
+          </div>
+        );
+      })()}
+
+      {/* Homepage mode + banner management */}
+      {(() => {
+        const settings = content.homepage_settings as { mode?: string; banners?: { imageUrl: string; linkUrl?: string; alt?: string }[] } | undefined;
+        const currentMode = settings?.mode || "default";
+        const banners = settings?.banners || [];
+
+        return (
+          <div className="mt-8 card-panel overflow-hidden">
+            <div className="flex items-center justify-between px-6 py-4">
+              <div className="flex items-center gap-3">
+                <Monitor className="h-5 w-5 text-white" />
+                <span className="text-lg font-semibold text-white" style={{ fontFamily: "var(--font-display)" }}>
+                  {lang === "cs" ? "Režim úvodní stránky" : "Homepage Mode"}
+                </span>
+              </div>
+            </div>
+            <div className="border-t px-6 py-5 space-y-6" style={{ borderColor: "var(--black-border)" }}>
+              {/* Mode toggle */}
+              <div>
+                <label className="block text-xs font-medium uppercase tracking-wide mb-3" style={{ color: "var(--gold)", letterSpacing: "0.15em" }}>
+                  {lang === "cs" ? "Verze homepage" : "Homepage version"}
+                </label>
+                <div className="flex gap-3">
+                  <button
+                    type="button"
+                    onClick={() => updateValue(["homepage_settings", "mode"], "default")}
+                    className="flex-1 px-4 py-3 text-sm font-semibold transition"
+                    style={{
+                      background: currentMode === "default" ? "rgba(201,168,76,0.15)" : "var(--black-rich)",
+                      color: currentMode === "default" ? "var(--gold)" : "var(--cream-muted)",
+                      border: currentMode === "default" ? "2px solid var(--gold)" : "1px solid var(--black-border)",
+                    }}
+                  >
+                    {lang === "cs" ? "📋 Klasická verze (doporučené vozy)" : "📋 Default (featured vehicles)"}
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => updateValue(["homepage_settings", "mode"], "slider")}
+                    className="flex-1 px-4 py-3 text-sm font-semibold transition"
+                    style={{
+                      background: currentMode === "slider" ? "rgba(201,168,76,0.15)" : "var(--black-rich)",
+                      color: currentMode === "slider" ? "var(--gold)" : "var(--cream-muted)",
+                      border: currentMode === "slider" ? "2px solid var(--gold)" : "1px solid var(--black-border)",
+                    }}
+                  >
+                    {lang === "cs" ? "🖼️ Bannerový slider (16:5)" : "🖼️ Banner slider (16:5)"}
+                  </button>
+                </div>
+                <p className="mt-2 text-xs text-secondary">
+                  {currentMode === "slider"
+                    ? (lang === "cs" ? "Úvodní stránka zobrazí fullwidth slider s reklamními bannery (poměr stran 16:5)." : "Homepage shows a fullwidth banner slider (16:5 aspect ratio).")
+                    : (lang === "cs" ? "Úvodní stránka zobrazí klasický hero s doporučenými vozy." : "Homepage shows the classic hero section with featured vehicles.")}
+                </p>
+              </div>
+
+              {/* Banner management */}
+              {currentMode === "slider" && (
+                <div>
+                  <label className="block text-xs font-medium uppercase tracking-wide mb-3" style={{ color: "var(--gold)", letterSpacing: "0.15em" }}>
+                    <ImageIcon className="inline h-3.5 w-3.5 mr-1" />
+                    {lang === "cs" ? "Bannery (doporučený poměr stran 16:5)" : "Banners (recommended aspect ratio 16:5)"}
+                  </label>
+                  <div className="space-y-4">
+                    {banners.map((banner, idx) => (
+                      <div key={idx} className="relative border p-4 space-y-3" style={{ borderColor: "var(--black-border)", background: "var(--black-rich)" }}>
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs text-secondary font-medium">
+                            Banner #{idx + 1}
+                          </span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              const newBanners = [...banners];
+                              newBanners.splice(idx, 1);
+                              updateValue(["homepage_settings", "banners"], newBanners);
+                            }}
+                            className="p-1 text-red-400 hover:text-red-300 transition"
+                            title={lang === "cs" ? "Odstranit" : "Remove"}
+                          >
+                            <Trash2 className="h-3.5 w-3.5" />
+                          </button>
+                        </div>
+                        <div>
+                          <label className="block text-xs text-secondary">
+                            {lang === "cs" ? "Obrázek banneru" : "Banner image"} *
+                          </label>
+                          <div className="flex gap-2 mt-1">
+                            <input
+                              type="text"
+                              className="cms-input flex-1"
+                              value={banner.imageUrl}
+                              onChange={(e) => updateValue(["homepage_settings", "banners", String(idx), "imageUrl"], e.target.value)}
+                              placeholder="https://example.com/banner.jpg"
+                            />
+                            <label
+                              className="flex items-center gap-1 px-3 py-2 text-xs font-semibold cursor-pointer transition hover:opacity-80 whitespace-nowrap"
+                              style={{ background: "rgba(201,168,76,0.15)", color: "var(--gold)", border: "1px solid var(--gold)" }}
+                            >
+                              <ImageIcon className="h-3.5 w-3.5" />
+                              {lang === "cs" ? "Nahrát z počítače" : "Upload from PC"}
+                              <input
+                                type="file"
+                                accept="image/*"
+                                className="hidden"
+                                onChange={async (e) => {
+                                  const file = e.target.files?.[0];
+                                  if (!file) return;
+                                  const form = new FormData();
+                                  form.append("file", file);
+                                  try {
+                                    const res = await fetch("/api/upload", { method: "POST", body: form });
+                                    if (!res.ok) throw new Error("Upload failed");
+                                    const data = await res.json();
+                                    updateValue(["homepage_settings", "banners", String(idx), "imageUrl"], data.url);
+                                  } catch {
+                                    alert(lang === "cs" ? "Nahrání se nezdařilo." : "Upload failed.");
+                                  }
+                                  e.target.value = "";
+                                }}
+                              />
+                            </label>
+                          </div>
+                        </div>
+                        <div>
+                          <label className="block text-xs text-secondary">
+                            {lang === "cs" ? "Odkaz (volitelné, kam banner vede po kliknutí)" : "Link URL (optional, where banner leads on click)"}
+                          </label>
+                          <input
+                            type="text"
+                            className="cms-input mt-1"
+                            value={banner.linkUrl || ""}
+                            onChange={(e) => updateValue(["homepage_settings", "banners", String(idx), "linkUrl"], e.target.value)}
+                            placeholder="https://..."
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-xs text-secondary">
+                            {lang === "cs" ? "Popisek (alt text pro SEO)" : "Alt text (for SEO)"}
+                          </label>
+                          <input
+                            type="text"
+                            className="cms-input mt-1"
+                            value={banner.alt || ""}
+                            onChange={(e) => updateValue(["homepage_settings", "banners", String(idx), "alt"], e.target.value)}
+                            placeholder={lang === "cs" ? "Popis banneru" : "Banner description"}
+                          />
+                        </div>
+                        {banner.imageUrl && (
+                          <div style={{ marginTop: "8px", aspectRatio: "16 / 5", position: "relative", overflow: "hidden", border: "1px solid var(--black-border)", background: "#000" }}>
+                            <img
+                              src={banner.imageUrl}
+                              alt={banner.alt || `Banner ${idx + 1}`}
+                              style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                    <button
+                      type="button"
+                      onClick={() => {
+                        const newBanners = [...banners, { imageUrl: "", linkUrl: "", alt: "" }];
+                        updateValue(["homepage_settings", "banners"], newBanners);
+                      }}
+                      className="flex items-center gap-1 text-xs font-medium transition hover:opacity-80"
+                      style={{ color: "var(--gold)" }}
+                    >
+                      <Plus className="h-3 w-3" /> {lang === "cs" ? "Přidat banner" : "Add banner"}
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
           </div>
         );
       })()}

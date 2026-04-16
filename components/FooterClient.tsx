@@ -84,7 +84,7 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
                 { src: '/partners/homecredit.png', href: 'https://www.homecredit.cz/', alt: 'Home Credit' },
               ].map((p) => (
                 <a key={p.alt} href={p.href} target="_blank" rel="noopener noreferrer" className="partner-logo-link">
-                  <img src={p.src} alt={p.alt} style={{ height: '32px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)', opacity: 0.6, transition: 'opacity 0.2s' }} />
+                  <img src={p.src} alt={p.alt} style={{ height: '32px', width: 'auto', objectFit: 'contain', transition: 'opacity 0.2s' }} />
                 </a>
               ))}
             </div>
@@ -92,11 +92,11 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
               {[
                 { src: '/partners/generali_poj.png', href: 'https://www.generaliceska.cz/', alt: 'Generali' },
-                { src: '/partners/defend.jpg', href: 'https://www.defendinsurance.eu/', alt: 'Defend Insurance' },
+                { src: '/partners/DIG_Main_logo.png', href: 'https://www.defendinsurance.eu/', alt: 'Defend Insurance' },
                 { src: '/partners/cebia.gif', href: 'https://www.cebia.cz/', alt: 'Cebia' },
               ].map((p) => (
                 <a key={p.alt} href={p.href} target="_blank" rel="noopener noreferrer" className="partner-logo-link">
-                  <img src={p.src} alt={p.alt} style={{ height: '32px', width: 'auto', objectFit: 'contain', filter: 'brightness(0) invert(1)', opacity: 0.6, transition: 'opacity 0.2s' }} />
+                  <img src={p.src} alt={p.alt} style={{ height: '32px', width: 'auto', objectFit: 'contain', transition: 'opacity 0.2s' }} />
                 </a>
               ))}
             </div>
