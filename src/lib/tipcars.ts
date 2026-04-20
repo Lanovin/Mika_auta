@@ -98,7 +98,7 @@ function parseCarXml(carXml: string): Vehicle | null {
   const typeInfo = decodeEntities(getTag(carXml, "type_info"));
   const kindText = decodeEntities(getTag(carXml, "kind_text"));
   const bodyText = decodeEntities(getTag(carXml, "body_text"));
-  const price = parseInt(getTag(carXml, "price"), 10) || 0;
+  const price = parseInt(getTag(carXml, "price_2"), 10) || parseInt(getTag(carXml, "price"), 10) || 0;
   const mileage = parseInt(getTag(carXml, "tachometr"), 10) || 0;
   const powerKw = parseInt(getTag(carXml, "engine_power"), 10) || 0;
   const engineVolume = parseInt(getTag(carXml, "engine_volume"), 10) || 0;
