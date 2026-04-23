@@ -2,7 +2,7 @@
 
 ## Přihlášení
 
-Společné přihlášení je dostupné na `/prihlaseni`.
+Společné přihlášení je dostupné na `/admin/login`.
 
 Běžní návštěvníci si zde mohou vytvořit účet přes uživatelské jméno, e-mail a heslo.
 Administrace vozů je přístupná speciálním účtem:

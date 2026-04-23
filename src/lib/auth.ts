@@ -123,7 +123,7 @@ export async function getCurrentUser() {
 export async function requireAuth() {
   const user = await getCurrentUser();
   if (!user) {
-    redirect("/prihlaseni");
+    redirect("/admin/login");
   }
   return user;
 }
@@ -131,7 +131,7 @@ export async function requireAuth() {
 export async function requireAdminAuth() {
   const user = await getCurrentUser();
   if (!user) {
-    redirect("/prihlaseni?next=%2Fadmin");
+    redirect("/admin/login?next=%2Fadmin");
   }
   if (user.role !== "admin") {
     redirect("/ucet?admin=0");

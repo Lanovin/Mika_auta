@@ -25,11 +25,11 @@ export async function loginUserAction(formData: FormData) {
   const user = await loginUser(identifier, password);
 
   if (!user) {
-    redirect(`/prihlaseni?error=login&next=${encodeURIComponent(nextPath)}`);
+    redirect(`/admin/login?error=login&next=${encodeURIComponent(nextPath)}`);
   }
 
   if (user.role !== "admin") {
-    redirect("/prihlaseni?error=login");
+    redirect("/admin/login?error=login");
   }
 
   redirect(nextPath);
@@ -37,12 +37,12 @@ export async function loginUserAction(formData: FormData) {
 
 export async function registerUserAction(formData: FormData) {
   // Registration disabled – admin only
-  redirect("/prihlaseni");
+  redirect("/admin/login");
 }
 
 export async function logoutUserAction() {
   await logoutUser();
-  redirect("/prihlaseni?logout=1");
+  redirect("/admin/login?logout=1");
 }
 
 export async function toggleFeaturedAction(tipcarsId: string, currentFeatured: boolean) {
