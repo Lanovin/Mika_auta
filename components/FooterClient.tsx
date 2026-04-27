@@ -78,25 +78,29 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
             <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{lang === 'cs' ? 'Finance' : 'Finance'}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
               {[
-                { src: '/partners/moneta_logo_2.pdf', href: 'https://gemoney.cz/', alt: 'Moneta' },
+                { src: '/partners/moneta.png', href: 'https://gemoney.cz/', alt: 'Moneta' },
                 { src: '/partners/leasingcs-logo.png', href: 'https://leasingcs.cz/', alt: 'Leasing ČS' },
                 { src: '/partners/kb_essox.png', href: 'https://www.essox.cz/', alt: 'Essox' },
                 { src: '/partners/homecredit.png', href: 'https://www.homecredit.cz/', alt: 'Home Credit' },
               ].map((p) => (
                 <a key={p.alt} href={p.href} target="_blank" rel="noopener noreferrer" className="partner-logo-link">
-                  <img src={p.src} alt={p.alt} style={{ height: '32px', width: 'auto', objectFit: 'contain', transition: 'opacity 0.2s' }} />
+                  <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: '4px', padding: '3px 6px' }}>
+                    <img src={p.src} alt={p.alt} style={{ height: '26px', width: 'auto', objectFit: 'contain' }} />
+                  </span>
                 </a>
               ))}
             </div>
             <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '20px', marginBottom: '12px' }}>{lang === 'cs' ? 'Pojištění' : 'Insurance'}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
               {[
-                { src: '/partners/generali_logo_2.pdf', href: 'https://www.generaliceska.cz/', alt: 'Generali' },
+                { src: '/partners/generali_poj.png', href: 'https://www.generaliceska.cz/', alt: 'Generali' },
                 { src: '/partners/DIG_Main_logo.png', href: 'https://www.defendinsurance.eu/', alt: 'Defend Insurance' },
                 { src: '/partners/cebia.gif', href: 'https://www.cebia.cz/', alt: 'Cebia' },
               ].map((p) => (
                 <a key={p.alt} href={p.href} target="_blank" rel="noopener noreferrer" className="partner-logo-link">
-                  <img src={p.src} alt={p.alt} style={{ height: '32px', width: 'auto', objectFit: 'contain', transition: 'opacity 0.2s' }} />
+                  <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: '4px', padding: '3px 6px' }}>
+                    <img src={p.src} alt={p.alt} style={{ height: '26px', width: 'auto', objectFit: 'contain' }} />
+                  </span>
                 </a>
               ))}
             </div>

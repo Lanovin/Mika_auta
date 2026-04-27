@@ -339,9 +339,9 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.color = 'var(--gold-light)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--gold-dim)'; e.currentTarget.style.color = 'var(--gold)'; }}
           >
-            <span style={{ opacity: lang === 'cs' ? 1 : 0.4, fontSize: '20px', lineHeight: 1 }}>🇨🇿</span>
+            <span style={{ opacity: lang === 'cs' ? 1 : 0.4, fontSize: '13px', lineHeight: 1, verticalAlign: 'middle' }}>🇨🇿</span>
             <span style={{ color: 'var(--gold-dim)', fontSize: '13px' }}>/</span>
-            <span style={{ opacity: lang === 'en' ? 1 : 0.4, fontSize: '13px', lineHeight: 1, fontWeight: 600, letterSpacing: '0.05em' }}>ENG</span>
+            <span style={{ opacity: lang === 'en' ? 1 : 0.4, fontSize: '13px', lineHeight: 1, fontWeight: 600, letterSpacing: '0.05em', verticalAlign: 'middle' }}>ENG</span>
           </button>
         </div>
 
