@@ -89,7 +89,6 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: inquiryName,
-          email: inquiryPhone ? `${inquiryPhone}@phone.placeholder` : "neposkytnut@email.cz",
           phone: inquiryPhone,
           message: `[${car.make} ${car.model}, ID: ${car.id}]\n\n${inquiryMsg}`,
           source: "poptavka",
@@ -98,7 +97,8 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
       if (res.ok) {
         setInquirySent(true);
       } else {
-        setInquiryError(lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred.");
+        const data = await res.json().catch(() => null);
+        setInquiryError(data?.error || (lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred."));
       }
     } catch {
       setInquiryError(lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred.");
@@ -508,7 +508,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
               )}
               <div className="mt-4 space-y-3">
                 <input type="text" required placeholder={t("detail.name", lang)} className="w-full px-3 py-2.5 text-sm" value={inquiryName} onChange={(e) => setInquiryName(e.target.value)} />
-                <input type="tel" placeholder={t("detail.phone", lang)} className="w-full px-3 py-2.5 text-sm" value={inquiryPhone} onChange={(e) => setInquiryPhone(e.target.value)} />
+                <input type="tel" required placeholder={t("detail.phone", lang)} className="w-full px-3 py-2.5 text-sm" value={inquiryPhone} onChange={(e) => setInquiryPhone(e.target.value)} />
                 <textarea rows={4} required value={inquiryMsg} onChange={(e) => setInquiryMsg(e.target.value)} className="w-full resize-none px-3 py-2.5 text-sm" />
                 <button type="submit" disabled={inquirySending} className="btn-primary w-full">
                   {inquirySending ? (lang === "cs" ? "Odesílám…" : "Sending…") : t("detail.sendInquiry", lang)}
@@ -580,7 +580,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
             )}
             <div className="mt-3 space-y-2">
               <input type="text" required placeholder={t("detail.name", lang)} className="w-full px-3 py-2 text-sm" value={inquiryName} onChange={(e) => setInquiryName(e.target.value)} />
-              <input type="tel" placeholder={t("detail.phone", lang)} className="w-full px-3 py-2 text-sm" value={inquiryPhone} onChange={(e) => setInquiryPhone(e.target.value)} />
+              <input type="tel" required placeholder={t("detail.phone", lang)} className="w-full px-3 py-2 text-sm" value={inquiryPhone} onChange={(e) => setInquiryPhone(e.target.value)} />
               <textarea rows={3} required value={inquiryMsg} onChange={(e) => setInquiryMsg(e.target.value)} className="w-full resize-none px-3 py-2 text-sm" />
               <button type="submit" disabled={inquirySending} className="btn-primary w-full py-2.5">
                 {inquirySending ? (lang === "cs" ? "Odesílám…" : "Sending…") : t("detail.sendInquiry", lang)}

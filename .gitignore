@@ -31,3 +31,5 @@ tsconfig.tsbuildinfo
 
 # uploads generated at runtime (optional)
 public/uploads/vehicles/
+.vercel
+.env*.local

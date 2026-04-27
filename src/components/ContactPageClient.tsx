@@ -51,7 +51,8 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
       if (res.ok) {
         setSent(true);
       } else {
-        setError(lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred while sending.");
+        const body = await res.json().catch(() => null);
+        setError(body?.error || (lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred while sending."));
       }
     } catch {
       setError(lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred while sending.");

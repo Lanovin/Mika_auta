@@ -1,21 +1,22 @@
-import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
+import { readStoredJson, writeStoredJson } from "@/src/lib/server-storage";
 
 export type ContentData = Record<string, unknown>;
 
 const contentPath = path.join(process.cwd(), "data", "content.json");
 
-async function ensureContentFile() {
-  await mkdir(path.dirname(contentPath), { recursive: true });
-}
-
 export async function readContent(): Promise<ContentData> {
-  await ensureContentFile();
-  const raw = await readFile(contentPath, "utf8");
-  return JSON.parse(raw) as ContentData;
+  return readStoredJson<ContentData>({
+    storeKey: "content",
+    filePath: contentPath,
+    defaultValue: {},
+  });
 }
 
 export async function writeContent(data: ContentData): Promise<void> {
-  await ensureContentFile();
-  await writeFile(contentPath, JSON.stringify(data, null, 2) + "\n", "utf8");
+  await writeStoredJson({
+    storeKey: "content",
+    filePath: contentPath,
+    data,
+  });
 }

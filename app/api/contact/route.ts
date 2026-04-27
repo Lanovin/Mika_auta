@@ -4,16 +4,25 @@ import nodemailer from "nodemailer";
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
 
-const CONTACT_EMAIL = "slano@lanovin.cz";
+const FALLBACK_CONTACT_EMAIL = "slano@lanovin.cz";
+const RESEND_ONBOARDING_FROM = "Mika Auto Web <onboarding@resend.dev>";
 const messagesPath = path.join(process.cwd(), "data", "messages.json");
 
 interface ContactMessage {
   name: string;
-  email: string;
+  email?: string;
   phone: string;
   message: string;
   source: string;
   date: string;
+}
+
+function getSourceLabel(source: string) {
+  return source === "vykup"
+    ? "Oceneni vozu"
+    : source === "poptavka"
+      ? "Poptavka vozu"
+      : "Kontaktni formular";
 }
 
 async function saveMessage(msg: ContactMessage) {
@@ -29,17 +38,43 @@ async function saveMessage(msg: ContactMessage) {
   await writeFile(messagesPath, JSON.stringify(messages, null, 2) + "\n", "utf8");
 }
 
+function isResendSenderError(message: string) {
+  const normalized = message.toLowerCase();
+  return normalized.includes("domain is not verified")
+    || normalized.includes("add and verify your domain")
+    || normalized.includes("testing emails")
+    || normalized.includes("verify a domain");
+}
+
+async function sendWithResend(
+  resend: Resend,
+  from: string,
+  msg: ContactMessage,
+  contactEmail: string,
+  subject: string,
+  text: string,
+) {
+  const { error } = await resend.emails.send({
+    from,
+    ...(msg.email ? { replyTo: msg.email } : {}),
+    to: [contactEmail],
+    subject,
+    text,
+  });
+
+  if (error) {
+    throw new Error(error.message || "Failed to send email with Resend.");
+  }
+}
+
 async function sendEmail(msg: ContactMessage) {
-  const sourceLabel = msg.source === "vykup"
-    ? "Ocenění vozu"
-    : msg.source === "poptavka"
-      ? "Poptávka vozu"
-      : "Kontaktní formulář";
+  const contactEmail = process.env.KONTAKT_EMAIL || process.env.CONTACT_EMAIL || FALLBACK_CONTACT_EMAIL;
+  const sourceLabel = getSourceLabel(msg.source);
 
   const subject = `[${sourceLabel}] Nová zpráva od ${msg.name}`;
   const text = [
     `Jméno: ${msg.name}`,
-    `Email: ${msg.email}`,
+    `Email: ${msg.email || "neuvedeno"}`,
     `Telefon: ${msg.phone || "neuvedeno"}`,
     `Zdroj: ${sourceLabel}`,
     "",
@@ -51,14 +86,27 @@ async function sendEmail(msg: ContactMessage) {
   const resendKey = process.env.RESEND_API_KEY;
   if (resendKey) {
     const resend = new Resend(resendKey);
-    const fromAddress = process.env.RESEND_FROM || "Mika Auto Web <onboarding@resend.dev>";
-    await resend.emails.send({
-      from: fromAddress,
-      replyTo: msg.email,
-      to: [CONTACT_EMAIL],
-      subject,
-      text,
-    });
+    const configuredFrom = process.env.RESEND_FROM?.trim();
+    const fromAddress = configuredFrom || RESEND_ONBOARDING_FROM;
+
+    try {
+      await sendWithResend(resend, fromAddress, msg, contactEmail, subject, text);
+    } catch (error) {
+      const message = error instanceof Error ? error.message : String(error);
+      const shouldRetryWithOnboarding = Boolean(
+        configuredFrom
+        && configuredFrom !== RESEND_ONBOARDING_FROM
+        && isResendSenderError(message)
+      );
+
+      if (!shouldRetryWithOnboarding) {
+        throw error;
+      }
+
+      console.warn("[contact] Custom RESEND_FROM is not verified yet, retrying with onboarding sender.");
+      await sendWithResend(resend, RESEND_ONBOARDING_FROM, msg, contactEmail, subject, text);
+    }
+
     return;
   }
 
@@ -82,8 +130,8 @@ async function sendEmail(msg: ContactMessage) {
 
   await transporter.sendMail({
     from: `"Mika Auto Web" <${user}>`,
-    replyTo: msg.email,
-    to: CONTACT_EMAIL,
+    ...(msg.email ? { replyTo: msg.email } : {}),
+    to: contactEmail,
     subject,
     text,
   });
@@ -99,15 +147,22 @@ export async function POST(request: Request) {
     const message = String(body.message ?? "").trim();
     const source = String(body.source ?? "contact").trim();
 
-    if (!name || !email || !message) {
+    if (!name || !message) {
       return NextResponse.json(
         { error: "Missing required fields" },
         { status: 400 }
       );
     }
 
+    if (!email && !phone) {
+      return NextResponse.json(
+        { error: "Provide at least an email or phone number" },
+        { status: 400 }
+      );
+    }
+
     // Basic email format validation
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
       return NextResponse.json(
         { error: "Invalid email format" },
         { status: 400 }
@@ -116,11 +171,11 @@ export async function POST(request: Request) {
 
     const contactMessage: ContactMessage = {
       name,
-      email,
       phone,
       message,
       source,
       date: new Date().toISOString(),
+      ...(email ? { email } : {}),
     };
 
     // Save to file (always) and try to send email

@@ -1,27 +1,24 @@
-import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import type { Vehicle, VehicleLabels } from "@/src/lib/vehicle-types";
 import { fetchTipcarsVehicles } from "@/src/lib/tipcars";
+import { readStoredJson, writeStoredJson } from "@/src/lib/server-storage";
 
 const labelsPath = path.join(process.cwd(), "data", "vehicle-labels.json");
 
-async function ensureLabelsFile() {
-  await mkdir(path.dirname(labelsPath), { recursive: true });
-}
-
 async function readLabels(): Promise<VehicleLabels> {
-  try {
-    await ensureLabelsFile();
-    const raw = await readFile(labelsPath, "utf8");
-    return JSON.parse(raw) as VehicleLabels;
-  } catch {
-    return {};
-  }
+  return readStoredJson<VehicleLabels>({
+    storeKey: "vehicle-labels",
+    filePath: labelsPath,
+    defaultValue: () => ({}),
+  });
 }
 
 async function writeLabels(labels: VehicleLabels) {
-  await ensureLabelsFile();
-  await writeFile(labelsPath, JSON.stringify(labels, null, 2) + "\n", "utf8");
+  await writeStoredJson({
+    storeKey: "vehicle-labels",
+    filePath: labelsPath,
+    data: labels,
+  });
 }
 
 function applyLabels(vehicles: Vehicle[], labels: VehicleLabels): Vehicle[] {

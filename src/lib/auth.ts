@@ -1,8 +1,8 @@
 import { createHash, createHmac, randomUUID } from "node:crypto";
-import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { readStoredJson, writeStoredJson } from "@/src/lib/server-storage";
 
 export type UserRole = "admin" | "user";
 
@@ -62,14 +62,12 @@ function decodeSession(value: string): SessionUser | null {
   }
 }
 
-async function ensureUsersFile() {
-  await mkdir(path.dirname(usersPath), { recursive: true });
-}
-
 async function readUsersFile(): Promise<UserFile> {
-  await ensureUsersFile();
-  const raw = await readFile(usersPath, "utf8");
-  const data = JSON.parse(raw) as UserFile;
+  const data = await readStoredJson<UserFile>({
+    storeKey: "users",
+    filePath: usersPath,
+    defaultValue: () => ({ users: [] }),
+  });
 
   if (!data.users.some((user) => user.username === DEFAULT_ADMIN.username)) {
     data.users.unshift({
@@ -87,8 +85,11 @@ async function readUsersFile(): Promise<UserFile> {
 }
 
 async function writeUsersFile(data: UserFile) {
-  await ensureUsersFile();
-  await writeFile(usersPath, JSON.stringify(data, null, 2) + "\n", "utf8");
+  await writeStoredJson({
+    storeKey: "users",
+    filePath: usersPath,
+    data,
+  });
 }
 
 function toSessionUser(user: StoredUser): SessionUser {
