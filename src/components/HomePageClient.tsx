@@ -138,7 +138,7 @@ export function HomePageClient({ vehicles, homepageMode = "default", banners = [
               {c ? c.featured.title : t('featured.title', lang)} <span style={{ color: 'var(--gold-light)', fontStyle: 'italic' }}>{c ? c.featured.titleHighlight : t('featured.titleHighlight', lang)}</span>
             </h2>
           </div>
-          <Link href="/vozy" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '12px', fontWeight: 600, color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}>
+          <Link href="/vozy" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', fontSize: '13px', fontWeight: 600, color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'none', transition: 'color 0.2s' }}>
             {c ? c.featured.linkText : t('featured.linkText', lang)}
             <ArrowRight style={{ width: '14px', height: '14px' }} />
           </Link>
@@ -225,7 +225,7 @@ export function HomePageClient({ vehicles, homepageMode = "default", banners = [
               <p style={{ fontSize: '14px', lineHeight: 1.8, color: 'var(--cream-muted)', marginTop: '8px' }}>
                 {review.text}
               </p>
-              <div style={{ marginTop: '16px', fontSize: '13px', fontWeight: 600, color: 'var(--white)', fontStyle: 'normal' }}>
+              <div style={{ marginTop: '16px', fontSize: '14px', fontWeight: 600, color: 'var(--white)', fontStyle: 'normal' }}>
                 {review.author}
               </div>
             </article>

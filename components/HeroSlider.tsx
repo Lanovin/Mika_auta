@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ChevronLeft, ChevronRight, Calendar, Gauge } from "lucide-react";
 import type { Vehicle } from "@/src/lib/vehicle-types";
 import { useLanguage } from "@/src/lib/LanguageContext";
-import { t } from "@/src/lib/translations";
+import { t, tReplace } from "@/src/lib/translations";
 
 interface HeroSliderProps {
   vehicles: Vehicle[];
@@ -80,59 +80,69 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
     >
       <div className="hero-slider__track">
         {slides.map((car, i) => (
-          <Link
-            key={car.id}
-            href={`/vozy/${car.id}`}
-            className={`hero-slider__slide ${i === current ? "hero-slider__slide--active" : ""}`}
-            style={{ opacity: i === current ? 1 : 0, pointerEvents: i === current ? "auto" : "none" }}
-            aria-hidden={i !== current}
-          >
-            <div className={`hero-slider__img-wrap ${i === current ? "hero-slider__img-wrap--zoom" : ""}`}>
-              <Image
-                src={car.imageUrl || "/placeholder-car.jpg"}
-                alt={car.title}
-                fill
-                sizes="(max-width: 768px) 100vw, 50vw"
-                style={{ objectFit: "cover" }}
-                priority={i === 0}
-                unoptimized
-              />
-            </div>
+          (() => {
+            const formattedPrice = lang === "cs"
+              ? `${car.price.toLocaleString("cs-CZ")}\u00a0Kč`
+              : `CZK ${car.price.toLocaleString("en-US")}`;
+            const vatDeductionText = car.vatDeduction
+              ? tReplace("vehicle.vatDeduction", lang, { price: formattedPrice })
+              : null;
 
-            {/* Slide counter */}
-            <span className="hero-slider__counter">
-              {String(i + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
-            </span>
+            return (
+              <Link
+                key={car.id}
+                href={`/vozy/${car.id}`}
+                className={`hero-slider__slide ${i === current ? "hero-slider__slide--active" : ""}`}
+                style={{ opacity: i === current ? 1 : 0, pointerEvents: i === current ? "auto" : "none" }}
+                aria-hidden={i !== current}
+              >
+                <div className={`hero-slider__img-wrap ${i === current ? "hero-slider__img-wrap--zoom" : ""}`}>
+                  <Image
+                    src={car.imageUrl || "/placeholder-car.jpg"}
+                    alt={car.title}
+                    fill
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    style={{ objectFit: "cover" }}
+                    priority={i === 0}
+                    unoptimized
+                  />
+                </div>
 
-            {/* Badge */}
-            <span className="hero-slider__badge">{t("slider.badge", lang)}</span>
+                {/* Slide counter */}
+                <span className="hero-slider__counter">
+                  {String(i + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")}
+                </span>
 
-            {/* Bottom gradient overlay with text */}
-            <div className="hero-slider__info">
-              <div className="hero-slider__title">
-                {car.make && car.model ? `${car.make} ${car.model}` : car.title.split(/\s+/).slice(0, 2).join(" ")}
-              </div>
-              <div className="hero-slider__meta">
-                {car.year > 0 && (
-                  <span className="hero-slider__meta-item">
-                    <Calendar style={{ width: "13px", height: "13px" }} />
-                    {car.year}
-                  </span>
-                )}
-                {car.mileage > 0 && (
-                  <span className="hero-slider__meta-item">
-                    <Gauge style={{ width: "13px", height: "13px" }} />
-                    {car.mileage.toLocaleString(lang === "cs" ? "cs-CZ" : "en-US")} km
-                  </span>
-                )}
-              </div>
-              <div className="hero-slider__price">
-                {lang === "cs"
-                  ? `${car.price.toLocaleString("cs-CZ")}\u00a0Kč`
-                  : `CZK ${car.price.toLocaleString("en-US")}`}
-              </div>
-            </div>
-          </Link>
+                {/* Badge */}
+                <span className="hero-slider__badge">{t("slider.badge", lang)}</span>
+
+                {/* Bottom gradient overlay with text */}
+                <div className="hero-slider__info">
+                  <div className="hero-slider__title">
+                    {car.make && car.model ? `${car.make} ${car.model}` : car.title.split(/\s+/).slice(0, 2).join(" ")}
+                  </div>
+                  <div className="hero-slider__meta">
+                    {car.year > 0 && (
+                      <span className="hero-slider__meta-item">
+                        <Calendar style={{ width: "13px", height: "13px" }} />
+                        {car.year}
+                      </span>
+                    )}
+                    {car.mileage > 0 && (
+                      <span className="hero-slider__meta-item">
+                        <Gauge style={{ width: "13px", height: "13px" }} />
+                        {car.mileage.toLocaleString(lang === "cs" ? "cs-CZ" : "en-US")} km
+                      </span>
+                    )}
+                  </div>
+                  <div className="hero-slider__price">{formattedPrice}</div>
+                  {vatDeductionText ? (
+                    <div className="hero-slider__price-note">{vatDeductionText}</div>
+                  ) : null}
+                </div>
+              </Link>
+            );
+          })()
         ))}
 
         {/* Navigation arrows */}

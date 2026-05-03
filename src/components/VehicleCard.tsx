@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ArrowRight, Fuel, Gauge, CalendarRange } from "lucide-react";
 import type { Vehicle } from "@/src/lib/vehicle-types";
 import { useLanguage } from "@/src/lib/LanguageContext";
-import { t } from "@/src/lib/translations";
+import { t, tReplace } from "@/src/lib/translations";
 
 interface VehicleCardProps {
   car: Vehicle;
@@ -17,6 +17,9 @@ export function VehicleCard({ car }: VehicleCardProps) {
     currency: "CZK",
     maximumFractionDigits: 0
   }).format(car.price);
+  const vatDeductionText = car.vatDeduction
+    ? tReplace("vehicle.vatDeduction", lang, { price: formattedPrice })
+    : null;
 
   const formattedMileage = new Intl.NumberFormat(locale).format(car.mileage);
 
@@ -79,7 +82,12 @@ export function VehicleCard({ car }: VehicleCardProps) {
 
           {/* Divider + price */}
           <div className="vehicle-card__footer">
-            <div className="vehicle-card__price">{formattedPrice}</div>
+            <div className="vehicle-card__price-block">
+              <div className="vehicle-card__price">{formattedPrice}</div>
+              {vatDeductionText ? (
+                <div className="vehicle-card__price-note">{vatDeductionText}</div>
+              ) : null}
+            </div>
             <span className="vehicle-card__cta">
               {t("card.detail", lang)}
               <ArrowRight className="vehicle-card__cta-arrow group-hover:translate-x-1" />

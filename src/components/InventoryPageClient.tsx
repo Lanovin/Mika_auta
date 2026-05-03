@@ -414,7 +414,7 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
               type="button"
               onClick={applyAndClose}
               className="btn-primary w-full"
-              style={{ padding: '14px 20px', fontSize: '12px' }}
+              style={{ padding: '14px 20px', fontSize: '13px' }}
             >
               {t("inv.search", lang)} ({filteredCars.length})
             </button>

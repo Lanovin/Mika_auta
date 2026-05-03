@@ -54,6 +54,9 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
     currency: "CZK",
     maximumFractionDigits: 0,
   }).format(car.price);
+  const vatDeductionText = car.vatDeduction
+    ? tReplace("vehicle.vatDeduction", lang, { price: formattedPrice })
+    : null;
 
   const formattedMileage = new Intl.NumberFormat(locale).format(car.mileage);
 
@@ -203,6 +206,9 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
         >
           {formattedPrice}
         </div>
+        {vatDeductionText ? (
+          <div className="mt-1 text-xs text-secondary">{vatDeductionText}</div>
+        ) : null}
       </div>
 
       <div className="grid gap-6 lg:gap-8 lg:grid-cols-[minmax(0,3fr),minmax(0,2fr)]">
@@ -458,6 +464,9 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
             >
               {formattedPrice}
             </div>
+            {vatDeductionText ? (
+              <div className="mt-1 text-xs text-secondary">{vatDeductionText}</div>
+            ) : null}
             <div className="mt-3 grid gap-2 text-sm text-secondary">
               <div>{t("detail.tradeIn", lang)}</div>
               <div>{t("detail.financing", lang)}</div>
@@ -775,8 +784,13 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
         }}
       >
         <div className="flex items-center gap-2 max-w-[600px] mx-auto">
-          <div className="flex-shrink-0 mr-auto min-w-0" style={{ fontFamily: "var(--font-display)", fontSize: "16px", fontWeight: 600, color: "var(--gold-light)" }}>
-            {formattedPrice}
+          <div className="flex-shrink-0 mr-auto min-w-0">
+            <div style={{ fontFamily: "var(--font-display)", fontSize: "16px", fontWeight: 600, color: "var(--gold-light)" }}>
+              {formattedPrice}
+            </div>
+            {vatDeductionText ? (
+              <div className="mt-0.5 text-[10px] leading-4 text-secondary">{vatDeductionText}</div>
+            ) : null}
           </div>
           <a href="tel:+420774333774" className="btn-secondary flex-shrink-0 px-3 py-2 text-[10px] text-center" style={{ letterSpacing: "0.12em" }}>
             {t("detail.call", lang)}

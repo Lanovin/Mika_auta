@@ -12,6 +12,7 @@ export interface Vehicle {
   model: string;
   year: number;
   price: number;
+  vatDeduction?: boolean;
   mileage: number;
   fuel: FuelType;
   transmission: Transmission;

@@ -37,10 +37,10 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
             <div style={{ fontFamily: "var(--font-display)", fontSize: '20px', fontWeight: 700, color: 'var(--white)' }}>
               Mika <span style={{ color: 'var(--gold)' }}>Auto</span>
             </div>
-            <p style={{ marginTop: '12px', fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.7, fontWeight: 300 }}>
+            <p style={{ marginTop: '12px', fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.75, fontWeight: 400 }}>
               {fc.description}
             </p>
-            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '20px', marginBottom: '10px' }}>{t("footer.social", lang)}</div>
+            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '20px', marginBottom: '10px' }}>{t("footer.social", lang)}</div>
             <a
               href="https://www.instagram.com/mikaauto.cz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
@@ -55,14 +55,14 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           </div>
 
           <div>
-            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: '16px' }}>{t("footer.address", lang)}</div>
-            <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
+            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: '16px' }}>{t("footer.address", lang)}</div>
+            <div style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.85 }}>
               <div>{kc.address.street}</div>
               <div>{kc.address.city}</div>
               <div>{kc.address.note1}</div>
             </div>
-            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{t("footer.hours", lang)}</div>
-            <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
+            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{t("footer.hours", lang)}</div>
+            <div style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.85 }}>
               <div>{kc.hours.weekdays}</div>
               <div>{kc.hours.saturday}</div>
               <div>{kc.hours.sunday}</div>
@@ -70,12 +70,12 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           </div>
 
           <div>
-            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: '16px' }}>{t("footer.contact", lang)}</div>
-            <div style={{ fontSize: '13px', color: 'var(--text-muted)', lineHeight: 1.8 }}>
+            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: '16px' }}>{t("footer.contact", lang)}</div>
+            <div style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.85 }}>
               <div>Tel.: {kc.phone}</div>
               <div>Email: {kc.email}</div>
             </div>
-            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{lang === 'cs' ? 'Finance' : 'Finance'}</div>
+            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{lang === 'cs' ? 'Finance' : 'Finance'}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
               {[
                 { src: '/partners/moneta.png', href: 'https://gemoney.cz/', alt: 'Moneta' },
@@ -90,7 +90,7 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
                 </a>
               ))}
             </div>
-            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '20px', marginBottom: '12px' }}>{lang === 'cs' ? 'Pojištění' : 'Insurance'}</div>
+            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '20px', marginBottom: '12px' }}>{lang === 'cs' ? 'Pojištění' : 'Insurance'}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
               {[
                 { src: '/partners/generali_poj.png', href: 'https://www.generaliceska.cz/', alt: 'Generali' },
@@ -109,7 +109,7 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
       </div>
 
       <div style={{ borderTop: '1px solid var(--black-border)', padding: '16px 0' }}>
-        <div className="container-page" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: 'var(--text-muted)', flexWrap: 'wrap', gap: '8px' }}>
+        <div className="container-page" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', color: 'var(--text-muted)', flexWrap: 'wrap', gap: '8px' }}>
           <span style={{ textAlign: 'center', flex: '1 1 auto' }}>{fc.copyright}</span>
           <span style={{ textAlign: 'center', flex: '1 1 auto' }}>{fc.tagline}</span>
         </div>

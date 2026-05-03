@@ -1,8 +1,8 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
 import nodemailer from "nodemailer";
-import { readFile, writeFile, mkdir } from "node:fs/promises";
 import path from "node:path";
+import { readStoredJson, writeStoredJson } from "@/src/lib/server-storage";
 
 const FALLBACK_CONTACT_EMAIL = "slano@lanovin.cz";
 const RESEND_ONBOARDING_FROM = "Mika Auto Web <onboarding@resend.dev>";
@@ -25,17 +25,40 @@ function getSourceLabel(source: string) {
       : "Kontaktni formular";
 }
 
+function isStoragePermissionError(error: unknown) {
+  return typeof error === "object"
+    && error !== null
+    && "code" in error
+    && (
+      error.code === "EROFS"
+      || error.code === "EACCES"
+      || error.code === "EPERM"
+    );
+}
+
 async function saveMessage(msg: ContactMessage) {
-  await mkdir(path.dirname(messagesPath), { recursive: true });
-  let messages: ContactMessage[] = [];
   try {
-    const raw = await readFile(messagesPath, "utf8");
-    messages = JSON.parse(raw);
-  } catch {
-    // file doesn't exist yet
+    const messages = await readStoredJson<ContactMessage[]>({
+      storeKey: "messages",
+      filePath: messagesPath,
+      defaultValue: [],
+    });
+
+    messages.push(msg);
+
+    await writeStoredJson({
+      storeKey: "messages",
+      filePath: messagesPath,
+      data: messages,
+    });
+  } catch (error) {
+    if (isStoragePermissionError(error)) {
+      console.warn("[contact] Message storage is read-only in this environment, skipping local persistence.");
+      return;
+    }
+
+    console.warn("[contact] Failed to persist message, continuing with email delivery.", error);
   }
-  messages.push(msg);
-  await writeFile(messagesPath, JSON.stringify(messages, null, 2) + "\n", "utf8");
 }
 
 function isResendSenderError(message: string) {
@@ -117,7 +140,7 @@ async function sendEmail(msg: ContactMessage) {
   const pass = process.env.SMTP_PASS;
 
   if (!host || !user || !pass) {
-    console.warn("[contact] No email provider configured (set RESEND_API_KEY or SMTP_HOST/USER/PASS). Message saved to file only.");
+    console.warn("[contact] No email provider configured (set RESEND_API_KEY or SMTP_HOST/USER/PASS). Message delivery skipped after best-effort persistence.");
     return;
   }
 
@@ -178,7 +201,7 @@ export async function POST(request: Request) {
       ...(email ? { email } : {}),
     };
 
-    // Save to file (always) and try to send email
+    // Save the message when storage is available and continue with email delivery.
     await saveMessage(contactMessage);
     await sendEmail(contactMessage);
 

@@ -7,6 +7,7 @@
       "model": "Octavia Combi 2.0 TDI",
       "year": 2019,
       "price": 389000,
+      "vatDeduction": true,
       "mileage": 124000,
       "fuel": "nafta",
       "transmission": "manuální",

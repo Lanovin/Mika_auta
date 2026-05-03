@@ -1,9 +1,12 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Phone, Clock, ChevronDown, Home, X } from "lucide-react";
 import { usePathname } from "next/navigation";
+import czFlag from "@/cz.png";
+import gbFlag from "@/gb.png";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
 
@@ -14,6 +17,34 @@ type CurrentUser = {
 
 interface HeaderClientProps {
   currentUser: CurrentUser;
+}
+
+function LanguageToggleVisual({ lang, size = 18 }: { lang: "cs" | "en" ; size?: number }) {
+  const flagHeight = Math.round(size * 0.68);
+
+  return (
+    <>
+      <span style={{ opacity: lang === "cs" ? 1 : 0.45, display: "inline-flex", alignItems: "center" }}>
+        <Image
+          src={czFlag}
+          alt="Čeština"
+          width={size}
+          height={flagHeight}
+          style={{ width: `${size}px`, height: `${flagHeight}px`, objectFit: "cover", borderRadius: "2px" }}
+        />
+      </span>
+      <span style={{ color: "var(--gold-light)", fontSize: `${Math.max(12, size - 2)}px`, lineHeight: 1 }}>/</span>
+      <span style={{ opacity: lang === "en" ? 1 : 0.45, display: "inline-flex", alignItems: "center" }}>
+        <Image
+          src={gbFlag}
+          alt="English"
+          width={size}
+          height={flagHeight}
+          style={{ width: `${size}px`, height: `${flagHeight}px`, objectFit: "cover", borderRadius: "2px" }}
+        />
+      </span>
+    </>
+  );
 }
 
 function slugify(text: string): string {
@@ -166,33 +197,33 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
     {kontakt && (
       <div className="topbar" style={{
         position: 'sticky',
-        top: headerVisible ? '0' : '-40px',
+        top: headerVisible ? '0' : '-48px',
         zIndex: 31,
         transition: 'top 0.35s ease',
       }}>
-        <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '36px', gap: '16px' }}>
+        <div className="container-page" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '44px', gap: '16px' }}>
           <a href={`tel:${kontakt.phone.replace(/\s/g, '')}`}
             className="topbar-item"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', textDecoration: 'none', color: 'var(--gold)', fontWeight: 600, fontSize: '13px', letterSpacing: '0.04em' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', textDecoration: 'none', color: 'var(--gold-light)', fontWeight: 700, fontSize: '15px', letterSpacing: '0.04em', padding: '5px 0' }}
           >
-            <Phone style={{ width: '13px', height: '13px', flexShrink: 0 }} />
+            <Phone style={{ width: '14px', height: '14px', flexShrink: 0 }} />
             {kontakt.phone}
           </a>
           <span
             className="topbar-item topbar-hours"
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', color: 'var(--cream-muted)', fontSize: '12px', letterSpacing: '0.04em' }}
+            style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', color: 'var(--cream)', fontSize: '14px', fontWeight: 600, letterSpacing: '0.04em' }}
           >
-            <Clock style={{ width: '12px', height: '12px', flexShrink: 0, color: 'var(--gold-dim)' }} />
+            <Clock style={{ width: '13px', height: '13px', flexShrink: 0, color: 'var(--gold-light)' }} />
             {shortHours}
           </span>
         </div>
       </div>
     )}
 
-    <header style={{ position: 'sticky', top: headerVisible ? (kontakt ? '36px' : '0') : '-140px', zIndex: 30, background: 'var(--black)', borderBottom: alertText && !alertDismissed ? 'none' : '1px solid rgba(201,168,76,0.08)', transition: 'top 0.35s ease' }}>
-      <div className="container-page" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '120px', gap: '16px' }}>
+    <header style={{ position: 'sticky', top: headerVisible ? (kontakt ? '44px' : '0') : '-148px', zIndex: 30, background: 'var(--black)', borderBottom: alertText && !alertDismissed ? 'none' : '1px solid rgba(201,168,76,0.08)', transition: 'top 0.35s ease' }}>
+      <div className="container-page" style={{ position: 'relative', display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: '124px', gap: '16px' }}>
         {/* Left nav — desktop */}
-        <nav style={{ display: 'none', alignItems: 'center', gap: '36px', fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-end', paddingRight: '180px' }} className="lg:!flex">
+        <nav style={{ display: 'none', alignItems: 'center', gap: '36px', fontFamily: "var(--font-body)", fontSize: '16px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-end', paddingRight: '180px' }} className="lg:!flex">
           {leftNav.map((item) => {
             if (item.hasSubmenu) {
               const isActive = pathname.startsWith('/sluzby/');
@@ -235,7 +266,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
                             style={{
                               display: 'block',
                               padding: '8px 20px',
-                              fontSize: '13px',
+                              fontSize: '14px',
                               fontWeight: 400,
                               letterSpacing: '0.06em',
                               textTransform: 'none',
@@ -291,7 +322,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
             style={{ height: '72px', width: 'auto', objectFit: 'contain' }}
           />
           <span style={{
-            fontSize: '10px',
+            fontSize: '11px',
             fontWeight: 500,
             letterSpacing: '0.22em',
             textTransform: 'uppercase' as const,
@@ -304,7 +335,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
         </Link>
 
         {/* Right nav — desktop */}
-        <div style={{ display: 'none', alignItems: 'center', gap: '36px', fontFamily: "var(--font-body)", fontSize: '15px', fontWeight: 500, letterSpacing: '0.18em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '180px' }} className="lg:!flex">
+        <div style={{ display: 'none', alignItems: 'center', gap: '36px', fontFamily: "var(--font-body)", fontSize: '16px', fontWeight: 500, letterSpacing: '0.16em', textTransform: 'uppercase' as const, flex: 1, justifyContent: 'flex-start', paddingLeft: '180px' }} className="lg:!flex">
           {rightNav.map((item) => (
             <Link
               key={item.href}
@@ -319,9 +350,10 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
           <button
             type="button"
             onClick={toggleLang}
+            aria-label={lang === 'cs' ? 'Switch to English' : 'Přepnout do češtiny'}
             style={{
               padding: '10px 20px',
-              fontSize: '13px',
+              fontSize: '14px',
               fontWeight: 600,
               letterSpacing: '0.1em',
               marginLeft: 'auto',
@@ -339,9 +371,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
             onMouseEnter={(e) => { e.currentTarget.style.borderColor = 'var(--gold)'; e.currentTarget.style.color = 'var(--gold-light)'; }}
             onMouseLeave={(e) => { e.currentTarget.style.borderColor = 'var(--gold-dim)'; e.currentTarget.style.color = 'var(--gold)'; }}
           >
-            <span style={{ opacity: lang === 'cs' ? 1 : 0.4, fontSize: '13px', lineHeight: 1, verticalAlign: 'middle' }}>🇨🇿</span>
-            <span style={{ color: 'var(--gold-dim)', fontSize: '13px' }}>/</span>
-            <span style={{ opacity: lang === 'en' ? 1 : 0.4, fontSize: '13px', lineHeight: 1, fontWeight: 600, letterSpacing: '0.05em', verticalAlign: 'middle' }}>ENG</span>
+            <LanguageToggleVisual lang={lang} />
           </button>
         </div>
 
@@ -354,7 +384,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
             style={{ height: '40px', width: 'auto', objectFit: 'contain' }}
           />
           <span style={{
-            fontSize: '8px',
+            fontSize: '9px',
             fontWeight: 500,
             letterSpacing: '0.2em',
             textTransform: 'uppercase' as const,
@@ -383,7 +413,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
       {isOpen ? (
         <div style={{ borderTop: '1px solid var(--black-border)', background: 'var(--black)' }} className="lg:!hidden">
           <div className="container-page" style={{ padding: '16px 40px' }}>
-            <nav style={{ display: 'grid', gap: '4px', fontSize: '14px' }}>
+            <nav style={{ display: 'grid', gap: '4px', fontSize: '15px' }}>
               {[...leftNav, ...rightNav].map((item) => {
                 if ('hasSubmenu' in item && item.hasSubmenu) {
                   return (
@@ -423,7 +453,7 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
                               style={{
                                 display: 'block',
                                 padding: '6px 12px',
-                                fontSize: '13px',
+                                fontSize: '14px',
                                 color: 'var(--cream-muted)',
                                 textDecoration: 'none',
                                 transition: 'color 0.15s'
@@ -464,9 +494,10 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
                 type="button"
                 onClick={() => { toggleLang(); closeMenu(); }}
                 className="btn-primary"
-                style={{ textAlign: 'center', cursor: 'pointer' }}
+                aria-label={lang === 'cs' ? 'Switch to English' : 'Přepnout do češtiny'}
+                style={{ textAlign: 'center', cursor: 'pointer', gap: '10px' }}
               >
-                {lang === 'cs' ? 'ENG Switch to English' : '🇨🇿 Přepnout do češtiny'}
+                <LanguageToggleVisual lang={lang} size={20} />
               </button>
               {currentUser?.role === "admin" ? (
                 <Link href="/admin" onClick={closeMenu} className="btn-secondary" style={{ textAlign: 'center' }}>
@@ -483,22 +514,23 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
     {alertText && !alertDismissed && (
       <div style={{
         position: 'sticky',
-        top: headerVisible ? (kontakt ? '156px' : '120px') : '-40px',
+        top: headerVisible ? (kontakt ? '168px' : '124px') : '-48px',
         zIndex: 29,
         background: 'linear-gradient(90deg, #c9a84c 0%, #e2c97e 50%, #c9a84c 100%)',
         color: '#0e0e0e',
-        fontSize: '13px',
-        fontWeight: 600,
+        fontSize: '15px',
+        fontWeight: 700,
         textAlign: 'center',
-        padding: '9px 48px',
-        lineHeight: 1.4,
-        letterSpacing: '0.03em',
+        padding: '11px 52px',
+        lineHeight: 1.45,
+        letterSpacing: '0.02em',
         fontFamily: 'var(--font-body)',
-        borderBottom: '1px solid rgba(0,0,0,0.08)',
+        borderBottom: '1px solid rgba(0,0,0,0.12)',
+        boxShadow: '0 12px 24px rgba(0,0,0,0.12)',
         transition: 'top 0.35s ease',
       }}>
         <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '15px', lineHeight: 1 }}>⚠</span>
+          <span style={{ fontSize: '17px', lineHeight: 1 }}>⚠</span>
           {alertText}
         </span>
         <button
@@ -510,22 +542,22 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
             right: '16px',
             top: '50%',
             transform: 'translateY(-50%)',
-            background: 'rgba(0,0,0,0.08)',
+            background: 'rgba(0,0,0,0.12)',
             border: 'none',
             borderRadius: '50%',
             cursor: 'pointer',
-            color: '#3d3018',
-            width: '24px',
-            height: '24px',
+            color: '#2d220f',
+            width: '28px',
+            height: '28px',
             display: 'inline-flex',
             alignItems: 'center',
             justifyContent: 'center',
             transition: 'background 0.15s',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.15)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.08)'; }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.18)'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(0,0,0,0.12)'; }}
         >
-          <X style={{ width: '14px', height: '14px' }} />
+          <X style={{ width: '15px', height: '15px' }} />
         </button>
       </div>
     )}

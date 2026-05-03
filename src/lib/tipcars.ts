@@ -85,6 +85,26 @@ function decodeEntities(text: string): string {
     .replace(/&apos;/g, "'");
 }
 
+function normalizeVehicleText(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+}
+
+function hasVatDeduction(...texts: string[]): boolean {
+  const normalized = normalizeVehicleText(texts.join(" "));
+
+  if (
+    normalized.includes("bez odpoctu dph")
+    || normalized.includes("bez moznosti odpoctu dph")
+  ) {
+    return false;
+  }
+
+  return normalized.includes("odpocet dph") || normalized.includes("odpoctem dph");
+}
+
 function parseCarXml(carXml: string): Vehicle | null {
   const tipcarsId = getTag(carXml, "custom_car_id");
   if (!tipcarsId) return null;
@@ -138,6 +158,7 @@ function parseCarXml(carXml: string): Vehicle | null {
 
   // Equipment
   const equipmentTexts = getAllTags(carXml, "equipment_text").map(decodeEntities);
+  const vatDeduction = hasVatDeduction(note, ...equipmentTexts);
 
   const fuel = mapFuel(fuelText);
   const transmission = mapTransmission(equipmentTexts);
@@ -154,6 +175,7 @@ function parseCarXml(carXml: string): Vehicle | null {
     model,
     year,
     price,
+    vatDeduction,
     mileage,
     fuel,
     transmission,
@@ -187,17 +209,30 @@ async function loadLocalInventory(): Promise<Vehicle[]> {
   try {
     const raw = await readFile(INVENTORY_PATH, "utf8");
     const data = JSON.parse(raw);
-    const vehicles: Vehicle[] = (data.vehicles ?? []).map((v: Record<string, unknown>) => ({
-      tipcarsId: v.id as string,
-      equipment: [],
-      engineVolume: 0,
-      color: "",
-      vin: "",
-      stk: "",
-      condition: "",
-      kind: "Osobní",
-      ...v,
-    }));
+    const vehicles: Vehicle[] = (data.vehicles ?? []).map((rawVehicle: Record<string, unknown>) => {
+      const description = typeof rawVehicle.description === "string" ? rawVehicle.description : "";
+      const equipment = Array.isArray(rawVehicle.equipment)
+        ? rawVehicle.equipment.filter((item): item is string => typeof item === "string")
+        : [];
+
+      return {
+        tipcarsId: typeof rawVehicle.tipcarsId === "string"
+          ? rawVehicle.tipcarsId
+          : String(rawVehicle.id ?? ""),
+        engineVolume: typeof rawVehicle.engineVolume === "number" ? rawVehicle.engineVolume : 0,
+        color: typeof rawVehicle.color === "string" ? rawVehicle.color : "",
+        vin: typeof rawVehicle.vin === "string" ? rawVehicle.vin : "",
+        stk: typeof rawVehicle.stk === "string" ? rawVehicle.stk : "",
+        condition: typeof rawVehicle.condition === "string" ? rawVehicle.condition : "",
+        kind: typeof rawVehicle.kind === "string" ? rawVehicle.kind : "Osobní",
+        ...rawVehicle,
+        description,
+        equipment,
+        vatDeduction: typeof rawVehicle.vatDeduction === "boolean"
+          ? rawVehicle.vatDeduction
+          : hasVatDeduction(description, ...equipment),
+      } as unknown as Vehicle;
+    });
     return vehicles;
   } catch (e) {
     console.error("Failed to load local inventory:", e);
