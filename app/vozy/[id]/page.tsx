@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { readVehicleById } from "@/src/lib/vehicle-store";
+import { readPublishedVehicles, readVehicleById } from "@/src/lib/vehicle-store";
 import { VehicleDetailClient } from "@/src/components/VehicleDetailClient";
 
 interface CarDetailPageProps {
@@ -9,8 +9,15 @@ interface CarDetailPageProps {
   };
 }
 
-export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const vehicles = await readPublishedVehicles();
+
+  return vehicles.map((vehicle) => ({
+    id: vehicle.id,
+  }));
+}
 
 export async function generateMetadata({ params }: CarDetailPageProps): Promise<Metadata> {
   const car = await readVehicleById(params.id);

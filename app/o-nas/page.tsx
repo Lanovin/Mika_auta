@@ -2,8 +2,6 @@ import type { Metadata } from "next";
 import { readContent } from "@/src/lib/content-store";
 import { AboutPageClient } from "@/src/components/AboutPageClient";
 
-export const dynamic = "force-dynamic";
-
 export const metadata: Metadata = {
   title: "O nás – MIKAAUTO s.r.o.",
   description: "Autobazar Mika Auto – od roku 2007 se zabýváme výkupem a prodejem kvalitních ojetých vozů. 100% garance původu, individuální přístup.",

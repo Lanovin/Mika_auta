@@ -17,6 +17,13 @@ interface ContactMessage {
   date: string;
 }
 
+class ContactDeliveryNotConfiguredError extends Error {
+  constructor() {
+    super("No email provider configured for contact form delivery.");
+    this.name = "ContactDeliveryNotConfiguredError";
+  }
+}
+
 function getSourceLabel(source: string) {
   return source === "vykup"
     ? "Oceneni vozu"
@@ -51,13 +58,16 @@ async function saveMessage(msg: ContactMessage) {
       filePath: messagesPath,
       data: messages,
     });
+
+    return true;
   } catch (error) {
     if (isStoragePermissionError(error)) {
       console.warn("[contact] Message storage is read-only in this environment, skipping local persistence.");
-      return;
+      return false;
     }
 
     console.warn("[contact] Failed to persist message, continuing with email delivery.", error);
+    return false;
   }
 }
 
@@ -106,7 +116,7 @@ async function sendEmail(msg: ContactMessage) {
   ].join("\n");
 
   // 1) Try Resend first
-  const resendKey = process.env.RESEND_API_KEY;
+  const resendKey = process.env.RESEND_API_KEY?.trim();
   if (resendKey) {
     const resend = new Resend(resendKey);
     const configuredFrom = process.env.RESEND_FROM?.trim();
@@ -134,14 +144,13 @@ async function sendEmail(msg: ContactMessage) {
   }
 
   // 2) Fallback to SMTP / nodemailer
-  const host = process.env.SMTP_HOST;
+  const host = process.env.SMTP_HOST?.trim();
   const port = Number(process.env.SMTP_PORT || "587");
-  const user = process.env.SMTP_USER;
-  const pass = process.env.SMTP_PASS;
+  const user = process.env.SMTP_USER?.trim();
+  const pass = process.env.SMTP_PASS?.trim();
 
   if (!host || !user || !pass) {
-    console.warn("[contact] No email provider configured (set RESEND_API_KEY or SMTP_HOST/USER/PASS). Message delivery skipped after best-effort persistence.");
-    return;
+    throw new ContactDeliveryNotConfiguredError();
   }
 
   const transporter = nodemailer.createTransport({
@@ -161,6 +170,8 @@ async function sendEmail(msg: ContactMessage) {
 }
 
 export async function POST(request: Request) {
+  let stored = false;
+
   try {
     const body = await request.json();
 
@@ -202,11 +213,23 @@ export async function POST(request: Request) {
     };
 
     // Save the message when storage is available and continue with email delivery.
-    await saveMessage(contactMessage);
+    stored = await saveMessage(contactMessage);
     await sendEmail(contactMessage);
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({ success: true, stored });
   } catch (error) {
+    if (error instanceof ContactDeliveryNotConfiguredError) {
+      console.error("[contact] Email delivery is not configured.", { stored });
+      return NextResponse.json(
+        {
+          error: "Contact form delivery is not configured.",
+          code: "CONTACT_DELIVERY_NOT_CONFIGURED",
+          stored,
+        },
+        { status: 503 }
+      );
+    }
+
     console.error("[contact] Error:", error);
     return NextResponse.json(
       { error: "Internal server error" },

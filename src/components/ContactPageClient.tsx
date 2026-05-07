@@ -52,7 +52,15 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
         setSent(true);
       } else {
         const body = await res.json().catch(() => null);
-        setError(body?.error || (lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred while sending."));
+        if (body?.code === "CONTACT_DELIVERY_NOT_CONFIGURED") {
+          setError(
+            lang === "cs"
+              ? `Formulář je dočasně mimo provoz. Zavolejte nám prosím na ${c.phone} nebo napište na ${c.email}.`
+              : `The form is temporarily unavailable. Please call us at ${c.phone} or email ${c.email}.`
+          );
+        } else {
+          setError(body?.error || (lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred while sending."));
+        }
       }
     } catch {
       setError(lang === "cs" ? "Nastala chyba při odesílání." : "An error occurred while sending.");

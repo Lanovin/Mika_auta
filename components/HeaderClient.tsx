@@ -10,13 +10,21 @@ import gbFlag from "@/gb.png";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
 
-type CurrentUser = {
-  username: string;
-  role: "admin" | "user";
-} | null;
+interface AlertContent {
+  active?: boolean;
+  text?: string;
+  text_en?: string;
+}
+
+interface KontaktContent {
+  phone: string;
+  hours: { weekdays: string; saturday: string; sunday: string };
+}
 
 interface HeaderClientProps {
-  currentUser: CurrentUser;
+  alert?: AlertContent;
+  kontaktCs?: KontaktContent;
+  kontaktEn?: KontaktContent;
 }
 
 function LanguageToggleVisual({ lang, size = 18 }: { lang: "cs" | "en" ; size?: number }) {
@@ -118,7 +126,7 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
-export function HeaderClient({ currentUser }: HeaderClientProps) {
+export function HeaderClient({ alert, kontaktCs, kontaktEn }: HeaderClientProps) {
   const pathname = usePathname();
   const { lang, toggleLang } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
@@ -128,24 +136,11 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
   const [headerVisible, setHeaderVisible] = useState(true);
   const lastScrollY = useRef(0);
 
-  const [alertText, setAlertText] = useState("");
   const [alertDismissed, setAlertDismissed] = useState(false);
-  const [kontakt, setKontakt] = useState<{ phone: string; hours: { weekdays: string; saturday: string; sunday: string } } | null>(null);
-
-  useEffect(() => {
-    fetch("/api/content")
-      .then((res) => res.json())
-      .then((data) => {
-        const a = data?.alert;
-        if (a?.active) {
-          const txt = lang === "en" && a.text_en ? a.text_en : a.text;
-          setAlertText(txt || "");
-        }
-        const k = lang === "en" ? (data?.kontakt_en ?? data?.kontakt) : data?.kontakt;
-        if (k) setKontakt(k);
-      })
-      .catch(() => {});
-  }, [lang]);
+  const kontakt = lang === "en" ? (kontaktEn ?? kontaktCs ?? null) : (kontaktCs ?? kontaktEn ?? null);
+  const alertText = alert?.active
+    ? ((lang === "en" && alert.text_en ? alert.text_en : alert.text) ?? "")
+    : "";
 
   const leftNav = getLeftNav(lang);
   const rightNav = getRightNav(lang);
@@ -499,11 +494,6 @@ export function HeaderClient({ currentUser }: HeaderClientProps) {
               >
                 <LanguageToggleVisual lang={lang} size={20} />
               </button>
-              {currentUser?.role === "admin" ? (
-                <Link href="/admin" onClick={closeMenu} className="btn-secondary" style={{ textAlign: 'center' }}>
-                  {t("nav.admin", lang)}
-                </Link>
-              ) : null}
             </div>
           </div>
         </div>

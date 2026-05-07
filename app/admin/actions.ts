@@ -13,6 +13,8 @@ function revalidateVehiclePaths(vehicleId?: string) {
   revalidatePath("/");
   revalidatePath("/vozy");
   revalidatePath("/admin");
+  revalidatePath("/vozy/[id]", "page");
+  revalidatePath("/sitemap.xml");
   if (vehicleId) {
     revalidatePath(`/vozy/${vehicleId}`);
   }

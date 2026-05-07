@@ -1,9 +1,15 @@
 import type { Metadata } from "next";
 import { InventoryPageClient } from "@/src/components/InventoryPageClient";
 import { readPublishedVehicles } from "@/src/lib/vehicle-store";
+import { readContent } from "@/src/lib/content-store";
 
-export const dynamic = "force-dynamic";
-export const runtime = "nodejs";
+interface InventoryPageContent {
+  kicker?: string;
+  title?: string;
+  subtitle?: string;
+}
+
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Nabídka vozů – Ojeté vozy na prodej",
@@ -15,25 +21,16 @@ export const metadata: Metadata = {
   },
 };
 
-interface InventoryPageProps {
-  searchParams?: {
-    make?: string;
-    model?: string;
-    maxPrice?: string;
-  };
-}
-
-export default async function InventoryPage({ searchParams }: InventoryPageProps) {
-  const vehicles = await readPublishedVehicles();
+export default async function InventoryPage() {
+  const [vehicles, content] = await Promise.all([readPublishedVehicles(), readContent()]);
+  const cs = content.inventory as InventoryPageContent | undefined;
+  const en = (content.inventory_en ?? cs) as InventoryPageContent | undefined;
 
   return (
     <InventoryPageClient
       vehicles={vehicles}
-      initialQuickFilters={{
-        make: searchParams?.make,
-        model: searchParams?.model,
-        maxPrice: searchParams?.maxPrice
-      }}
+      cs={cs}
+      en={en}
     />
   );
 }

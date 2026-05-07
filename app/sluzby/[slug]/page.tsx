@@ -25,12 +25,21 @@ interface SluzbyContent {
   services: ServiceItem[];
 }
 
+export async function generateStaticParams() {
+  const content = await readContent();
+  const cs = content.sluzby as SluzbyContent | undefined;
+
+  return (cs?.services ?? []).map((service) => ({
+    slug: slugify(service.title),
+  }));
+}
+
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }): Promise<Metadata> {
-  const { slug } = await params;
+  const { slug } = params;
   const content = await readContent();
   const cs = content.sluzby as SluzbyContent;
   const service = cs.services.find((s) => slugify(s.title) === slug);
@@ -49,9 +58,9 @@ export async function generateMetadata({
 export default async function ServiceDetailPage({
   params,
 }: {
-  params: Promise<{ slug: string }>;
+  params: { slug: string };
 }) {
-  const { slug } = await params;
+  const { slug } = params;
   const content = await readContent();
   const cs = content.sluzby as SluzbyContent;
   const en = (content.sluzby_en ?? cs) as SluzbyContent;

@@ -35,12 +35,12 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
         <div style={{ display: 'grid', gap: '40px', gridTemplateColumns: 'repeat(3, 1fr)' }} className="footer-grid">
           <div>
             <div style={{ fontFamily: "var(--font-display)", fontSize: '20px', fontWeight: 700, color: 'var(--white)' }}>
-              Mika <span style={{ color: 'var(--gold)' }}>Auto</span>
+              Mika <span style={{ color: 'var(--gold-light)' }}>Auto</span>
             </div>
-            <p style={{ marginTop: '12px', fontSize: '15px', color: 'var(--text-muted)', lineHeight: 1.75, fontWeight: 400 }}>
+            <p style={{ marginTop: '12px', fontSize: '13px', color: 'var(--cream-muted)', lineHeight: 1.7, fontWeight: 300 }}>
               {fc.description}
             </p>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '20px', marginBottom: '10px' }}>{t("footer.social", lang)}</div>
+            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold-light)', fontWeight: 600, marginTop: '20px', marginBottom: '10px' }}>{t("footer.social", lang)}</div>
             <a
               href="https://www.instagram.com/mikaauto.cz?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw=="
               target="_blank"
@@ -55,14 +55,14 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           </div>
 
           <div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: '16px' }}>{t("footer.address", lang)}</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.85 }}>
+            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold-light)', fontWeight: 600, marginBottom: '16px' }}>{t("footer.address", lang)}</div>
+            <div style={{ fontSize: '13px', color: 'var(--cream-muted)', lineHeight: 1.8 }}>
               <div>{kc.address.street}</div>
               <div>{kc.address.city}</div>
               <div>{kc.address.note1}</div>
             </div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{t("footer.hours", lang)}</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.85 }}>
+            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold-light)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{t("footer.hours", lang)}</div>
+            <div style={{ fontSize: '13px', color: 'var(--cream-muted)', lineHeight: 1.8 }}>
               <div>{kc.hours.weekdays}</div>
               <div>{kc.hours.saturday}</div>
               <div>{kc.hours.sunday}</div>
@@ -70,12 +70,12 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           </div>
 
           <div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginBottom: '16px' }}>{t("footer.contact", lang)}</div>
-            <div style={{ fontSize: '14px', color: 'var(--text-muted)', lineHeight: 1.85 }}>
+            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold-light)', fontWeight: 600, marginBottom: '16px' }}>{t("footer.contact", lang)}</div>
+            <div style={{ fontSize: '13px', color: 'var(--cream-muted)', lineHeight: 1.8 }}>
               <div>Tel.: {kc.phone}</div>
               <div>Email: {kc.email}</div>
             </div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{lang === 'cs' ? 'Finance' : 'Finance'}</div>
+            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold-light)', fontWeight: 600, marginTop: '24px', marginBottom: '12px' }}>{lang === 'cs' ? 'Finance' : 'Finance'}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
               {[
                 { src: '/partners/moneta.png', href: 'https://gemoney.cz/', alt: 'Moneta' },
@@ -90,12 +90,12 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
                 </a>
               ))}
             </div>
-            <div style={{ fontSize: '11px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', fontWeight: 600, marginTop: '20px', marginBottom: '12px' }}>{lang === 'cs' ? 'Pojištění' : 'Insurance'}</div>
+            <div style={{ fontSize: '10px', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold-light)', fontWeight: 600, marginTop: '20px', marginBottom: '12px' }}>{lang === 'cs' ? 'Pojištění' : 'Insurance'}</div>
             <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
               {[
                 { src: '/partners/generali_poj.png', href: 'https://www.generaliceska.cz/', alt: 'Generali' },
-                { src: '/partners/DIG_Main_logo.png', href: 'https://www.defendinsurance.eu/', alt: 'Defend Insurance' },
-                { src: '/partners/cebia.gif', href: 'https://www.cebia.cz/', alt: 'Cebia' },
+                { src: '/partners/defend_logo.svg', href: 'https://www.defendinsurance.eu/', alt: 'Defend Insurance' },
+                { src: '/partners/cebia_logo.png', href: 'https://www.cebia.cz/', alt: 'Cebia' },
               ].map((p) => (
                 <a key={p.alt} href={p.href} target="_blank" rel="noopener noreferrer" className="partner-logo-link">
                   <span style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', background: '#fff', borderRadius: '4px', padding: '3px 6px' }}>
@@ -109,7 +109,7 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
       </div>
 
       <div style={{ borderTop: '1px solid var(--black-border)', padding: '16px 0' }}>
-        <div className="container-page" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '13px', color: 'var(--text-muted)', flexWrap: 'wrap', gap: '8px' }}>
+        <div className="container-page" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '11px', color: 'var(--cream-muted)', flexWrap: 'wrap', gap: '8px' }}>
           <span style={{ textAlign: 'center', flex: '1 1 auto' }}>{fc.copyright}</span>
           <span style={{ textAlign: 'center', flex: '1 1 auto' }}>{fc.tagline}</span>
         </div>
@@ -118,7 +118,7 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
       <style>{`
         .footer-ig-link {
           display: inline-flex;
-          color: var(--gold);
+          color: var(--gold-light);
           transition: opacity 0.2s;
         }
         .footer-ig-link:hover {

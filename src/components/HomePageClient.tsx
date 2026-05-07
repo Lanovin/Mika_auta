@@ -8,7 +8,6 @@ import { VehicleCard } from "@/src/components/VehicleCard";
 import { HeroSlider } from "@/components/HeroSlider";
 import { BannerSlider } from "@/components/BannerSlider";
 import type { Vehicle } from "@/src/lib/vehicle-types";
-import { useContent } from "@/src/lib/useContent";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
 
@@ -22,6 +21,8 @@ interface HomePageClientProps {
   vehicles: Vehicle[];
   homepageMode?: string;
   banners?: Banner[];
+  cs?: HomepageContent;
+  en?: HomepageContent;
 }
 
 interface HomepageContent {
@@ -65,9 +66,9 @@ function useScrollReveal() {
   }, []);
 }
 
-export function HomePageClient({ vehicles, homepageMode = "default", banners = [] }: HomePageClientProps) {
+export function HomePageClient({ vehicles, homepageMode = "default", banners = [], cs, en }: HomePageClientProps) {
   const { lang } = useLanguage();
-  const { data: c } = useContent<HomepageContent>("homepage", lang);
+  const c = lang === "en" ? (en ?? cs) : (cs ?? en);
 
   useScrollReveal();
 

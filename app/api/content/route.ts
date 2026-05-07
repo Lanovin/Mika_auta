@@ -1,6 +1,12 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { readContent, writeContent } from "@/src/lib/content-store";
 import { getCurrentUser } from "@/src/lib/auth";
+
+function revalidateContentCaches() {
+  revalidatePath("/", "layout");
+  revalidatePath("/sitemap.xml");
+}
 
 export async function GET() {
   const data = await readContent();
@@ -15,6 +21,7 @@ export async function POST(request: Request) {
 
   const body = await request.json();
   await writeContent(body);
+  revalidateContentCaches();
   return NextResponse.json({ success: true });
 }
 
@@ -26,5 +33,6 @@ export async function PUT(request: Request) {
 
   const body = await request.json();
   await writeContent(body);
+  revalidateContentCaches();
   return NextResponse.json({ success: true });
 }

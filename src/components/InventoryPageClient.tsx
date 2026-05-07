@@ -1,13 +1,13 @@
 "use client";
 
-import { useMemo, useState, useEffect } from "react";
+import { Suspense, useCallback, useMemo, useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { ArrowUpDown, RotateCcw, SlidersHorizontal, X } from "lucide-react";
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { SkeletonCard } from "@/src/components/SkeletonCard";
 import type { Vehicle } from "@/src/lib/vehicle-types";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
-import { useContent } from "@/src/lib/useContent";
 
 interface InventoryFilters {
   makes: string[];
@@ -37,16 +37,13 @@ const INITIAL_FILTERS: InventoryFilters = {
 
 interface InventoryPageClientProps {
   vehicles: Vehicle[];
-  initialQuickFilters?: {
-    make?: string;
-    model?: string;
-    maxPrice?: string;
-  };
+  cs?: { kicker?: string; title?: string; subtitle?: string };
+  en?: { kicker?: string; title?: string; subtitle?: string };
 }
 
 type SortOption = "recommended" | "price-asc" | "price-desc" | "year-desc" | "mileage-asc";
 
-function getInitialFilters(initialQuickFilters?: InventoryPageClientProps["initialQuickFilters"]): InventoryFilters {
+function getInitialFilters(initialQuickFilters?: { make?: string; model?: string; maxPrice?: string }): InventoryFilters {
   return {
     ...INITIAL_FILTERS,
     makes: initialQuickFilters?.make ? [initialQuickFilters.make] : [],
@@ -55,13 +52,43 @@ function getInitialFilters(initialQuickFilters?: InventoryPageClientProps["initi
   };
 }
 
-export function InventoryPageClient({ vehicles, initialQuickFilters }: InventoryPageClientProps) {
-  const [filters, setFilters] = useState<InventoryFilters>(() => getInitialFilters(initialQuickFilters));
-  const [pendingFilters, setPendingFilters] = useState<InventoryFilters>(() => getInitialFilters(initialQuickFilters));
+function getQuickFiltersFromSearchParams(searchParams: { get(name: string): string | null } | null) {
+  return {
+    make: searchParams?.get("make") ?? undefined,
+    model: searchParams?.get("model") ?? undefined,
+    maxPrice: searchParams?.get("maxPrice") ?? undefined,
+  };
+}
+
+function InventorySearchParamsSync({
+  onFiltersChange,
+}: {
+  onFiltersChange: (filters: InventoryFilters) => void;
+}) {
+  const searchParams = useSearchParams();
+  const urlQuickFilters = getQuickFiltersFromSearchParams(searchParams);
+  const urlQuickFiltersKey = `${urlQuickFilters.make ?? ""}|${urlQuickFilters.model ?? ""}|${urlQuickFilters.maxPrice ?? ""}`;
+
+  useEffect(() => {
+    onFiltersChange(getInitialFilters(urlQuickFilters));
+  }, [onFiltersChange, urlQuickFiltersKey]);
+
+  return null;
+}
+
+export function InventoryPageClient({ vehicles, cs, en }: InventoryPageClientProps) {
+  const [filters, setFilters] = useState<InventoryFilters>(() => getInitialFilters());
+  const [pendingFilters, setPendingFilters] = useState<InventoryFilters>(() => getInitialFilters());
   const [isLoading, setIsLoading] = useState(false);
   const [sort, setSort] = useState<SortOption>("recommended");
   const { lang } = useLanguage();
-  const { data: invContent } = useContent<{ kicker?: string; title?: string; subtitle?: string }>("inventory", lang);
+  const c = lang === "en" ? (en ?? cs) : (cs ?? en);
+
+  const syncFiltersFromUrl = useCallback((nextFilters: InventoryFilters) => {
+    setFilters(nextFilters);
+    setPendingFilters(nextFilters);
+    setSort("recommended");
+  }, []);
 
   const allMakes = useMemo(() => Array.from(new Set(vehicles.map((vehicle) => vehicle.make))).sort(), [vehicles]);
 
@@ -224,17 +251,20 @@ export function InventoryPageClient({ vehicles, initialQuickFilters }: Inventory
 
   return (
     <div className="container-page py-10">
+      <Suspense fallback={null}>
+        <InventorySearchParamsSync onFiltersChange={syncFiltersFromUrl} />
+      </Suspense>
       <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
         <div>
-          <p className="section-kicker">{invContent?.kicker || t("inv.kicker", lang)}</p>
+          <p className="section-kicker">{c?.kicker || t("inv.kicker", lang)}</p>
           <h1
             className="mt-2 text-3xl font-semibold uppercase tracking-[0.03em] sm:text-4xl"
             style={{ fontFamily: "var(--font-display)", color: "var(--cream)" }}
           >
-            {invContent?.title || t("inv.title", lang)}
+            {c?.title || t("inv.title", lang)}
           </h1>
           <p className="mt-1 text-sm text-secondary">
-            {invContent?.subtitle || t("inv.subtitle", lang)}
+            {c?.subtitle || t("inv.subtitle", lang)}
           </p>
         </div>
         <div className="card-panel px-4 py-3 text-sm text-secondary">
