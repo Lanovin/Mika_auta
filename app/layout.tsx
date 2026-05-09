@@ -4,6 +4,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/src/lib/LanguageContext";
 import CookieConsent from "@/src/components/CookieConsent";
+import ScrollRevealObserver from "@/src/components/ScrollRevealObserver";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.mikaauto.cz";
 
@@ -125,6 +126,7 @@ export default function RootLayout({
       </head>
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <LanguageProvider>
+          <ScrollRevealObserver />
           <Header />
           <main style={{ flex: 1 }}>{children}</main>
           <Footer />

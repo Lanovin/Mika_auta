@@ -212,7 +212,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
       </div>
 
       <div className="grid gap-6 lg:gap-8 lg:grid-cols-[minmax(0,3fr),minmax(0,2fr)]">
-        <section className="min-w-0 space-y-3 sm:space-y-4">
+        <section className="min-w-0 space-y-3 sm:space-y-4 reveal-on-scroll">
           {/* Main image gallery */}
           <div className="card-panel overflow-hidden p-2 sm:p-3">
             <div
@@ -431,7 +431,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
         </section>
 
         {/* ─── Desktop sidebar ─── */}
-        <aside className="hidden lg:flex card-panel flex-col gap-4 p-6 lg:sticky lg:top-[130px] lg:h-fit">
+        <aside className="hidden lg:flex card-panel flex-col gap-4 p-6 lg:sticky lg:top-[130px] lg:h-fit reveal-on-scroll reveal-on-scroll--delay">
           <div>
             <p className="section-kicker">{t("detail.kicker", lang)}</p>
             <h1
@@ -530,7 +530,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
       </div>
 
       {/* ─── Mobile-only CTA + trust section (below gallery, above specs) ─── */}
-      <div className="mt-3 space-y-2.5 lg:hidden">
+      <div className="mt-3 space-y-2.5 lg:hidden reveal-on-scroll reveal-on-scroll--delay">
         {/* CTA buttons */}
         <div className="grid grid-cols-2 gap-2">
           <a href="tel:+420774333774" className="btn-primary w-full text-center" style={{ padding: "10px 8px", fontSize: "10px", letterSpacing: "0.15em" }}>
@@ -599,7 +599,7 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
         )}
       </div>
 
-      <section className="mt-6 sm:mt-10 grid gap-4 sm:gap-6 lg:gap-8 lg:grid-cols-2">
+      <section className="mt-6 sm:mt-10 grid gap-4 sm:gap-6 lg:gap-8 lg:grid-cols-2 reveal-on-scroll">
         <div className="card-panel p-4 sm:p-6">
           <h2
             style={{

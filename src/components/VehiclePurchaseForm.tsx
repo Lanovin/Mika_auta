@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent, type ChangeEvent } from "react";
+import { useRef, useState, type FormEvent, type ChangeEvent } from "react";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
 
@@ -9,6 +9,7 @@ export function VehiclePurchaseForm() {
   const [submitted, setSubmitted] = useState(false);
   const [sending, setSending] = useState(false);
   const [error, setError] = useState("");
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const [form, setForm] = useState({
     name: "",
@@ -112,15 +113,41 @@ export function VehiclePurchaseForm() {
     { value: "elektro", label: t("fuel.elektro", lang) },
   ];
 
+  const fieldRestBorderColor = "rgba(226, 201, 126, 0.38)";
+  const fieldFocusBorderColor = "rgba(245, 230, 184, 0.92)";
+  const fieldRestBackground = "linear-gradient(180deg, rgba(27, 27, 27, 0.98) 0%, rgba(15, 15, 15, 0.98) 100%)";
+  const fieldFocusBackground = "linear-gradient(180deg, rgba(53, 41, 15, 0.98) 0%, rgba(27, 20, 8, 0.98) 100%)";
+
+  const setFieldFocusState = (element: HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement, focused: boolean) => {
+    element.style.borderColor = focused ? fieldFocusBorderColor : fieldRestBorderColor;
+    element.style.background = focused ? fieldFocusBackground : fieldRestBackground;
+    element.style.boxShadow = focused
+      ? "0 0 0 1px rgba(245, 230, 184, 0.18), 0 12px 24px rgba(0, 0, 0, 0.18)"
+      : "inset 0 0 0 1px rgba(255, 255, 255, 0.03)";
+  };
+
+  const selectedPhotoNames = Array.from(form.photos ?? []).map((file) => file.name);
+  const photoSummary = selectedPhotoNames.length
+    ? (lang === "cs" ? `Vybráno souborů: ${selectedPhotoNames.length}` : `Selected files: ${selectedPhotoNames.length}`)
+    : (lang === "cs" ? "Nevybrali jste žádné soubory" : "No files selected");
+
   const inputStyle: React.CSSProperties = {
     width: "100%",
-    padding: "10px 14px",
+    padding: "12px 14px",
     fontSize: "14px",
-    background: "var(--black-rich)",
-    border: "1px solid var(--black-border)",
+    background: fieldRestBackground,
+    border: `1px solid ${fieldRestBorderColor}`,
     color: "var(--cream)",
-    transition: "border-color 0.2s",
+    boxShadow: "inset 0 0 0 1px rgba(255, 255, 255, 0.03)",
+    transition: "border-color 0.2s, box-shadow 0.2s, background 0.2s",
     outline: "none",
+    appearance: "none",
+  };
+
+  const sectionStyle: React.CSSProperties = {
+    padding: "18px",
+    border: "1px solid rgba(201, 168, 76, 0.2)",
+    background: "linear-gradient(180deg, rgba(201, 168, 76, 0.08) 0%, rgba(255, 255, 255, 0.02) 100%)",
   };
 
   const labelStyle: React.CSSProperties = {
@@ -173,7 +200,8 @@ export function VehiclePurchaseForm() {
 
       <form onSubmit={handleSubmit} style={{ display: "grid", gap: "20px" }}>
         {/* Contact info */}
-        <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+        <div style={sectionStyle}>
+          <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
           <div>
             <label style={labelStyle}>
               {t("vykup.name", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>
@@ -184,8 +212,8 @@ export function VehiclePurchaseForm() {
               value={form.name}
               onChange={(e) => set("name", e.target.value)}
               style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             />
           </div>
           <div>
@@ -198,8 +226,8 @@ export function VehiclePurchaseForm() {
               value={form.email}
               onChange={(e) => set("email", e.target.value)}
               style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             />
           </div>
           <div>
@@ -209,14 +237,16 @@ export function VehiclePurchaseForm() {
               value={form.phone}
               onChange={(e) => set("phone", e.target.value)}
               style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             />
+          </div>
           </div>
         </div>
 
         {/* Vehicle basic info */}
-        <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
+        <div style={sectionStyle}>
+          <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
           <div>
             <label style={labelStyle}>
               {t("vykup.makeModel", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>
@@ -227,8 +257,8 @@ export function VehiclePurchaseForm() {
               value={form.makeModel}
               onChange={(e) => set("makeModel", e.target.value)}
               style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             />
           </div>
           <div>
@@ -240,6 +270,8 @@ export function VehiclePurchaseForm() {
               value={form.body}
               onChange={(e) => set("body", e.target.value)}
               style={inputStyle}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             >
               <option value="">{t("vykup.selectBody", lang)}</option>
               {bodyOptions.map((opt) => (
@@ -256,6 +288,8 @@ export function VehiclePurchaseForm() {
               value={form.fuel}
               onChange={(e) => set("fuel", e.target.value)}
               style={inputStyle}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             >
               <option value="">{t("vykup.selectFuel", lang)}</option>
               {fuelOptions.map((opt) => (
@@ -263,10 +297,12 @@ export function VehiclePurchaseForm() {
               ))}
             </select>
           </div>
+          </div>
         </div>
 
         {/* Technical details */}
-        <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))" }}>
+        <div style={sectionStyle}>
+          <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))" }}>
           <div>
             <label style={labelStyle}>
               {t("vykup.year", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>
@@ -279,8 +315,8 @@ export function VehiclePurchaseForm() {
               value={form.year}
               onChange={(e) => set("year", e.target.value)}
               style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             />
           </div>
           <div>
@@ -294,8 +330,8 @@ export function VehiclePurchaseForm() {
               value={form.mileage}
               onChange={(e) => set("mileage", e.target.value)}
               style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             />
           </div>
           <div>
@@ -309,8 +345,8 @@ export function VehiclePurchaseForm() {
               value={form.engineCC}
               onChange={(e) => set("engineCC", e.target.value)}
               style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             />
           </div>
           <div>
@@ -324,14 +360,15 @@ export function VehiclePurchaseForm() {
               value={form.powerKw}
               onChange={(e) => set("powerKw", e.target.value)}
               style={inputStyle}
-              onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-              onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+              onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+              onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
             />
+          </div>
           </div>
         </div>
 
         {/* Equipment */}
-        <div>
+        <div style={sectionStyle}>
           <label style={labelStyle}>{t("vykup.equipment", lang)}</label>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "4px" }}>
             {equipmentOptions.map((item) => (
@@ -363,36 +400,64 @@ export function VehiclePurchaseForm() {
         </div>
 
         {/* Equipment note */}
-        <div>
+        <div style={sectionStyle}>
           <label style={labelStyle}>{t("vykup.equipmentNote", lang)}</label>
           <textarea
             rows={3}
             value={form.equipmentNote}
             onChange={(e) => set("equipmentNote", e.target.value)}
             style={{ ...inputStyle, resize: "vertical" }}
-            onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-            onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+            onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+            onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
           />
         </div>
 
         {/* Photos */}
-        <div>
+        <div style={sectionStyle}>
           <label style={labelStyle}>{t("vykup.photos", lang)}</label>
           <input
+            ref={fileInputRef}
             type="file"
             multiple
             accept="image/*"
             onChange={(e: ChangeEvent<HTMLInputElement>) => set("photos", e.target.files)}
-            style={{
-              ...inputStyle,
-              padding: "8px",
-              cursor: "pointer",
-            }}
+            style={{ display: "none" }}
           />
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "12px", alignItems: "center", marginTop: "8px" }}>
+            <button
+              type="button"
+              className="btn-primary"
+              style={{ width: "auto", minWidth: "190px" }}
+              onClick={() => fileInputRef.current?.click()}
+            >
+              {lang === "cs" ? "Vybrat soubory" : "Choose files"}
+            </button>
+            <span style={{ fontSize: "13px", color: selectedPhotoNames.length ? "var(--cream)" : "var(--cream-muted)" }}>
+              {photoSummary}
+            </span>
+          </div>
+          {selectedPhotoNames.length > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "12px" }}>
+              {selectedPhotoNames.map((name) => (
+                <span
+                  key={name}
+                  style={{
+                    padding: "6px 10px",
+                    fontSize: "12px",
+                    color: "var(--cream)",
+                    border: "1px solid rgba(201, 168, 76, 0.28)",
+                    background: "rgba(201, 168, 76, 0.1)",
+                  }}
+                >
+                  {name}
+                </span>
+              ))}
+            </div>
+          )}
         </div>
 
         {/* Vehicle parameters */}
-        <div>
+        <div style={sectionStyle}>
           <label style={labelStyle}>{t("vykup.params", lang)}</label>
           <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))", marginTop: "8px" }}>
             <div>
@@ -406,15 +471,15 @@ export function VehiclePurchaseForm() {
                 value={form.owners}
                 onChange={(e) => set("owners", e.target.value)}
                 style={inputStyle}
-                onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
               />
             </div>
           </div>
         </div>
 
         {/* STK validity */}
-        <div>
+        <div style={sectionStyle}>
           <label style={labelStyle}>{t("vykup.stkValid", lang)}</label>
           <div style={{ display: "grid", gap: "12px", gridTemplateColumns: "repeat(3, 1fr)", maxWidth: "360px" }}>
             <div>
@@ -428,8 +493,8 @@ export function VehiclePurchaseForm() {
                 value={form.stkDay}
                 onChange={(e) => set("stkDay", e.target.value)}
                 style={inputStyle}
-                onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
               />
             </div>
             <div>
@@ -443,8 +508,8 @@ export function VehiclePurchaseForm() {
                 value={form.stkMonth}
                 onChange={(e) => set("stkMonth", e.target.value)}
                 style={inputStyle}
-                onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
               />
             </div>
             <div>
@@ -458,15 +523,15 @@ export function VehiclePurchaseForm() {
                 value={form.stkYear}
                 onChange={(e) => set("stkYear", e.target.value)}
                 style={inputStyle}
-                onFocus={(e) => (e.currentTarget.style.borderColor = "var(--gold-dim)")}
-                onBlur={(e) => (e.currentTarget.style.borderColor = "var(--black-border)")}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
               />
             </div>
           </div>
         </div>
 
         {/* GDPR */}
-        <div>
+        <div style={sectionStyle}>
           <label
             style={{
               display: "flex",

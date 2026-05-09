@@ -3,11 +3,50 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { Pool } from "pg";
 
-const databaseUrl = process.env.DATABASE_URL?.trim();
+function resolveDatabaseUrl() {
+  const candidates = [
+    process.env.DATABASE_URL,
+    process.env.POSTGRES_URL,
+    process.env.POSTGRES_PRISMA_URL,
+    process.env.DATABASE_URL_UNPOOLED,
+    process.env.POSTGRES_URL_NON_POOLING,
+    process.env.DATABASE_URL_NON_POOLING,
+    process.env.POSTGRES_URL_NO_SSL,
+  ];
+
+  for (const candidate of candidates) {
+    const normalized = candidate?.trim();
+    if (normalized) {
+      return normalized;
+    }
+  }
+
+  const host = process.env.PGHOST?.trim() || process.env.POSTGRES_HOST?.trim();
+  const database = process.env.PGDATABASE?.trim() || process.env.POSTGRES_DATABASE?.trim();
+  const user = process.env.PGUSER?.trim() || process.env.POSTGRES_USER?.trim();
+  const password = process.env.PGPASSWORD?.trim() || process.env.POSTGRES_PASSWORD?.trim();
+  const port = process.env.PGPORT?.trim() || process.env.POSTGRES_PORT?.trim();
+
+  if (!host || !database || !user || !password) {
+    return undefined;
+  }
+
+  const encodedUser = encodeURIComponent(user);
+  const encodedPassword = encodeURIComponent(password);
+  const portSegment = port ? `:${port}` : "";
+
+  return `postgresql://${encodedUser}:${encodedPassword}@${host}${portSegment}/${database}?sslmode=require`;
+}
+
+const databaseUrl = resolveDatabaseUrl();
+const isVercelDeployment = process.env.VERCEL === "1" || Boolean(process.env.VERCEL_ENV);
 const JSON_STORE_TABLE = "app_json_store";
 const UPLOADS_TABLE = "app_uploads";
 const STORAGE_LOCK_FAMILY = 8042;
 const STORAGE_LOCK_KEY = 1;
+
+const VERCEL_STORAGE_SETUP_MESSAGE = "Persistent CMS storage is not configured for this Vercel deployment. Add DATABASE_URL or POSTGRES_URL from Neon or Vercel Postgres.";
+const VERCEL_STORAGE_UNAVAILABLE_MESSAGE = "Persistent CMS storage is unavailable because the configured Postgres connection failed. Check DATABASE_URL or POSTGRES_URL and database access in Vercel.";
 
 declare global {
   var __mikaStoragePool: Pool | undefined;
@@ -15,6 +54,13 @@ declare global {
 }
 
 type DefaultValueFactory<T> = T | (() => T);
+
+export class PersistentStorageRequiredError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "PersistentStorageRequiredError";
+  }
+}
 
 function hasFileNotFoundCode(error: unknown) {
   return typeof error === "object"
@@ -35,6 +81,18 @@ function resolveDefaultValue<T>(defaultValue: DefaultValueFactory<T>): T {
 
 export function hasDatabaseStorage() {
   return Boolean(databaseUrl);
+}
+
+export function canUseFileStorageFallback() {
+  return !isVercelDeployment;
+}
+
+export function getPersistentStorageSetupMessage() {
+  return VERCEL_STORAGE_SETUP_MESSAGE;
+}
+
+export function isPersistentStorageRequiredError(error: unknown): error is PersistentStorageRequiredError {
+  return error instanceof PersistentStorageRequiredError;
 }
 
 function getPool() {
@@ -183,8 +241,17 @@ export async function writeStoredJson<T>(options: {
         return;
       }
     } catch (error) {
+      if (!canUseFileStorageFallback()) {
+        console.error(`[storage] Failed to write ${storeKey} to database on Vercel.`, error);
+        throw new PersistentStorageRequiredError(VERCEL_STORAGE_UNAVAILABLE_MESSAGE);
+      }
+
       console.warn(`[storage] Failed to write ${storeKey} to database, falling back to file storage.`, error);
     }
+  }
+
+  if (!canUseFileStorageFallback()) {
+    throw new PersistentStorageRequiredError(VERCEL_STORAGE_SETUP_MESSAGE);
   }
 
   await writeJsonFile(filePath, data);

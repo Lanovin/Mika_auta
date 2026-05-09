@@ -254,7 +254,7 @@ export function InventoryPageClient({ vehicles, cs, en }: InventoryPageClientPro
       <Suspense fallback={null}>
         <InventorySearchParamsSync onFiltersChange={syncFiltersFromUrl} />
       </Suspense>
-      <header className="mb-6 flex flex-wrap items-end justify-between gap-4">
+      <header className="mb-6 flex flex-wrap items-end justify-between gap-4 reveal-on-scroll">
         <div>
           <p className="section-kicker">{c?.kicker || t("inv.kicker", lang)}</p>
           <h1
@@ -452,7 +452,7 @@ export function InventoryPageClient({ vehicles, cs, en }: InventoryPageClientPro
         </aside>
 
         <section>
-          <div className="card-panel mb-5 flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="card-panel mb-5 flex flex-col gap-4 p-4 sm:flex-row sm:items-center sm:justify-between reveal-on-scroll reveal-on-scroll--delay">
             <div>
               <div className="text-sm font-semibold" style={{ color: "var(--cream)" }}>{t("inv.activeFilters", lang)}</div>
               <div className="mt-2 flex flex-wrap gap-2">

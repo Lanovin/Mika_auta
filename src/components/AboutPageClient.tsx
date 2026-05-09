@@ -31,7 +31,7 @@ export function AboutPageClient({ cs, en }: { cs: AboutContent; en: AboutContent
     <div className="pb-16">
       {/* Header */}
       {show("header") && (
-      <section className="container-page pt-12 pb-6">
+      <section className="container-page pt-12 pb-6 reveal-on-scroll">
         <p className="section-kicker">
           {c.header.kicker}
         </p>
@@ -51,7 +51,7 @@ export function AboutPageClient({ cs, en }: { cs: AboutContent; en: AboutContent
 
       {/* Historie + Milníky */}
       {show("history") && (
-      <section className="container-page mt-10">
+      <section className="container-page mt-10 reveal-on-scroll">
         <div className="card-panel p-6 md:p-8">
           <h2
             className="text-3xl font-semibold uppercase tracking-[0.03em]"
@@ -99,7 +99,7 @@ export function AboutPageClient({ cs, en }: { cs: AboutContent; en: AboutContent
 
       {/* Statistiky */}
       {show("stats") && (
-      <section className="container-page mt-12">
+      <section className="container-page mt-12 reveal-on-scroll">
         <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
           {c.stats.map((stat: StatItem, i: number) => (
             <div key={i} className={`card-panel px-6 py-6 text-center${i === c.stats.length - 1 && c.stats.length % 2 !== 0 ? " col-span-2 sm:col-span-1" : ""}`}>
@@ -138,7 +138,7 @@ export function AboutPageClient({ cs, en }: { cs: AboutContent; en: AboutContent
       <section className="container-page mt-12">
         <div className="grid gap-6 md:grid-cols-3">
           {c.approach.map((item: ApproachItem, i: number) => (
-            <div key={i} className="card-panel px-6 py-6">
+            <div key={i} className={`card-panel px-6 py-6 reveal-on-scroll${i === 1 ? " reveal-on-scroll--delay" : i === 2 ? " reveal-on-scroll--delay-2" : ""}`}>
               <div
                 className="text-xs uppercase tracking-[0.24em]"
                 style={{ color: "var(--gold-dim)" }}

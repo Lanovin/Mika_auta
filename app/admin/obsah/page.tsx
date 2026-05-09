@@ -104,10 +104,11 @@ export default function CmsPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(content),
       });
+      const body = await res.json().catch(() => null);
       if (res.ok) {
         setNotice("__CMS_SAVED__");
       } else {
-        setNotice("__CMS_ERROR_SAVE__");
+        setNotice(typeof body?.error === "string" ? body.error : "__CMS_ERROR_SAVE__");
       }
     } catch {
       setNotice("__CMS_ERROR_CONN__");
@@ -445,11 +446,19 @@ export default function CmsPage() {
                                   form.append("file", file);
                                   try {
                                     const res = await fetch("/api/upload", { method: "POST", body: form });
-                                    if (!res.ok) throw new Error("Upload failed");
-                                    const data = await res.json();
+                                    const data = await res.json().catch(() => null);
+                                    if (!res.ok) {
+                                      throw new Error(
+                                        typeof data?.error === "string"
+                                          ? data.error
+                                          : lang === "cs"
+                                            ? "Nahrání se nezdařilo."
+                                            : "Upload failed."
+                                      );
+                                    }
                                     updateValue(["homepage_settings", "banners", String(idx), "imageUrl"], data.url);
-                                  } catch {
-                                    alert(lang === "cs" ? "Nahrání se nezdařilo." : "Upload failed.");
+                                  } catch (error) {
+                                    alert(error instanceof Error ? error.message : (lang === "cs" ? "Nahrání se nezdařilo." : "Upload failed."));
                                   }
                                   e.target.value = "";
                                 }}

@@ -64,6 +64,46 @@ body {
   transition: color 0.2s ease;
 }
 
+.alert-marquee-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.alert-marquee-track {
+  display: flex;
+  width: max-content;
+  animation: alert-marquee 18s linear infinite;
+}
+
+.alert-marquee-copy {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  padding-right: 56px;
+}
+
+.alert-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  white-space: nowrap;
+}
+
+.alert-marquee-icon {
+  font-size: 17px;
+  line-height: 1;
+}
+
+@keyframes alert-marquee {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-33.333%);
+  }
+}
+
 a.topbar-item:hover {
   color: var(--gold-light) !important;
 }
@@ -321,6 +361,16 @@ a.topbar-item:hover {
   max-width: 520px;
 }
 
+@media (min-width: 1024px) {
+  .hero-flex__text {
+    order: 2;
+  }
+
+  .hero-flex__slider {
+    order: 1;
+  }
+}
+
 @media (max-width: 1023px) {
   .hero-flex {
     flex-direction: column;
@@ -515,13 +565,13 @@ a.topbar-item:hover {
 
 /* Progress bar */
 .hero-slider__progress {
-  height: 3px;
-  background: rgba(201, 168, 76, 0.15);
+  height: 2px;
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .hero-slider__progress-bar {
   height: 100%;
-  background: linear-gradient(90deg, var(--gold-dim) 0%, var(--gold) 100%);
+  background: linear-gradient(90deg, rgba(177, 177, 177, 0.35) 0%, rgba(231, 231, 231, 0.72) 100%);
   transition: width 0.05s linear;
 }
 
@@ -622,18 +672,22 @@ a.topbar-item:hover {
 
 .stats-bar .stat-value {
   font-family: 'Raleway', sans-serif;
-  font-size: 32px;
+  font-size: clamp(30px, 3.9vw, 42px);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.06em;
+  font-stretch: 92%;
   color: var(--gold-light);
   font-variant-numeric: lining-nums;
 }
 
 .stats-bar .stat-label {
   font-family: 'Raleway', sans-serif;
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
   color: var(--text-muted);
-  margin-top: 4px;
+  margin-top: 8px;
 }
 
 /* ─── Features grid ───────────────────────────────── */
@@ -1064,13 +1118,53 @@ select option {
 
 .reveal-on-scroll {
   opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translate3d(0, 40px, 0) scale(0.96);
+  filter: blur(8px);
+  will-change: opacity, transform, filter;
+  transition: opacity 0.9s cubic-bezier(0.19, 1, 0.22, 1), transform 0.9s cubic-bezier(0.19, 1, 0.22, 1), filter 0.9s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .reveal-on-scroll.revealed {
   opacity: 1;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0) scale(1);
+  filter: blur(0);
+}
+
+.reveal-on-scroll--hero {
+  transform: translate3d(0, 56px, 0) scale(0.93);
+}
+
+.reveal-on-scroll--delay {
+  transition-delay: 0.14s;
+}
+
+.reveal-on-scroll--delay-2 {
+  transition-delay: 0.24s;
+}
+
+.reveal-on-scroll--delay-3 {
+  transition-delay: 0.34s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .alert-marquee-track {
+    animation: none;
+  }
+
+  .alert-marquee-item {
+    white-space: normal;
+  }
+
+  .reveal-on-scroll,
+  .reveal-on-scroll--hero,
+  .reveal-on-scroll--delay,
+  .reveal-on-scroll--delay-2,
+  .reveal-on-scroll--delay-3 {
+    opacity: 1;
+    filter: none;
+    transform: none;
+    transition: none;
+  }
 }
 
 /* ─── Gold divider SVG-safe ───────────────────────── */

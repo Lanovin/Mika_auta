@@ -43,7 +43,7 @@ export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug
 
   return (
     <div className="pb-16">
-      <section className="container-page pt-12 pb-6">
+      <section className="container-page pt-12 pb-6 reveal-on-scroll">
         <Link
           href="/"
           className="link-primary mb-6 inline-flex items-center gap-1 text-xs"
@@ -63,7 +63,7 @@ export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug
 
       <div className="gold-divider" />
 
-      <section className="container-page mt-10">
+      <section className="container-page mt-10 reveal-on-scroll">
         <div className="card-panel p-6 md:p-8">
           <p
             className="text-base leading-relaxed sm:text-lg"
@@ -75,12 +75,12 @@ export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug
       </section>
 
       {isVykup && (
-        <section className="container-page mt-10">
+        <section className="container-page mt-10 reveal-on-scroll reveal-on-scroll--delay">
           <VehiclePurchaseForm />
         </section>
       )}
 
-      <section className="container-page mt-10 text-center">
+      <section className="container-page mt-10 text-center reveal-on-scroll reveal-on-scroll--delay">
         <p className="text-sm text-secondary">
           {t("svc.cta", lang)}
         </p>
@@ -89,7 +89,7 @@ export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug
         </Link>
       </section>
 
-      <section className="container-page mt-20 sm:mt-16">
+      <section className="container-page mt-20 sm:mt-16 reveal-on-scroll">
         <h2
           className="text-xl font-semibold uppercase tracking-[0.03em]"
           style={{ fontFamily: "var(--font-display)", color: "var(--cream)" }}
@@ -101,7 +101,7 @@ export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug
             <Link
               key={slugify(s.title)}
               href={`/sluzby/${slugify(s.title)}`}
-              className="card-panel flex flex-col gap-2 p-5 transition-all duration-200 hover:-translate-y-1"
+              className={`card-panel flex flex-col gap-2 p-5 transition-all duration-200 hover:-translate-y-1 reveal-on-scroll${s.idx % 3 === 1 ? " reveal-on-scroll--delay" : s.idx % 3 === 2 ? " reveal-on-scroll--delay-2" : ""}`}
               style={{ textDecoration: "none" }}
             >
               <h3

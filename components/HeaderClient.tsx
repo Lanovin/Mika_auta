@@ -510,19 +510,27 @@ export function HeaderClient({ alert, kontaktCs, kontaktEn }: HeaderClientProps)
         color: '#0e0e0e',
         fontSize: '15px',
         fontWeight: 700,
-        textAlign: 'center',
-        padding: '11px 52px',
+        padding: '11px 52px 11px 0',
         lineHeight: 1.45,
         letterSpacing: '0.02em',
         fontFamily: 'var(--font-body)',
         borderBottom: '1px solid rgba(0,0,0,0.12)',
         boxShadow: '0 12px 24px rgba(0,0,0,0.12)',
         transition: 'top 0.35s ease',
+        overflow: 'hidden',
       }}>
-        <span style={{ display: 'inline-flex', alignItems: 'center', gap: '8px' }}>
-          <span style={{ fontSize: '17px', lineHeight: 1 }}>⚠</span>
-          {alertText}
-        </span>
+        <div className="alert-marquee-viewport" aria-label={alertText}>
+          <div className="alert-marquee-track">
+            {[0, 1, 2].map((copyIndex) => (
+              <div key={copyIndex} className="alert-marquee-copy" aria-hidden={copyIndex > 0}>
+                <span className="alert-marquee-item">
+                  <span className="alert-marquee-icon">⚠</span>
+                  <span>{alertText}</span>
+                </span>
+              </div>
+            ))}
+          </div>
+        </div>
         <button
           type="button"
           onClick={() => setAlertDismissed(true)}

@@ -3,7 +3,13 @@ import { getCurrentUser } from "@/src/lib/auth";
 import { mkdir, writeFile } from "node:fs/promises";
 import { randomUUID } from "node:crypto";
 import path from "node:path";
-import { hasDatabaseStorage, saveUploadToStorage } from "@/src/lib/server-storage";
+import {
+  canUseFileStorageFallback,
+  getPersistentStorageSetupMessage,
+  hasDatabaseStorage,
+  isPersistentStorageRequiredError,
+  saveUploadToStorage,
+} from "@/src/lib/server-storage";
 
 const uploadsDir = path.join(process.cwd(), "public", "images", "uploads");
 
@@ -24,8 +30,6 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
   }
 
-  await mkdir(uploadsDir, { recursive: true });
-
   const extension = path.extname(file.name) || ".jpg";
   const fileName = `${Date.now()}-${randomUUID()}-${sanitizeFileName(
     path.basename(file.name, extension)
@@ -33,21 +37,36 @@ export async function POST(request: Request) {
   const filePath = path.join(uploadsDir, fileName);
   const buffer = Buffer.from(await file.arrayBuffer());
 
-  if (hasDatabaseStorage()) {
-    const storedUpload = await saveUploadToStorage({
-      fileName,
-      contentType: file.type || "application/octet-stream",
-      content: buffer,
-    });
+  try {
+    if (hasDatabaseStorage()) {
+      const storedUpload = await saveUploadToStorage({
+        fileName,
+        contentType: file.type || "application/octet-stream",
+        content: buffer,
+      });
 
-    if (!storedUpload) {
-      return NextResponse.json({ error: "Upload storage unavailable" }, { status: 500 });
+      if (!storedUpload) {
+        return NextResponse.json({ error: "Upload storage unavailable" }, { status: 500 });
+      }
+
+      return NextResponse.json({ url: storedUpload.url });
     }
 
-    return NextResponse.json({ url: storedUpload.url });
+    if (!canUseFileStorageFallback()) {
+      return NextResponse.json({ error: getPersistentStorageSetupMessage() }, { status: 503 });
+    }
+
+    await mkdir(uploadsDir, { recursive: true });
+    await writeFile(filePath, buffer);
+
+    return NextResponse.json({ url: `/images/uploads/${fileName}` });
+  } catch (error) {
+    console.error("[upload] Failed to store uploaded file.", error);
+
+    if (isPersistentStorageRequiredError(error)) {
+      return NextResponse.json({ error: error.message }, { status: 503 });
+    }
+
+    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
   }
-
-  await writeFile(filePath, buffer);
-
-  return NextResponse.json({ url: `/images/uploads/${fileName}` });
 }

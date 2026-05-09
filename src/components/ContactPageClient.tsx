@@ -73,7 +73,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
     <div className="container-page py-10 pb-16">
       {/* Header */}
       {show("header") && (
-      <header className="max-w-3xl">
+      <header className="max-w-3xl reveal-on-scroll">
         <p className="section-kicker">{c.header.kicker}</p>
         <h1
           className="mt-2 text-3xl font-semibold uppercase tracking-[0.03em] sm:text-4xl"
@@ -93,7 +93,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
         {c.reasons.map((reason: string, i: number) => (
           <div
             key={reason}
-            className="card-panel px-5 py-4 text-sm font-medium text-secondary"
+            className={`card-panel px-5 py-4 text-sm font-medium text-secondary reveal-on-scroll${i === 1 ? " reveal-on-scroll--delay" : i === 2 ? " reveal-on-scroll--delay-2" : ""}`}
           >
             {reason}
           </div>
@@ -105,7 +105,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
 
       {/* Kontaktní info + Formulář */}
       <section className="mt-8 grid gap-10 md:grid-cols-2">
-        <div className="card-panel space-y-6 p-6 text-sm text-secondary">
+        <div className="card-panel space-y-6 p-6 text-sm text-secondary reveal-on-scroll">
           {/* Rychlý kontakt */}
           <div
             className="px-5 py-5"
@@ -262,7 +262,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
         {show("form") && (
         <>
         {sent ? (
-          <div className="card-panel p-6 flex flex-col items-center justify-center text-center">
+          <div className="card-panel p-6 flex flex-col items-center justify-center text-center reveal-on-scroll reveal-on-scroll--delay">
             <div style={{ fontSize: "48px", marginBottom: "16px" }}>✓</div>
             <h2 className="text-lg font-semibold" style={{ color: "var(--cream)" }}>
               {lang === "cs" ? "Zpráva odeslána" : "Message Sent"}
@@ -272,7 +272,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
             </p>
           </div>
         ) : (
-        <form className="card-panel p-6" onSubmit={handleSubmit}>
+        <form className="card-panel p-6 reveal-on-scroll reveal-on-scroll--delay" onSubmit={handleSubmit}>
           <h2
             className="text-sm font-semibold"
             style={{
@@ -348,7 +348,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
 
       {/* Mapa */}
       {show("map") && (
-      <section className="mt-10">
+      <section className="mt-10 reveal-on-scroll">
         <div
           className="overflow-hidden"
           style={{ border: "1px solid var(--black-border)" }}

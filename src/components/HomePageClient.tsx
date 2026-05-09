@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { ArrowRight, ShieldCheck, CircleDollarSign, BadgeCheck } from "lucide-react";
 import { VehicleCard } from "@/src/components/VehicleCard";
 import { HeroSlider } from "@/components/HeroSlider";
@@ -43,34 +43,9 @@ interface HomepageContent {
 
 const featureIcons = [ShieldCheck, CircleDollarSign, BadgeCheck];
 
-function useScrollReveal() {
-  const observerRef = useRef<IntersectionObserver | null>(null);
-
-  useEffect(() => {
-    observerRef.current = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("revealed");
-            observerRef.current?.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const elements = document.querySelectorAll(".reveal-on-scroll");
-    elements.forEach((el) => observerRef.current?.observe(el));
-
-    return () => observerRef.current?.disconnect();
-  }, []);
-}
-
 export function HomePageClient({ vehicles, homepageMode = "default", banners = [], cs, en }: HomePageClientProps) {
   const { lang } = useLanguage();
   const c = lang === "en" ? (en ?? cs) : (cs ?? en);
-
-  useScrollReveal();
 
   const desktopCount = c?.featured.desktopCount ?? 4;
   const mobileCount = c?.featured.mobileCount ?? 3;
@@ -99,7 +74,7 @@ export function HomePageClient({ vehicles, homepageMode = "default", banners = [
         <div className="hero-corner-ornament hero-corner-ornament--br" />
 
         <div className="container-page hero-flex" style={{ position: 'relative', zIndex: 1 }}>
-          <div className="hero-flex__text">
+          <div className="hero-flex__text reveal-on-scroll reveal-on-scroll--hero">
             <p className="section-kicker">{c ? c.hero.kicker : t('hero.kicker', lang)}</p>
             <h1 style={{
               fontFamily: "var(--font-display)",
@@ -121,7 +96,7 @@ export function HomePageClient({ vehicles, homepageMode = "default", banners = [
           </div>
 
           {sliderCars.length > 0 && (
-            <div className="hero-flex__slider">
+            <div className="hero-flex__slider reveal-on-scroll reveal-on-scroll--hero reveal-on-scroll--delay">
               <HeroSlider vehicles={sliderCars} />
             </div>
           )}
