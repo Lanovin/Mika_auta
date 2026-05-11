@@ -44,8 +44,6 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
       <div className="container-page" style={{ paddingTop: '64px', paddingBottom: '60px' }}>
         <div className="footer-grid">
           <div className="footer-primary-column">
-            <p className="footer-lead">{fc.description}</p>
-
             <div className="footer-detail-stack">
               <div>
                 <div className="footer-section-label">{t("footer.address", lang)}</div>
@@ -68,7 +66,7 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           </div>
 
           <div className="footer-secondary-column">
-            <div className="footer-contact-block">
+            <div>
               <div className="footer-section-label">{t("footer.contact", lang)}</div>
               <a href={`tel:${kc.phone.replace(/\s/g, '')}`} className="footer-contact-link">
                 {kc.phone}
@@ -126,15 +124,12 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           display: grid;
           gap: 32px;
         }
+        .footer-lead {
+          display: none !important;
+        }
         .footer-secondary-column {
           display: grid;
           gap: 28px;
-        }
-        .footer-lead {
-          max-width: 680px;
-          font-size: clamp(16px, 1.65vw, 20px);
-          line-height: 1.8;
-          color: var(--cream-muted);
         }
         .footer-section-label {
           font-size: 11px;
@@ -153,10 +148,6 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           color: var(--white);
           line-height: 1.75;
           font-weight: 500;
-        }
-        .footer-contact-block {
-          display: grid;
-          gap: 4px;
         }
         .footer-contact-link {
           display: block;

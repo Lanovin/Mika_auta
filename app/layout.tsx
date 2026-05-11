@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { LanguageProvider } from "@/src/lib/LanguageContext";
 import CookieConsent from "@/src/components/CookieConsent";
 import ScrollRevealObserver from "@/src/components/ScrollRevealObserver";
+import WhatsAppFloatingButton from "@/src/components/WhatsAppFloatingButton";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || "https://www.mikaauto.cz";
 
@@ -130,6 +131,7 @@ export default function RootLayout({
           <Header />
           <main style={{ flex: 1 }}>{children}</main>
           <Footer />
+          <WhatsAppFloatingButton />
           <CookieConsent />
         </LanguageProvider>
       </body>

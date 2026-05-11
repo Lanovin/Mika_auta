@@ -14,9 +14,14 @@ export default function ScrollRevealObserver() {
     }
 
     const observer = new IntersectionObserver(
-      (entries) => {
+      (entries, currentObserver) => {
         entries.forEach((entry) => {
-          entry.target.classList.toggle("revealed", entry.isIntersecting);
+          if (!entry.isIntersecting) {
+            return;
+          }
+
+          entry.target.classList.add("revealed");
+          currentObserver.unobserve(entry.target);
         });
       },
       {
