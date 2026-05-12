@@ -9,7 +9,7 @@ interface InventoryPageContent {
   subtitle?: string;
 }
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 export const metadata: Metadata = {
   title: "Nabídka vozů – Ojeté vozy na prodej",

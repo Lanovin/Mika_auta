@@ -46,6 +46,7 @@ const featureIcons = [ShieldCheck, CircleDollarSign, BadgeCheck];
 export function HomePageClient({ vehicles, homepageMode = "default", banners = [], cs, en }: HomePageClientProps) {
   const { lang } = useLanguage();
   const c = lang === "en" ? (en ?? cs) : (cs ?? en);
+  const reviewByLabel = lang === "en" ? "Review by" : "Tuto recenzi napsal";
 
   const desktopCount = c?.featured.desktopCount ?? 4;
   const mobileCount = c?.featured.mobileCount ?? 3;
@@ -202,7 +203,7 @@ export function HomePageClient({ vehicles, homepageMode = "default", banners = [
                 {review.text}
               </p>
               <div style={{ marginTop: '16px', fontSize: '14px', fontWeight: 600, color: 'var(--white)', fontStyle: 'normal' }}>
-                {review.author}
+                {reviewByLabel} {review.author}
               </div>
             </article>
           ))}

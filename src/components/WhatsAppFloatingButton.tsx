@@ -1,6 +1,7 @@
-import { MessageCircle, Phone } from "lucide-react";
+import Image from "next/image";
+import whatsappLogo from "@/whatsapp-clean.png";
 
-const WHATSAPP_URL = "https://wa.me/42077433774";
+const WHATSAPP_URL = "https://wa.me/420774333774";
 
 export default function WhatsAppFloatingButton() {
   return (
@@ -11,10 +12,13 @@ export default function WhatsAppFloatingButton() {
         title="WhatsApp"
         className="whatsapp-floating-button"
       >
-        <span className="whatsapp-floating-button__icon" aria-hidden="true">
-          <MessageCircle className="whatsapp-floating-button__bubble" strokeWidth={2.2} />
-          <Phone className="whatsapp-floating-button__phone" strokeWidth={2.4} />
-        </span>
+        <Image
+          src={whatsappLogo}
+          alt="WhatsApp"
+          className="whatsapp-floating-button__image"
+          sizes="(max-width: 768px) 58px, 68px"
+          priority
+        />
       </a>
 
       <style>{`
@@ -26,37 +30,20 @@ export default function WhatsAppFloatingButton() {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          width: 64px;
-          height: 64px;
+          width: 68px;
+          height: 68px;
           border-radius: 999px;
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          background: linear-gradient(180deg, #27d467 0%, #1faa52 100%);
-          color: #ffffff;
           text-decoration: none;
-          box-shadow: 0 18px 36px rgba(7, 23, 12, 0.32);
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          transition: transform 0.2s ease, filter 0.2s ease;
         }
         .whatsapp-floating-button:hover {
-          transform: translateY(-2px) scale(1.02);
-          box-shadow: 0 22px 40px rgba(7, 23, 12, 0.38);
+          transform: translateY(-2px) scale(1.03);
+          filter: brightness(1.04);
         }
-        .whatsapp-floating-button__icon {
-          position: relative;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          width: 30px;
-          height: 30px;
-        }
-        .whatsapp-floating-button__bubble {
-          width: 30px;
-          height: 30px;
-        }
-        .whatsapp-floating-button__phone {
-          position: absolute;
-          width: 13px;
-          height: 13px;
-          transform: translate(-1px, 1px) rotate(-6deg);
+        .whatsapp-floating-button__image {
+          width: 100%;
+          height: auto;
+          filter: drop-shadow(0 18px 30px rgba(7, 23, 12, 0.34));
         }
         @media (max-width: 768px) {
           .whatsapp-floating-button {
@@ -65,14 +52,8 @@ export default function WhatsAppFloatingButton() {
             width: 58px;
             height: 58px;
           }
-          .whatsapp-floating-button__icon,
-          .whatsapp-floating-button__bubble {
-            width: 28px;
-            height: 28px;
-          }
-          .whatsapp-floating-button__phone {
-            width: 12px;
-            height: 12px;
+          .whatsapp-floating-button__image {
+            filter: drop-shadow(0 14px 24px rgba(7, 23, 12, 0.32));
           }
         }
       `}</style>

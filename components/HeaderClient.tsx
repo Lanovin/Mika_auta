@@ -3,7 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { Phone, Clock, ChevronDown, Home, X, AlertTriangle } from "lucide-react";
+import { Phone, Clock, ChevronDown, Home, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import czFlag from "@/cz.png";
 import gbFlag from "@/gb.png";
@@ -600,11 +600,15 @@ export function HeaderClient({ alert, kontaktCs, kontaktEn }: HeaderClientProps)
         <div className="container-page">
           <div className="alert-banner" aria-label={alertText}>
             <div className="alert-banner-copy">
-              <span className="alert-banner-badge">{lang === 'cs' ? 'Aktuálně' : 'Update'}</span>
-              <span className="alert-banner-icon" aria-hidden="true">
-                <AlertTriangle style={{ width: '15px', height: '15px' }} />
-              </span>
-              <span className="alert-banner-text">{alertText}</span>
+              <div className="alert-marquee">
+                <div className="alert-marquee-track">
+                  <span className="alert-marquee-item">
+                    <span className="alert-banner-mark" aria-hidden="true">!</span>
+                    <span className="alert-banner-text">{alertText}</span>
+                    <span className="alert-banner-mark" aria-hidden="true">!</span>
+                  </span>
+                </div>
+              </div>
             </div>
             <button
               type="button"

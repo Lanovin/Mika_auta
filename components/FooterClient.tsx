@@ -44,6 +44,12 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
       <div className="container-page" style={{ paddingTop: '64px', paddingBottom: '60px' }}>
         <div className="footer-grid">
           <div className="footer-primary-column">
+            <div>
+              <div className="footer-brand">
+                Mika <span style={{ color: 'var(--gold-light)' }}>Auto</span>
+              </div>
+            </div>
+
             <div className="footer-detail-stack">
               <div>
                 <div className="footer-section-label">{t("footer.address", lang)}</div>
@@ -66,7 +72,7 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           </div>
 
           <div className="footer-secondary-column">
-            <div>
+            <div className="footer-contact-card">
               <div className="footer-section-label">{t("footer.contact", lang)}</div>
               <a href={`tel:${kc.phone.replace(/\s/g, '')}`} className="footer-contact-link">
                 {kc.phone}
@@ -131,6 +137,13 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           display: grid;
           gap: 28px;
         }
+        .footer-brand {
+          font-family: var(--font-display);
+          font-size: clamp(28px, 4vw, 42px);
+          font-weight: 700;
+          color: var(--white);
+          line-height: 1;
+        }
         .footer-section-label {
           font-size: 11px;
           letter-spacing: 0.24em;
@@ -148,6 +161,11 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
           color: var(--white);
           line-height: 1.75;
           font-weight: 500;
+        }
+        .footer-contact-card {
+          padding: 28px;
+          border: 1px solid rgba(201, 168, 76, 0.3);
+          background: linear-gradient(180deg, rgba(201, 168, 76, 0.1) 0%, rgba(255, 255, 255, 0.02) 100%);
         }
         .footer-contact-link {
           display: block;
@@ -214,6 +232,9 @@ export function FooterClient({ f, fEn, k, kEn }: FooterClientProps) {
         @media (max-width: 1023px) {
           .footer-grid {
             grid-template-columns: 1fr !important;
+          }
+          .footer-contact-card {
+            padding: 24px;
           }
         }
         @media (max-width: 768px) {

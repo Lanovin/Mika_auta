@@ -25,15 +25,6 @@ interface SluzbyContent {
   services: ServiceItem[];
 }
 
-export async function generateStaticParams() {
-  const content = await readContent();
-  const cs = content.sluzby as SluzbyContent | undefined;
-
-  return (cs?.services ?? []).map((service) => ({
-    slug: slugify(service.title),
-  }));
-}
-
 export async function generateMetadata({
   params,
 }: {

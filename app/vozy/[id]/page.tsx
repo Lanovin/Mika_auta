@@ -9,15 +9,7 @@ interface CarDetailPageProps {
   };
 }
 
-export const revalidate = 300;
-
-export async function generateStaticParams() {
-  const vehicles = await readPublishedVehicles();
-
-  return vehicles.map((vehicle) => ({
-    id: vehicle.id,
-  }));
-}
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: CarDetailPageProps): Promise<Metadata> {
   const car = await readVehicleById(params.id);
