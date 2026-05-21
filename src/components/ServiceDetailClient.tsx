@@ -35,10 +35,61 @@ interface ServiceDetailClientProps {
   serviceIndex: number;
 }
 
+type ServiceTextBlock =
+  | { type: "paragraph"; text: string }
+  | { type: "list"; items: string[] };
+
+function parseServiceTextBlocks(text: string): ServiceTextBlock[] {
+  const lines = text.replace(/\r\n?/g, "\n").split("\n");
+  const blocks: ServiceTextBlock[] = [];
+  let paragraphLines: string[] = [];
+  let listItems: string[] = [];
+
+  const pushParagraph = () => {
+    if (paragraphLines.length === 0) return;
+    blocks.push({ type: "paragraph", text: paragraphLines.join("\n") });
+    paragraphLines = [];
+  };
+
+  const pushList = () => {
+    if (listItems.length === 0) return;
+    blocks.push({ type: "list", items: [...listItems] });
+    listItems = [];
+  };
+
+  for (const line of lines) {
+    const trimmed = line.trim();
+
+    if (!trimmed) {
+      pushParagraph();
+      pushList();
+      continue;
+    }
+
+    const bulletMatch = trimmed.match(/^(?:[-*•]\s+|\d+[.)]\s+)(.+)$/);
+    if (bulletMatch) {
+      pushParagraph();
+      listItems.push(bulletMatch[1].trim());
+      continue;
+    }
+
+    pushList();
+    paragraphLines.push(trimmed);
+  }
+
+  pushParagraph();
+  pushList();
+
+  return blocks;
+}
+
 export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug, serviceIndex }: ServiceDetailClientProps) {
   const { lang } = useLanguage();
   const svc = lang === "en" ? serviceEn : service;
   const othersList = lang === "en" ? othersEn : others;
+  const longDescBlocks = svc.longDesc && svc.longDesc !== svc.shortDesc
+    ? parseServiceTextBlocks(svc.longDesc)
+    : [];
 
   const isVykup = slug === "vykup-vozu-za-hotove";
 
@@ -68,20 +119,29 @@ export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug
         <div className="card-panel p-6 md:p-8 space-y-4">
           {svc.shortDesc && (
             <p
-              className="text-base leading-relaxed sm:text-lg font-medium"
+              className="text-base leading-relaxed sm:text-lg font-medium whitespace-pre-line"
               style={{ color: "var(--cream)" }}
             >
               {svc.shortDesc}
             </p>
           )}
-          {svc.longDesc && svc.longDesc !== svc.shortDesc && (
-            <p
-              className="text-base leading-relaxed"
-              style={{ color: "var(--cream-muted)" }}
-            >
-              {svc.longDesc}
-            </p>
-          )}
+          {longDescBlocks.length > 0 ? (
+            <div className="space-y-4 text-base leading-relaxed" style={{ color: "var(--cream-muted)" }}>
+              {longDescBlocks.map((block, index) => (
+                block.type === "list" ? (
+                  <ul key={`list-${index}`} className="space-y-2 pl-5 list-disc">
+                    {block.items.map((item, itemIndex) => (
+                      <li key={`list-item-${index}-${itemIndex}`}>{item}</li>
+                    ))}
+                  </ul>
+                ) : (
+                  <p key={`paragraph-${index}`} className="whitespace-pre-line">
+                    {block.text}
+                  </p>
+                )
+              ))}
+            </div>
+          ) : null}
         </div>
       </section>
 

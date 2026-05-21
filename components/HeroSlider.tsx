@@ -14,6 +14,17 @@ interface HeroSliderProps {
 
 const SLIDE_DURATION = 5000;
 
+function getCompactHeroTitle(car: Vehicle) {
+  const fullTitle = car.make && car.model ? `${car.make} ${car.model}`.trim() : car.title.trim();
+  const words = fullTitle.split(/\s+/).filter(Boolean);
+
+  if (words.length <= 3 && fullTitle.length <= 26) {
+    return fullTitle;
+  }
+
+  return words.slice(0, 3).join(" ");
+}
+
 export function HeroSlider({ vehicles }: HeroSliderProps) {
   const { lang } = useLanguage();
   const slides = vehicles.slice(0, 6);
@@ -73,9 +84,19 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
   const formattedPrice = lang === "cs"
     ? `${car.price.toLocaleString("cs-CZ")} Kč`
     : `CZK ${car.price.toLocaleString("en-US")}`;
-  const vatDeductionText = car.vatDeduction
-    ? tReplace("vehicle.vatDeduction", lang, { price: formattedPrice })
+  const formattedPriceWithoutVat = typeof car.priceWithoutVat === "number"
+    ? (lang === "cs"
+      ? `${car.priceWithoutVat.toLocaleString("cs-CZ")} Kč`
+      : `CZK ${car.priceWithoutVat.toLocaleString("en-US")}`)
     : null;
+  const vatDeductionText = (car.vatDeduction || formattedPriceWithoutVat) ? t("vehicle.vatDeduction", lang) : null;
+  const priceWithoutVatText = formattedPriceWithoutVat
+    ? tReplace("vehicle.priceWithoutVat", lang, { price: formattedPriceWithoutVat })
+    : null;
+  const sliderTitle = getCompactHeroTitle(car);
+  const sliderPriceNote = vatDeductionText && priceWithoutVatText
+    ? `${vatDeductionText} • ${priceWithoutVatText}`
+    : (priceWithoutVatText ?? vatDeductionText);
 
   return (
     <div
@@ -133,8 +154,8 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
 
       {/* Info bar — below the photo */}
       <Link key={current} href={`/vozy/${car.id}`} className="hero-slider__info">
-        <div className="hero-slider__title">
-          {car.make && car.model ? `${car.make} ${car.model}` : car.title.split(/\s+/).slice(0, 2).join(" ")}
+        <div className="hero-slider__title" title={car.make && car.model ? `${car.make} ${car.model}` : car.title}>
+          {sliderTitle}
         </div>
         <div className="hero-slider__meta">
           {car.year > 0 && (
@@ -155,8 +176,8 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
         </div>
         <div className="hero-slider__price-col">
           <div className="hero-slider__price">{formattedPrice}</div>
-          {vatDeductionText ? (
-            <div className="hero-slider__price-note">{vatDeductionText}</div>
+          {sliderPriceNote ? (
+            <div className="hero-slider__price-note">{sliderPriceNote}</div>
           ) : null}
         </div>
       </Link>

@@ -59,7 +59,7 @@ body {
 }
 
 .topbar-item {
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-body);
   font-size: 14px;
   transition: color 0.2s ease;
 }
@@ -86,21 +86,14 @@ body {
   overflow: hidden;
 }
 
-.alert-marquee-track {
-  display: flex;
-  align-items: center;
-  min-width: max-content;
-  animation: alert-banner-slide 18s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.alert-marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-width: max-content;
+.alert-banner-text {
+  display: inline-block;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.5;
+  letter-spacing: 0.01em;
   white-space: nowrap;
-  padding-right: 4px;
+  color: #1b1405;
 }
 
 .alert-banner-mark {
@@ -116,27 +109,6 @@ body {
   font-weight: 900;
   line-height: 1;
   flex-shrink: 0;
-}
-
-.alert-banner-text {
-  display: inline-block;
-  color: #1b1405;
-  font-family: 'Raleway', sans-serif;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.5;
-  letter-spacing: 0.01em;
-  white-space: nowrap;
-}
-
-@keyframes alert-banner-slide {
-  from {
-    transform: translateX(0);
-  }
-
-  to {
-    transform: translateX(min(120px, 10vw));
-  }
 }
 
 .alert-banner-close {
@@ -157,6 +129,38 @@ body {
 .alert-banner-close:hover {
   background: rgba(14, 14, 14, 0.18);
   transform: translateY(-1px);
+}
+
+.alert-banner-close:focus-visible {
+  outline: 2px solid rgba(43, 32, 13, 0.55);
+  outline-offset: 2px;
+}
+
+.alert-marquee-track {
+  display: flex;
+  align-items: center;
+  min-width: max-content;
+  animation: alert-banner-slide 18s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+.alert-marquee-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: max-content;
+  white-space: nowrap;
+  padding-right: 4px;
+}
+
+@keyframes alert-banner-slide {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(min(120px, 10vw));
+  }
 }
 
 a.topbar-item:hover {
@@ -363,15 +367,6 @@ a.topbar-item:hover {
   font-family: 'Raleway', sans-serif;
   font-style: italic;
   color: var(--cream);
-  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1),
-              box-shadow 0.3s ease,
-              border-color 0.3s ease;
-}
-
-.pull-quote:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
-  border-color: var(--gold-light);
 }
 
 .pull-quote::before {
@@ -630,10 +625,29 @@ a.topbar-item:hover {
 }
 
 .hero-slider__price-note {
+  margin-top: 2px;
   font-size: 10px;
   line-height: 1.4;
   color: var(--cream-muted);
-  margin-top: 2px;
+}
+
+.vat-badge {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid rgba(189, 154, 95, 0.35);
+  background: rgba(189, 154, 95, 0.12);
+  padding: 4px 8px;
+  font-size: 10px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+
+.vat-badge--compact {
+  padding: 3px 7px;
+  font-size: 9px;
 }
 
 /* Footer area: dots + progress */
@@ -741,8 +755,6 @@ a.topbar-item:hover {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  background: linear-gradient(180deg, rgba(201, 168, 76, 0.05) 0%, var(--black-card) 100%);
-  border: 1px solid var(--black-border);
 }
 
 @media (max-width: 640px) {
@@ -778,9 +790,10 @@ a.topbar-item:hover {
 .stats-bar .stat-value {
   font-family: 'Raleway', sans-serif;
   font-size: clamp(30px, 3.9vw, 42px);
-  font-weight: 500;
+  font-weight: 600;
   line-height: 1;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.06em;
+  font-stretch: 92%;
   color: var(--gold-light);
   font-variant-numeric: lining-nums;
 }
@@ -826,24 +839,13 @@ a.topbar-item:hover {
   width: 40px;
   height: 40px;
   border: 1px solid var(--gold-dim);
-  background: rgba(201, 168, 76, 0.07);
   color: var(--gold);
   font-size: 18px;
-  transition: transform 0.35s cubic-bezier(0.34, 1.4, 0.64, 1),
-              border-color 0.25s ease,
-              background 0.25s ease;
-}
-
-.features-grid-cell:hover .features-grid-icon {
-  transform: scale(1.18) rotate(-6deg);
-  border-color: var(--gold);
-  background: rgba(201, 168, 76, 0.15);
 }
 
 .features-grid-title {
   font-family: 'Raleway', sans-serif;
   font-size: 17px;
-  font-weight: 600;
   color: var(--white);
   margin-top: 16px;
 }
@@ -852,7 +854,7 @@ a.topbar-item:hover {
   font-family: 'Raleway', sans-serif;
   font-weight: 400;
   font-size: 14px;
-  color: var(--cream-muted);
+  color: var(--text-muted);
   margin-top: 8px;
   line-height: 1.7;
 }
@@ -970,7 +972,7 @@ input[type="range"]::-webkit-slider-thumb:hover {
   background: none;
   border: none;
   color: var(--gold);
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-body);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.12em;
@@ -1233,29 +1235,20 @@ select option {
 
 .reveal-on-scroll {
   opacity: 0;
-  transform: translate3d(0, 22px, 0) scale(0.98);
-  will-change: opacity, transform;
-  transition: opacity 0.7s cubic-bezier(0.19, 1, 0.22, 1), transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
+  transform: translate3d(0, 40px, 0) scale(0.96);
+  filter: blur(8px);
+  will-change: opacity, transform, filter;
+  transition: opacity 0.9s cubic-bezier(0.19, 1, 0.22, 1), transform 0.9s cubic-bezier(0.19, 1, 0.22, 1), filter 0.9s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .reveal-on-scroll.revealed {
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
-}
-
-/* Spring variant — mírný přeskok pro dynamičtější dojem */
-.reveal-on-scroll--spring {
-  transition: opacity 0.6s cubic-bezier(0.19, 1, 0.22, 1),
-              transform 0.75s cubic-bezier(0.34, 1.4, 0.64, 1);
-}
-
-/* Slide from left */
-.reveal-on-scroll--left {
-  transform: translate3d(-28px, 0, 0) scale(0.98);
+  filter: blur(0);
 }
 
 .reveal-on-scroll--hero {
-  transform: translate3d(0, 32px, 0) scale(0.97);
+  transform: translate3d(0, 56px, 0) scale(0.93);
 }
 
 .reveal-on-scroll--delay {
@@ -1285,6 +1278,7 @@ select option {
   .reveal-on-scroll--delay-2,
   .reveal-on-scroll--delay-3 {
     opacity: 1;
+    filter: none;
     transform: none;
     transition: none;
   }
@@ -1350,7 +1344,7 @@ select option {
   background: var(--gold);
   color: var(--black);
   font-size: 9px;
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-body);
   font-weight: 600;
   letter-spacing: 0.2em;
   text-transform: uppercase;
@@ -1370,7 +1364,7 @@ select option {
   letter-spacing: 0.3em;
   text-transform: uppercase;
   color: var(--gold);
-  font-family: 'Raleway', sans-serif;
+  font-family: var(--font-body);
   font-weight: 600;
 }
 

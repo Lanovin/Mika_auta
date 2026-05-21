@@ -54,8 +54,16 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
     currency: "CZK",
     maximumFractionDigits: 0,
   }).format(car.price);
-  const vatDeductionText = car.vatDeduction
-    ? tReplace("vehicle.vatDeduction", lang, { price: formattedPrice })
+  const formattedPriceWithoutVat = typeof car.priceWithoutVat === "number"
+    ? new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency: "CZK",
+      maximumFractionDigits: 0,
+    }).format(car.priceWithoutVat)
+    : null;
+  const vatDeductionText = (car.vatDeduction || formattedPriceWithoutVat) ? t("vehicle.vatDeduction", lang) : null;
+  const priceWithoutVatText = formattedPriceWithoutVat
+    ? tReplace("vehicle.priceWithoutVat", lang, { price: formattedPriceWithoutVat })
     : null;
 
   const formattedMileage = new Intl.NumberFormat(locale).format(car.mileage);
@@ -200,14 +208,16 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
           <span className="flex items-center gap-1"><Fuel size={12} style={{ color: "var(--gold-dim)" }} />{car.fuel}</span>
           <span className="flex items-center gap-1"><Settings2 size={12} style={{ color: "var(--gold-dim)" }} />{car.transmission}</span>
         </div>
-        <div
-          className="mt-2"
-          style={{ fontFamily: "var(--font-display)", fontSize: "22px", fontWeight: 600, color: "var(--gold-light)" }}
-        >
-          {formattedPrice}
+        <div className="mt-2 flex flex-wrap items-center gap-2">
+          <div
+            style={{ fontFamily: "var(--font-display)", fontSize: "22px", fontWeight: 600, color: "var(--gold-light)" }}
+          >
+            {formattedPrice}
+          </div>
+          {vatDeductionText ? <div className="vat-badge">{vatDeductionText}</div> : null}
         </div>
-        {vatDeductionText ? (
-          <div className="mt-1 text-xs text-secondary">{vatDeductionText}</div>
+        {priceWithoutVatText ? (
+          <div className="mt-1 text-xs text-secondary">{priceWithoutVatText}</div>
         ) : null}
       </div>
 
@@ -458,14 +468,16 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
             <div className="text-xs uppercase tracking-wide text-secondary">
               {t("detail.price", lang)}
             </div>
-            <div
-              className="mt-2"
-              style={{ fontFamily: "var(--font-display)", fontSize: "28px", fontWeight: 600, color: "var(--gold-light)" }}
-            >
-              {formattedPrice}
+            <div className="mt-2 flex flex-wrap items-center gap-2">
+              <div
+                style={{ fontFamily: "var(--font-display)", fontSize: "28px", fontWeight: 600, color: "var(--gold-light)" }}
+              >
+                {formattedPrice}
+              </div>
+              {vatDeductionText ? <div className="vat-badge">{vatDeductionText}</div> : null}
             </div>
-            {vatDeductionText ? (
-              <div className="mt-1 text-xs text-secondary">{vatDeductionText}</div>
+            {priceWithoutVatText ? (
+              <div className="mt-1 text-xs text-secondary">{priceWithoutVatText}</div>
             ) : null}
             <div className="mt-3 grid gap-2 text-sm text-secondary">
               <div>{t("detail.tradeIn", lang)}</div>
@@ -785,11 +797,14 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
       >
         <div className="flex items-center gap-2 max-w-[600px] mx-auto">
           <div className="flex-shrink-0 mr-auto min-w-0">
-            <div style={{ fontFamily: "var(--font-display)", fontSize: "16px", fontWeight: 600, color: "var(--gold-light)" }}>
-              {formattedPrice}
+            <div className="flex flex-wrap items-center gap-2">
+              <div style={{ fontFamily: "var(--font-display)", fontSize: "16px", fontWeight: 600, color: "var(--gold-light)" }}>
+                {formattedPrice}
+              </div>
+              {vatDeductionText ? <div className="vat-badge vat-badge--compact">{vatDeductionText}</div> : null}
             </div>
-            {vatDeductionText ? (
-              <div className="mt-0.5 text-[10px] leading-4 text-secondary">{vatDeductionText}</div>
+            {priceWithoutVatText ? (
+              <div className="mt-0.5 text-[10px] leading-4 text-secondary">{priceWithoutVatText}</div>
             ) : null}
           </div>
           <a href="tel:+420774333774" className="btn-secondary flex-shrink-0 px-3 py-2 text-[10px] text-center" style={{ letterSpacing: "0.12em" }}>

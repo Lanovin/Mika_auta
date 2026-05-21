@@ -100,20 +100,15 @@ function normalizeVehicleText(text: string): string {
 function hasVatDeduction(...texts: string[]): boolean {
   const normalized = normalizeVehicleText(texts.join(" "));
 
-  if (
-    normalized.includes("bez odpoctu dph")
-    || normalized.includes("bez moznosti odpoctu dph")
-  ) {
+  if (/\bbez(?:\s+moznosti)?\s+odpo(?:cet|ctu)\s+dph\b/.test(normalized)) {
     return false;
   }
 
   return (
-    normalized.includes("odpocet dph")
-    || normalized.includes("odpoctem dph")
-    || normalized.includes("odpoctu dph")
-    || normalized.includes("dph odecitatelna")
-    || normalized.includes("dph odecitatelne")
-    || normalized.includes("odecitatelnou dph")
+    /\bodpo(?:cet|ctu|ctem)\s+dph\b/.test(normalized)
+    || /\bdph\s+odecitateln(?:a|e|ou)\b/.test(normalized)
+    || /\b(?:moznost|moznosti|mozny|mozna|mozne)\s+odpo(?:cet|ctu)\s+dph\b/.test(normalized)
+    || /\bs\s+moznosti\s+odpoctu\s+dph\b/.test(normalized)
   );
 }
 
@@ -130,7 +125,12 @@ function parseCarXml(carXml: string): Vehicle | null {
   const typeInfo = decodeEntities(getTag(carXml, "type_info"));
   const kindText = decodeEntities(getTag(carXml, "kind_text"));
   const bodyText = decodeEntities(getTag(carXml, "body_text"));
-  const price = parseInt(getTag(carXml, "price_2"), 10) || parseInt(getTag(carXml, "price"), 10) || 0;
+  const rawPriceWithoutVat = parseInt(getTag(carXml, "price"), 10) || 0;
+  const rawPriceWithVat = parseInt(getTag(carXml, "price_2"), 10) || rawPriceWithoutVat;
+  const priceWithoutVat = rawPriceWithoutVat > 0 && rawPriceWithVat > 0 && rawPriceWithoutVat !== rawPriceWithVat
+    ? rawPriceWithoutVat
+    : undefined;
+  const price = rawPriceWithVat || rawPriceWithoutVat || 0;
   const mileage = parseInt(getTag(carXml, "tachometr"), 10) || 0;
   const powerKw = parseInt(getTag(carXml, "engine_power"), 10) || 0;
   const engineVolume = parseInt(getTag(carXml, "engine_volume"), 10) || 0;
@@ -173,7 +173,8 @@ function parseCarXml(carXml: string): Vehicle | null {
 
   // Tipcars dedicated VAT-deduction flag: <dph>A</dph> = yes, <dph>N</dph> = no
   const dphTag = getTag(carXml, "dph").trim().toUpperCase();
-  const vatDeduction = dphTag === "A"
+  const vatDeduction = Boolean(priceWithoutVat)
+    || dphTag === "A"
     || (dphTag !== "N" && hasVatDeduction(note, ...equipmentTexts));
 
   const fuel = mapFuel(fuelText);
@@ -191,6 +192,8 @@ function parseCarXml(carXml: string): Vehicle | null {
     model,
     year,
     price,
+    priceWithVat: price,
+    priceWithoutVat,
     vatDeduction,
     mileage,
     fuel,
@@ -230,6 +233,12 @@ async function loadLocalInventory(): Promise<Vehicle[]> {
       const equipment = Array.isArray(rawVehicle.equipment)
         ? rawVehicle.equipment.filter((item): item is string => typeof item === "string")
         : [];
+      const price = typeof rawVehicle.price === "number" ? rawVehicle.price : 0;
+      const priceWithVat = typeof rawVehicle.priceWithVat === "number" ? rawVehicle.priceWithVat : price;
+      const priceWithoutVat = typeof rawVehicle.priceWithoutVat === "number" ? rawVehicle.priceWithoutVat : undefined;
+      const vatDeduction = typeof rawVehicle.vatDeduction === "boolean"
+        ? rawVehicle.vatDeduction
+        : Boolean(priceWithoutVat) || hasVatDeduction(description, ...equipment);
 
       return {
         tipcarsId: typeof rawVehicle.tipcarsId === "string"
@@ -242,11 +251,12 @@ async function loadLocalInventory(): Promise<Vehicle[]> {
         condition: typeof rawVehicle.condition === "string" ? rawVehicle.condition : "",
         kind: typeof rawVehicle.kind === "string" ? rawVehicle.kind : "Osobní",
         ...rawVehicle,
+        price,
+        priceWithVat,
+        priceWithoutVat,
         description,
         equipment,
-        vatDeduction: typeof rawVehicle.vatDeduction === "boolean"
-          ? rawVehicle.vatDeduction
-          : hasVatDeduction(description, ...equipment),
+        vatDeduction,
       } as unknown as Vehicle;
     });
     return vehicles;

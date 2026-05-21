@@ -133,7 +133,7 @@ export function HeaderClient({ alert, kontaktCs, kontaktEn, servicesCs = [], ser
   const [alertDismissed, setAlertDismissed] = useState(false);
   const kontakt = lang === "en" ? (kontaktEn ?? kontaktCs ?? null) : (kontaktCs ?? kontaktEn ?? null);
   const alertText = alert?.active
-    ? ((lang === "en" && alert.text_en ? alert.text_en : alert.text) ?? "")
+    ? ((lang === "en" && alert.text_en ? alert.text_en : alert.text) ?? "").trim()
     : "";
 
   const leftNav = getLeftNav(lang);
@@ -183,6 +183,10 @@ export function HeaderClient({ alert, kontaktCs, kontaktEn, servicesCs = [], ser
     setDesktopSluzbyPinned(false);
     setSluzbyOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    setAlertDismissed(false);
+  }, [alertText]);
 
   useEffect(() => {
     if (!desktopSluzbyPinned) return;

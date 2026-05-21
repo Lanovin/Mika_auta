@@ -17,8 +17,16 @@ export function VehicleCard({ car }: VehicleCardProps) {
     currency: "CZK",
     maximumFractionDigits: 0
   }).format(car.price);
-  const vatDeductionText = car.vatDeduction
-    ? tReplace("vehicle.vatDeduction", lang, { price: formattedPrice })
+  const formattedPriceWithoutVat = typeof car.priceWithoutVat === "number"
+    ? new Intl.NumberFormat(locale, {
+      style: "currency",
+      currency: "CZK",
+      maximumFractionDigits: 0
+    }).format(car.priceWithoutVat)
+    : null;
+  const vatDeductionText = (car.vatDeduction || formattedPriceWithoutVat) ? t("vehicle.vatDeduction", lang) : null;
+  const priceWithoutVatText = formattedPriceWithoutVat
+    ? tReplace("vehicle.priceWithoutVat", lang, { price: formattedPriceWithoutVat })
     : null;
 
   const formattedMileage = new Intl.NumberFormat(locale).format(car.mileage);
@@ -83,9 +91,12 @@ export function VehicleCard({ car }: VehicleCardProps) {
           {/* Divider + price */}
           <div className="vehicle-card__footer">
             <div className="vehicle-card__price-block">
-              <div className="vehicle-card__price">{formattedPrice}</div>
-              {vatDeductionText ? (
-                <div className="vehicle-card__price-note">{vatDeductionText}</div>
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="vehicle-card__price">{formattedPrice}</div>
+                {vatDeductionText ? <div className="vat-badge">{vatDeductionText}</div> : null}
+              </div>
+              {priceWithoutVatText ? (
+                <div className="vehicle-card__price-note">{priceWithoutVatText}</div>
               ) : null}
             </div>
             <span className="vehicle-card__cta">

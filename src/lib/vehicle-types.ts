@@ -12,6 +12,8 @@ export interface Vehicle {
   model: string;
   year: number;
   price: number;
+  priceWithVat?: number;
+  priceWithoutVat?: number;
   vatDeduction?: boolean;
   mileage: number;
   fuel: FuelType;

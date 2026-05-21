@@ -117,7 +117,8 @@ const translations: Record<string, Record<Lang, string>> = {
   // ─── Vehicle card ──────────────────────────────────
   "card.topOffer": { cs: "TOP nabídka", en: "TOP Offer" },
   "card.detail": { cs: "Detail", en: "Details" },
-  "vehicle.vatDeduction": { cs: "{price} s odpočtem DPH", en: "{price} VAT deductible" },
+  "vehicle.vatDeduction": { cs: "Odpočet DPH", en: "VAT deductible" },
+  "vehicle.priceWithoutVat": { cs: "Bez DPH {price}", en: "Excl. VAT {price}" },
 
   // ─── Vehicle detail page ───────────────────────────
   "detail.home": { cs: "Domů", en: "Home" },
