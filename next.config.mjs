@@ -1,5 +1,11 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  reactStrictMode: true,
+  poweredByHeader: false,
+  compress: true,
+  experimental: {
+    optimizePackageImports: ["lucide-react"],
+  },
   async redirects() {
     return [
       {
@@ -14,7 +20,33 @@ const nextConfig = {
       },
     ];
   },
+  async headers() {
+    return [
+      {
+        source: "/_next/static/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=31536000, immutable" },
+        ],
+      },
+      {
+        source: "/images/(.*)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
+      },
+      {
+        source: "/(.*)\\.(jpg|jpeg|png|webp|avif|gif|svg|ico)",
+        headers: [
+          { key: "Cache-Control", value: "public, max-age=86400, stale-while-revalidate=604800" },
+        ],
+      },
+    ];
+  },
   images: {
+    formats: ["image/avif", "image/webp"],
+    minimumCacheTTL: 86400,
+    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
+    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     remotePatterns: [
       {
         protocol: "https",
@@ -57,4 +89,3 @@ const nextConfig = {
 };
 
 export default nextConfig;
-

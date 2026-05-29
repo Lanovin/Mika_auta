@@ -173,7 +173,6 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
               fill
               className="object-contain"
               sizes="100vw"
-              unoptimized
               priority
             />
           </div>
@@ -243,7 +242,6 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
                   fill
                   className="object-cover transition-opacity duration-300"
                   sizes="(min-width: 1024px) 60vw, 100vw"
-                  unoptimized
                   priority
                 />
               ) : (
@@ -409,7 +407,6 @@ export function VehicleDetailClient({ car }: { car: Vehicle }) {
                     fill
                     className="object-cover"
                     sizes="80px"
-                    unoptimized
                   />
                 </button>
               ))}

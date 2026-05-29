@@ -3,7 +3,7 @@ import { readContent } from "@/src/lib/content-store";
 import { notFound } from "next/navigation";
 import { ServiceDetailClient } from "@/src/components/ServiceDetailClient";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 function slugify(text: string): string {
   return text

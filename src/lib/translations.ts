@@ -76,7 +76,7 @@ const translations: Record<string, Record<Lang, string>> = {
 
   // ─── Inventory page ────────────────────────────────
   "inv.kicker": { cs: "Skladová nabídka", en: "Stock Offer" },
-  "inv.title": { cs: "Nabídka prověřených vozů", en: "Verified Vehicle Offer" },
+  "inv.title": { cs: "Nabídka vozů", en: "Vehicle Offer" },
   "inv.subtitle": { cs: "Prohlédněte si aktuální skladovou nabídku vozů připravených ihned k odběru. Každý kus má jasnou historii a pečlivě dohledaný původ.", en: "Browse our current stock of vehicles ready for immediate pickup. Every unit has a clear history and carefully traced origin." },
   "inv.showing": { cs: "Zobrazeno", en: "Showing" },
   "inv.of": { cs: "z", en: "of" },

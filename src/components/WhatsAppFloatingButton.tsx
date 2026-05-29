@@ -17,7 +17,7 @@ export default function WhatsAppFloatingButton() {
           alt="WhatsApp"
           className="whatsapp-floating-button__image"
           sizes="(max-width: 768px) 58px, 68px"
-          priority
+          loading="lazy"
         />
       </a>
 

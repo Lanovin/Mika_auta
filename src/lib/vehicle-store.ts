@@ -1,11 +1,15 @@
 import path from "node:path";
+import { cache } from "react";
 import type { Vehicle, VehicleLabels } from "@/src/lib/vehicle-types";
 import { fetchTipcarsVehicles } from "@/src/lib/tipcars";
 import { readStoredJson, writeStoredJson } from "@/src/lib/server-storage";
 
 const labelsPath = path.join(process.cwd(), "data", "vehicle-labels.json");
 
-async function readLabels(): Promise<VehicleLabels> {
+const LABELS_MEMORY_TTL_MS = 60 * 1000;
+let labelsMemoryCache: { data: VehicleLabels; expiresAt: number } | null = null;
+
+async function readLabelsUncached(): Promise<VehicleLabels> {
   return readStoredJson<VehicleLabels>({
     storeKey: "vehicle-labels",
     filePath: labelsPath,
@@ -13,12 +17,23 @@ async function readLabels(): Promise<VehicleLabels> {
   });
 }
 
+const readLabels = cache(async (): Promise<VehicleLabels> => {
+  const now = Date.now();
+  if (labelsMemoryCache && labelsMemoryCache.expiresAt > now) {
+    return labelsMemoryCache.data;
+  }
+  const data = await readLabelsUncached();
+  labelsMemoryCache = { data, expiresAt: now + LABELS_MEMORY_TTL_MS };
+  return data;
+});
+
 async function writeLabels(labels: VehicleLabels) {
   await writeStoredJson({
     storeKey: "vehicle-labels",
     filePath: labelsPath,
     data: labels,
   });
+  labelsMemoryCache = { data: labels, expiresAt: Date.now() + LABELS_MEMORY_TTL_MS };
 }
 
 function applyLabels(vehicles: Vehicle[], labels: VehicleLabels): Vehicle[] {
@@ -43,24 +58,24 @@ function sortVehicles(vehicles: Vehicle[]) {
   });
 }
 
-export async function readVehicles(): Promise<Vehicle[]> {
+export const readVehicles = cache(async (): Promise<Vehicle[]> => {
   const [tipcarsVehicles, labels] = await Promise.all([
     fetchTipcarsVehicles(),
     readLabels(),
   ]);
   const labeled = applyLabels(tipcarsVehicles, labels);
   return sortVehicles(labeled);
-}
+});
 
-export async function readPublishedVehicles(): Promise<Vehicle[]> {
+export const readPublishedVehicles = cache(async (): Promise<Vehicle[]> => {
   const vehicles = await readVehicles();
   return vehicles.filter((v) => v.published);
-}
+});
 
-export async function readVehicleById(id: string): Promise<Vehicle | null> {
+export const readVehicleById = cache(async (id: string): Promise<Vehicle | null> => {
   const vehicles = await readVehicles();
   return vehicles.find((v) => v.id === id) ?? null;
-}
+});
 
 export async function setVehicleLabel(
   tipcarsId: string,

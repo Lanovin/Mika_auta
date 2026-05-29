@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Calendar, Gauge } from "lucide-react";
@@ -30,52 +30,25 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
   const slides = vehicles.slice(0, 6);
   const [current, setCurrent] = useState(0);
   const [paused, setPaused] = useState(false);
-  const [progress, setProgress] = useState(0);
-  const progressRef = useRef<number>(0);
-  const rafRef = useRef<number>(0);
-  const lastTimeRef = useRef<number>(0);
 
   const next = useCallback(() => {
-    setProgress(0);
-    progressRef.current = 0;
     setCurrent((prev) => (prev + 1) % slides.length);
   }, [slides.length]);
 
   const prev = useCallback(() => {
-    setProgress(0);
-    progressRef.current = 0;
     setCurrent((prev) => (prev - 1 + slides.length) % slides.length);
   }, [slides.length]);
 
   const goTo = useCallback((i: number) => {
-    setProgress(0);
-    progressRef.current = 0;
     setCurrent(i);
   }, []);
 
   useEffect(() => {
     if (paused || slides.length <= 1) return;
-
-    lastTimeRef.current = performance.now();
-
-    const tick = (now: number) => {
-      const dt = now - lastTimeRef.current;
-      lastTimeRef.current = now;
-      progressRef.current += dt;
-      const pct = Math.min(progressRef.current / SLIDE_DURATION, 1);
-      setProgress(pct);
-
-      if (pct >= 1) {
-        setCurrent((p) => (p + 1) % slides.length);
-        progressRef.current = 0;
-        setProgress(0);
-      }
-
-      rafRef.current = requestAnimationFrame(tick);
-    };
-
-    rafRef.current = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(rafRef.current);
+    const timer = setTimeout(() => {
+      setCurrent((p) => (p + 1) % slides.length);
+    }, SLIDE_DURATION);
+    return () => clearTimeout(timer);
   }, [paused, slides.length, current]);
 
   if (slides.length === 0) return null;
@@ -121,6 +94,8 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
                 sizes="(max-width: 768px) 100vw, 50vw"
                 style={{ objectFit: "cover" }}
                 priority={i === 0}
+                loading={i === 0 ? undefined : "lazy"}
+                fetchPriority={i === 0 ? "high" : "low"}
               />
             </div>
             <span className="hero-slider__counter">
@@ -198,8 +173,9 @@ export function HeroSlider({ vehicles }: HeroSliderProps) {
           </div>
           <div className="hero-slider__progress">
             <div
+              key={current}
               className="hero-slider__progress-bar"
-              style={{ width: `${progress * 100}%` }}
+              style={{ animationPlayState: paused ? "paused" : "running" }}
             />
           </div>
         </div>

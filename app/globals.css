@@ -539,12 +539,14 @@ a.topbar-item:hover {
 .hero-slider__info {
   display: flex;
   align-items: center;
+  gap: 16px;
   padding: 12px 20px;
   background: var(--black-card);
   border: 1px solid rgba(201, 168, 76, 0.35);
   border-top: none;
   text-decoration: none;
   animation: infoFade 0.25s ease;
+  min-width: 0;
 }
 
 .hero-slider__info:hover {
@@ -559,19 +561,22 @@ a.topbar-item:hover {
 @media (max-width: 768px) {
   .hero-slider__info {
     padding: 10px 14px;
+    gap: 10px;
   }
   .hero-slider__title {
     font-size: 14px;
   }
   .hero-slider__meta {
-    gap: 7px;
-    margin-left: 10px;
+    gap: 6px;
   }
   .hero-slider__meta-item {
     font-size: 11px;
   }
   .hero-slider__price {
     font-size: 15px;
+  }
+  .hero-slider__price-note {
+    font-size: 9px;
   }
 }
 
@@ -581,7 +586,11 @@ a.topbar-item:hover {
   font-weight: 700;
   color: var(--white);
   line-height: 1.2;
-  flex-shrink: 0;
+  flex: 0 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* Vehicle meta (year + mileage) */
@@ -589,8 +598,8 @@ a.topbar-item:hover {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-left: 20px;
-  flex: 1;
+  flex: 0 0 auto;
+  white-space: nowrap;
 }
 
 .hero-slider__meta-item {
@@ -601,6 +610,8 @@ a.topbar-item:hover {
   font-weight: 500;
   color: var(--cream-muted);
   letter-spacing: 0.02em;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .hero-slider__meta-sep {
@@ -608,11 +619,13 @@ a.topbar-item:hover {
   font-size: 13px;
   opacity: 0.7;
   user-select: none;
+  flex-shrink: 0;
 }
 
 .hero-slider__price-col {
   margin-left: auto;
-  flex-shrink: 0;
+  flex: 0 0 auto;
+  max-width: 50%;
   text-align: right;
 }
 
@@ -622,6 +635,7 @@ a.topbar-item:hover {
   color: var(--gold);
   font-variant-numeric: lining-nums;
   line-height: 1.2;
+  white-space: nowrap;
 }
 
 .hero-slider__price-note {
@@ -688,8 +702,20 @@ a.topbar-item:hover {
 
 .hero-slider__progress-bar {
   height: 100%;
+  width: 0;
   background: linear-gradient(90deg, rgba(177, 177, 177, 0.35) 0%, rgba(231, 231, 231, 0.72) 100%);
-  transition: width 0.05s linear;
+  animation: heroSliderProgress 5s linear forwards;
+  will-change: width;
+}
+
+@keyframes heroSliderProgress {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes bannerSliderProgress {
+  from { width: 0; }
+  to { width: 100%; }
 }
 
 @media (max-width: 768px) {
