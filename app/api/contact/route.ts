@@ -4,7 +4,7 @@ import nodemailer from "nodemailer";
 import path from "node:path";
 import { readStoredJson, writeStoredJson } from "@/src/lib/server-storage";
 
-const FALLBACK_CONTACT_EMAIL = "slano@lanovin.cz";
+const FALLBACK_CONTACT_EMAIL = "info@mikaauto.cz";
 const RESEND_ONBOARDING_FROM = "Mika Auto Web <onboarding@resend.dev>";
 const messagesPath = path.join(process.cwd(), "data", "messages.json");
 
