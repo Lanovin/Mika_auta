@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { revalidatePath } from "next/cache";
 import { readContent, writeContent } from "@/src/lib/content-store";
 import { getCurrentUser } from "@/src/lib/auth";
-import { isPersistentStorageRequiredError } from "@/src/lib/server-storage";
 
 function revalidateContentCaches() {
   revalidatePath("/", "layout");
@@ -16,11 +15,6 @@ async function persistContent(body: unknown) {
     return NextResponse.json({ success: true });
   } catch (error) {
     console.error("[content] Failed to persist CMS content.", error);
-
-    if (isPersistentStorageRequiredError(error)) {
-      return NextResponse.json({ error: error.message }, { status: 503 });
-    }
-
     return NextResponse.json({ error: "Content could not be saved." }, { status: 500 });
   }
 }
