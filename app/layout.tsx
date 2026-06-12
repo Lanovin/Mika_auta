@@ -128,6 +128,51 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
+        {/* Safety net that must work even when the Next.js bundles fail to load
+            (stale chunks after a redeploy): force-reveal hidden content and
+            recover from chunk load errors with a single guarded reload. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){
+  function revealAll(){
+    try {
+      var els = document.querySelectorAll(".reveal-on-scroll:not(.revealed)");
+      for (var i = 0; i < els.length; i++) els[i].classList.add("revealed");
+    } catch (e) {}
+  }
+  window.setTimeout(revealAll, 1800);
+  window.addEventListener("load", function(){ window.setTimeout(revealAll, 1800); });
+
+  var RELOAD_KEY = "mika-chunk-reload-at";
+  function reloadOnce(){
+    try {
+      var last = Number(window.sessionStorage.getItem(RELOAD_KEY) || "0");
+      if (Date.now() - last < 60000) return;
+      window.sessionStorage.setItem(RELOAD_KEY, String(Date.now()));
+    } catch (e) {}
+    window.location.reload();
+  }
+  function isChunkSrc(src){
+    return typeof src === "string" && src.indexOf("/_next/static/") !== -1;
+  }
+  window.addEventListener("error", function(event){
+    var target = event.target;
+    if (!target) return;
+    var tag = target.tagName;
+    if (tag === "SCRIPT" && isChunkSrc(target.src)) reloadOnce();
+    if (tag === "LINK" && isChunkSrc(target.href)) reloadOnce();
+  }, true);
+  window.addEventListener("unhandledrejection", function(event){
+    var reason = event && event.reason;
+    var message = reason && (reason.message || String(reason));
+    var name = reason && reason.name;
+    if (name === "ChunkLoadError" || (typeof message === "string" && /loading( css)? chunk .*failed/i.test(message))) {
+      reloadOnce();
+    }
+  });
+})();`,
+          }}
+        />
       </head>
       <body style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <LanguageProvider>

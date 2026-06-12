@@ -91,7 +91,9 @@ export function ServiceDetailClient({ service, serviceEn, others, othersEn, slug
     ? parseServiceTextBlocks(svc.longDesc)
     : [];
 
-  const isVykup = slug === "vykup-vozu-za-hotove";
+  // Service titles are editable in the CMS, so match by keyword instead of an
+  // exact slug (e.g. "vykup-vozu", "vykup-vozu-za-hotove", …).
+  const isVykup = slug.includes("vykup");
 
   return (
     <div className="pb-16">

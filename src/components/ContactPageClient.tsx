@@ -1,8 +1,12 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
+
+const CONTACT_FORM_ID = "kontaktni-formular";
 
 interface ContactData {
   _layout?: string[];
@@ -21,9 +25,29 @@ interface ContactData {
   mapUrl?: string;
 }
 
-export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData }) {
+export function ContactPageClient({
+  cs,
+  en,
+  financingHref = "/sluzby",
+  buyoutHref = "/sluzby",
+}: {
+  cs: ContactData;
+  en: ContactData;
+  financingHref?: string;
+  buyoutHref?: string;
+}) {
   const { lang } = useLanguage();
   const c = lang === "en" ? en : cs;
+
+  // Akce pro karty s důvody kontaktu (mapují se podle pořadí v CMS):
+  // 1. rezervace prohlídky → scroll na kontaktní formulář
+  // 2. kalkulace financování/pojištění → služba Financování
+  // 3. výkup / protiúčet → služba Výkup
+  const reasonActions: ({ type: "scroll" } | { type: "link"; href: string })[] = [
+    { type: "scroll" },
+    { type: "link", href: financingHref },
+    { type: "link", href: buyoutHref },
+  ];
   const layout = c._layout;
   const show = (key: string) => !layout || layout.includes(key);
   const processPanel = show("process") ? (
@@ -110,15 +134,39 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
 
       {/* Důvody */}
       {show("reasons") && (
-      <section className="mt-6 hidden md:grid gap-4 md:grid-cols-3">
-        {c.reasons.map((reason: string, i: number) => (
-          <div
-            key={reason}
-            className={`card-panel px-5 py-4 text-sm font-medium text-secondary reveal-on-scroll${i === 1 ? " reveal-on-scroll--delay" : i === 2 ? " reveal-on-scroll--delay-2" : ""}`}
-          >
-            {reason}
-          </div>
-        ))}
+      <section className="mt-6 grid gap-4 md:grid-cols-3">
+        {c.reasons.map((reason: string, i: number) => {
+          const action = reasonActions[i];
+          const cardClassName = `card-panel flex items-center justify-between gap-3 px-5 py-4 text-left text-sm font-medium text-secondary transition-all duration-200 hover:-translate-y-1 reveal-on-scroll${i === 1 ? " reveal-on-scroll--delay" : i === 2 ? " reveal-on-scroll--delay-2" : ""}`;
+          const cardContent = (
+            <>
+              <span>{reason}</span>
+              <ArrowRight className="h-4 w-4 shrink-0" style={{ color: "var(--gold)" }} />
+            </>
+          );
+
+          if (action?.type === "link") {
+            return (
+              <Link key={reason} href={action.href} className={cardClassName} style={{ textDecoration: "none" }}>
+                {cardContent}
+              </Link>
+            );
+          }
+
+          return (
+            <button
+              key={reason}
+              type="button"
+              className={cardClassName}
+              style={{ cursor: "pointer", font: "inherit" }}
+              onClick={() =>
+                document.getElementById(CONTACT_FORM_ID)?.scrollIntoView({ behavior: "smooth", block: "start" })
+              }
+            >
+              {cardContent}
+            </button>
+          );
+        })}
       </section>
       )}
 
@@ -260,7 +308,7 @@ export function ContactPageClient({ cs, en }: { cs: ContactData; en: ContactData
 
         {/* Formulář */}
         {(show("form") || processPanel) && (
-        <div className="space-y-6">
+        <div className="space-y-6" id={CONTACT_FORM_ID} style={{ scrollMarginTop: "190px" }}>
           {show("form") && (
           <>
           {sent ? (

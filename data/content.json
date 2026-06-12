@@ -1,25 +1,267 @@
 {
-  "alert": {
-    "active": false,
-    "text": "O velikonocích budeme mít zavřeno",
-    "text_en": ""
-  },
-  "homepage_settings": {
-    "mode": "default",
-    "banners": [
+  "onas": {
+    "stats": [
       {
-        "imageUrl": "/images/uploads/1776027689942-d328348d-4746-44f9-8105-a60aaa574595-gemini-reklama1.png",
-        "linkUrl": "",
-        "alt": ""
+        "label": "na trhu",
+        "value": "18+ let"
       },
       {
-        "imageUrl": "/images/uploads/1776027704801-adfc0361-567c-4b6e-9ac3-9672fbd0caca-Mika-reklama-test1.png",
-        "linkUrl": "",
-        "alt": ""
+        "label": "spokojených klientů",
+        "value": "1000+"
+      },
+      {
+        "label": "garance původu vozu",
+        "value": "100%"
+      }
+    ],
+    "header": {
+      "title": "O nás – Autobazar MIKA",
+      "kicker": "O nás",
+      "description": "Společnost MIKAAUTO s.r.o. se od roku 2007 zabývá výkupem a prodejem použitých a zánovních vozidel všech značek."
+    },
+    "_layout": [
+      "header",
+      "history",
+      "stats",
+      "approach"
+    ],
+    "history": {
+      "text1": "Našim zákazníkům nabízíme vždy bohatou nabídku kvalitních vozů nejrůznějších značek a typů, které vždy projdou důkladnou kontrolou, čímž stoprocentně garantujeme jejich původ.",
+      "text2": "Naším hlavním cílem je spokojený zákazník, a proto vám nabízíme ty nejkvalitnější služby na nejvyšší úrovni. Autobazar MIKA vám přináší: bohatou nabídku kvalitních vozů, 100% garanci původu, individuální a profesionální přístup ke každému zákazníkovi.",
+      "title": "Naše historie a poslání",
+      "milestones": [
+        "Od roku 2007 vybíráme vozy s důrazem na původ, stav a reálnou použitelnost pro běžný život.",
+        "Každý obchod řešíme osobně, ne přes anonymní formuláře bez kontextu.",
+        "Dlouhodobě stavíme na doporučení zákazníků a transparentním procesu bez nátlaku."
+      ]
+    },
+    "approach": [
+      {
+        "title": "Bez nátlaku a bez nejasností",
+        "kicker": "Přístup",
+        "description": "Naším cílem není jen vůz prodat, ale doporučit auto, které bude dávat smysl i po několika letech provozu."
+      },
+      {
+        "title": "Prověřená nabídka místo přemíry kusů",
+        "kicker": "Výběr",
+        "description": "Raději menší a kvalitnější výběr než sklad plný aut, za která nechceme ručit."
+      },
+      {
+        "title": "Pomoc i po podpisu smlouvy",
+        "kicker": "Servis",
+        "description": "Umíme dotáhnout pojištění, financování i převod tak, aby byl celý proces pro vás jednoduchý."
+      }
+    ]
+  },
+  "alert": {
+    "text": "TENTO TÝDEN AKCE : SLEVA 40% NA POJIŠTĚNÍ VOZIDEL",
+    "active": false,
+    "text_en": "Friday is closed"
+  },
+  "footer": {
+    "brand": "",
+    "tagline": "Praha 9 • prověřené vozy • osobní servis",
+    "partners": [
+      "GE Money",
+      "Sauto Leasing",
+      "Essox",
+      "Home Credit",
+      "Česká pojišťovna",
+      "Defend Insurance",
+      "Cebia"
+    ],
+    "copyright": "© 2026 Mika Auto – férové jednání a osobní přístup ke každému zákazníkovi.",
+    "description": "Pomáháme lidem bezpečně a pohodlně koupit kvalitní ojetý vůz, který sedne jejich životnímu stylu i rozpočtu."
+  },
+  "sluzby": {
+    "header": {
+      "title": "Naše služby",
+      "kicker": "Služby",
+      "description": "Komplexní služby pro nákup, prodej a financování vozidel"
+    },
+    "_layout": [
+      "header",
+      "summaryCards",
+      "services"
+    ],
+    "services": [
+      {
+        "icon": "CreditCard",
+        "title": "Financování vozu",
+        "longDesc": "Jak to funguje?  \n1. Konzultace a návrh řešení Na základě vašich požadavků pro vás připravíme a zajistíme optimální variantu financování.  \n2. Individuální nabídka. Zohledníme cenu vozu, akontaci i preferovanou výši splátek .  \n3. Rychlé schválení. Spolupracujeme s prověřenými partnery, díky čemuž je proces schválení rychlý a bez zbytečné administrativy.  \n4. Podpis a realizace. Po schválení vše připravíme k podpisu a vy můžete ihned odjet svým novým vozem.\n\nProč financovat vůz přes nás ?\n✔️ Individuální podmínky na míru\n✔️ Spolupráce s ověřenými finančními partnery\n✔️ Rychlé a jednoduché vyřízení\n✔️ Transparentní a férové podmínky\n✔️ Možnost kombinace s výkupem nebo zprostředkováním\n",
+        "shortDesc": "Pořízení nového vozu nemusí znamenat jednorázovou vysokou investici.\nNašim klientům nabízíme individuální řešení financování, která kombinují flexibilitu, výhodné podmínky a maximální komfort.\nPřipravíme vám nabídku na míru přesně podle vašich potřeb a možností.\nÚvěr na vozidlo je ideální volba financování která nabízí flexibilní nastavení splátek i délky financování."
+      },
+      {
+        "icon": "ShieldCheck",
+        "title": "Pojištění vozu",
+        "longDesc": "Co pro vás zajistíme?\n\nPovinné ručení:\nZákladní zákonné pojištění s důrazem na optimální poměr ceny a krytí.  \n\nHavarijní pojištění: \nKomplexní ochrana vašeho vozu proti nehodám, vandalismu, odcizení i živelným událostem.  \n\nDoplňková pojištění: \nMožnost rozšíření o připojištění skel, asistenčních služeb, GAP pojištění nebo ochranu proti střetu se zvěří atd...  \n\nJak to funguje?  \n1. Individuální nabídka. Připravíme vám pojištění na míru podle typu vozu i vašich požadavků.  \n2. Porovnání variant. Vysvětlíme jednotlivé možnosti a doporučíme optimální řešení.  \n3. Rychlé sjednání. Pojištění vyřídíme na počkání, často přímo při předání vozu.  \n4. Bez starostí. Vy odjíždíte s kompletně vyřešeným pojištěním a jistotou maximální ochrany. \n \n Proč sjednat pojištění u nás ?\n✔️ Spolupráce s renomovaným partnerem \n✔️ Výhodné podmínky bez kompromisů – SLEVA AŽ 40% \n✔️ Individuální přístup \n✔️ Rychlé vyřízení při koupi vozu\n✔️ Kompletní servis na jednom místě",
+        "shortDesc": "Součástí našich služeb je také zajištění kvalitního pojištění ve spolupráci s Generali Česká pojišťovna – jedním z nejstabilnějších a nejdůvěryhodnějších partnerů na trhu.\nDíky tomu vám dokážeme nabídnout nejen výhodné podmínky, ale i jistotu, že váš vůz bude chráněn na té nejvyšší úrovni.\n"
+      },
+      {
+        "icon": "Car",
+        "title": "Výkup vozů ",
+        "longDesc": "Jak výkup vozu probíhá?\n\n1. Nezávazná konzultace\n    Kontaktujte nás telefonicky nebo prostřednictvím formuláře. Na základě základních informací o vozidle připravíme orientační nabídku.\n2. Individuální ocenění\n    Každé vozidlo posuzujeme individuálně s ohledem na jeho historii, stav i aktuální situaci na trhu.\n3. Osobní setkání\n    Domluvíme si termín prohlídky. Diskrétně a profesionálně vůz zhodnotíme a potvrdíme finální cenu.\n4. Okamžité vyplacení\n    Po odsouhlasení ceny realizujeme platbu ihned – převodem nebo dle dohody.\n5. Kompletní servis bez starostí\n    Veškerou administrativu, včetně přepisu vozidla, zajistíme za vás.\n\nProč svěřit svůj vůz právě nám?\n    ✔️ Peníze ihned na ruku nebo na účet\n\t✔️ Specializujeme se na zachovalé vozy s jasnou historií\n\t✔️ Maximálně korektní a diskrétní jednání\n\t✔️ Individuální přístup ke každému vozu i majiteli\n\t✔️ Rychlý a bezpečný průběh bez zbytečných komplikací\n\t✔️ Férové ocenění odpovídající kvalitě vozidla\n\n",
+        "shortDesc": "Chcete prodat svůj vůz rychle, bez starostí a za odpovídající cenu?\nSpecializujeme se na výkup kvalitních vozidel všech značek s jasnou historií, kde klademe důraz na individuální přístup, profesionalitu a maximální komfort pro klienta.\nZapomeňte na zdlouhavé inzerování a nejistá jednání. U nás probíhá celý proces elegantně, bezpečně a bez kompromisů.\n"
+      },
+      {
+        "icon": "Car",
+        "title": "Zprostředkování prodeje",
+        "longDesc": "Jak služba funguje?\n\n1. Úvodní konzultace\nSpolečně nastavíme ideální prodejní cenu a strategii prodeje s ohledem na typ a stav vozidla.\n2. Profesionální prezentace\nZajistíme kvalitní fotografie, atraktivní popis a prezentaci vozu na relevantních prodejních kanálech.\n3. Aktivní nabídka vozu\nOslovujeme potenciální klienty a komunikujeme pouze se seriózními zájemci.\n4. Komunikace a prohlídky\nVyřizujeme veškerou komunikaci, organizujeme prohlídky i testovací jízdy.\n5. Bezpečné uzavření obchodu\nZajistíme smluvní dokumentaci, bezpečný průběh transakce i převod vozidla.\n6. Férový model spolupráce\nSlužba je zpoplatněna transparentním provizním poplatkem, který je účtován až po úspěšném prodeji vozidla.\nMáte tak jistotu, že naším cílem je dosáhnout co nejlepšího výsledku.\n\nProč prodávat přes nás ?\n\n✔️ Úspora vašeho času a energie\n✔️ Dosažení maximální prodejní ceny\n✔️ Profesionální prezentace vozu\n✔️ Ověření a seriózní zájemci\n✔️ Kompletní servis včetně administrativy\n\n\n\n",
+        "shortDesc": "Chcete svůj vůz prodat za maximální možnou cenu, ale bez starostí a časové náročnosti spojené s prodejem?\nVyužijte naši službu zprostředkování prodeje – postaráme se o celý proces od A do Z a váš vůz odprezentujeme na úrovni, kterou si zaslouží.\nSpojujeme profesionální přístup, kvalitní prezentaci a cílené oslovení seriózních zájemců.\n"
+      },
+      {
+        "icon": "Car",
+        "title": "Nákup vozu na protiúčet",
+        "longDesc": "Jak služba funguje?\n\n1. Ocenění vašeho vozu\nNa základě základních informací připravíme orientační nabídku, následně vůz odborně posoudíme.\n2. Výběr nového vozidla\nVyberete si vůz z naší aktuální nabídky, který nejlépe odpovídá vašim představám.\n3. Dohoda a započtení\nHodnotu vašeho stávajícího vozu odečteme od ceny nového.\n4. Doplatek a převzetí vozu\nUhradíte pouze rozdíl a odjíždíte novým vozem.\n5. Kompletní servis\nVeškerou administrativu, včetně přepisu obou vozidel, zajistíme za vás.\n\nProč využít protiúčet?\n✔️ Rychlé a pohodlné řešení bez dvojího prodeje\n✔️ Okamžité snížení ceny nového vozu\n✔️Profesionální ocenění vašeho stávajícího auta\n✔️ Minimum administrativy a maximální komfort\n✔️ Možnost kombinace s financováním i pojištěním\n\n",
+        "shortDesc": "Plánujete pořízení nového vozu a zároveň chcete prodat ten stávající? \nVyužijte možnost protiúčtu – elegantní a efektivní řešení, jak oba kroky vyřešit v rámci jedné transakce. Vaše stávající vozidlo oceníme a jeho hodnotu jednoduše odečteme od ceny nového vozu z naší nabídky.\n\nPro koho je služba ideální?\nPro klienty, kteří chtějí celý proces maximálně zjednodušit a zároveň získat férovou hodnotu za své stávající vozidlo bez nutnosti samostatného prodeje.\n"
+      }
+    ],
+    "summaryCards": [
+      {
+        "title": "Rychlé schválení a jasné podmínky",
+        "kicker": "Financování"
+      },
+      {
+        "title": "Povinné ručení i havarijní pojištění",
+        "kicker": "Pojištění"
+      },
+      {
+        "title": "Hotově, komisně i na protiúčet",
+        "kicker": "Výkup"
+      }
+    ]
+  },
+  "kontakt": {
+    "bank": {
+      "csob": "216 326 472 / 0300",
+      "sporitelna": "248 841 7369 / 0800"
+    },
+    "email": "info@mikaauto.cz",
+    "hours": {
+      "note": "Mimo otevírací hodiny dle dohody",
+      "sunday": "Neděle: zavřeno",
+      "saturday": "Sobota: 9:00 - 13:00",
+      "weekdays": "Pondělí až pátek: 9:00 - 17:00"
+    },
+    "phone": "+420 774 333 774",
+    "header": {
+      "title": "Kontakt",
+      "kicker": "Kontakt",
+      "description": "Máte dotaz k vybranému vozu, financování nebo chcete jen nezávazně poradit? Ozvěte se nám a společně najdeme řešení, které vám bude vyhovovat."
+    },
+    "mapUrl": "https://mapy.com/s/meludoreha",
+    "_layout": [
+      "header",
+      "reasons",
+      "contactInfo",
+      "billing",
+      "bank",
+      "process",
+      "form",
+      "map"
+    ],
+    "address": {
+      "city": "196 00 Praha 9 - Čakovice",
+      "name": "Autobazar MIKA",
+      "note1": "Areál nákupního centra Globus",
+      "note2": "- vedle pneuservisu PROCHÁZKA",
+      "street": "Kostelecká 1144/85"
+    },
+    "billing": {
+      "dic": "CZ27941523",
+      "ico": "27941523"
+    },
+    "process": [
+      "Nejprve si upřesníme, o jaký vůz nebo službu máte zájem.",
+      "Připravíme termín prohlídky, rezervaci a orientační kalkulaci.",
+      "Pokud chcete, navážeme rovnou výkupem nebo protiúčtem vašeho vozu."
+    ],
+    "reasons": [
+      "Chci rezervovat prohlídku konkrétního vozu",
+      "Potřebuji kalkulaci financování nebo pojištění",
+      "Mám zájem o výkup vozu nebo protiúčet"
+    ],
+    "formNote": "Ozveme se vám zpět co nejdříve s odpovědí nebo nezávaznou nabídkou.",
+    "formTitle": "Napište nám zprávu ",
+    "phoneNote": "Odpovídáme rychle během provozní doby a umíme připravit i nezávaznou kalkulaci."
+  },
+  "onas_en": {
+    "stats": [
+      {
+        "label": "on the market",
+        "value": "18+ years"
+      },
+      {
+        "label": "satisfied clients",
+        "value": "1000+"
+      },
+      {
+        "label": "vehicle origin guarantee",
+        "value": "100%"
+      }
+    ],
+    "header": {
+      "title": "About Us – MIKA Auto Dealership",
+      "kicker": "About Us",
+      "description": "MIKAAUTO s.r.o. has been buying and selling used and nearly-new vehicles of all makes since 2007."
+    },
+    "_layout": [
+      "header",
+      "history",
+      "stats",
+      "approach"
+    ],
+    "history": {
+      "text1": "We always offer our customers a rich selection of quality vehicles of various makes and types, all of which undergo thorough inspection, thus guaranteeing 100% provenance.",
+      "text2": "Our main goal is a satisfied customer, which is why we offer the highest quality services. MIKA Auto Dealership brings you: a rich selection of quality vehicles, 100% origin guarantee, individual and professional approach to every customer.",
+      "title": "Our History & Mission",
+      "milestones": [
+        "Since 2007, we have been selecting vehicles with emphasis on origin, condition and real usability for everyday life.",
+        "We handle every deal personally, not through anonymous forms without context.",
+        "We rely on long-term customer recommendations and a transparent, pressure-free process."
+      ]
+    },
+    "approach": [
+      {
+        "title": "No Pressure, No Ambiguity",
+        "kicker": "Approach",
+        "description": "Our goal is not just to sell a car, but to recommend one that will make sense even after several years of use."
+      },
+      {
+        "title": "Verified Selection Instead of Overflow",
+        "kicker": "Selection",
+        "description": "We prefer a smaller, higher-quality selection over a warehouse full of cars we don't want to vouch for."
+      },
+      {
+        "title": "Support Even After Signing",
+        "kicker": "Service",
+        "description": "We can handle insurance, financing and transfer to make the whole process simple for you."
       }
     ]
   },
   "homepage": {
+    "hero": {
+      "title": "Prověřené vozy",
+      "kicker": "Autobazar Mika",
+      "ctaPrimary": "Projít nabídku vozů",
+      "ctaSecondary": "Rezervovat prohlídku",
+      "titleHighlight": "bez otazníků."
+    },
+    "stats": [
+      {
+        "label": "předběžné schválení úvěru",
+        "value": "do 30 MINUT"
+      },
+      {
+        "label": "ověřený původ",
+        "value": "100%"
+      }
+    ],
+    "search": {
+      "kicker": "Rychlé vyhledávání",
+      "buttonText": "Vyhledat",
+      "description": "Zadejte pár údajů a zobrazíme vám nejvhodnější vozy."
+    },
     "_layout": [
       "hero",
       "featured",
@@ -27,40 +269,33 @@
       "features",
       "reviews"
     ],
-    "hero": {
-      "kicker": "Autobazar Mika",
-      "title": "Prověřené vozy",
-      "titleHighlight": "bez nátlaku.",
-      "ctaPrimary": "Projít nabídku",
-      "ctaSecondary": "Rezervovat prohlídku"
+    "reviews": {
+      "items": [
+        {
+          "text": "I přes to, že jsem zde nakonec vyhlédnuté auto nekoupil, musím pochválit přístup v tomto autobazaru. Férové jednání, nezatajení žádných informací a milý přístup. Kdyby všechny autobazary fungovaly takto, bylo by na světě krásně.",
+          "author": "Daniel Š."
+        },
+        {
+          "text": "Díky chlapům z MIKA AUTO s.r.o. jsem zcela přehodnotil názor na autobazary! Naprosto profesionální a korektní přístup včetně nabídky prověření vozidla diagnostikou. Seriózní komunikace a dodržení všeho domluveného. Ještě jednou díky",
+          "author": "Petr N."
+        },
+        {
+          "text": "Pánové milí, mají tam pěkná auta a za dobrou cenu. Se mnou vybraným autem jsem hned odjel, vše potřebné vyřídili za mě, maximální spokojenost.",
+          "author": "David P."
+        }
+      ],
+      "title": "Důvěra ověřená tisíci zákazníky",
+      "kicker": "Zkušenosti zákazníků"
     },
     "featured": {
+      "title": "Nejžádanější vozy",
       "kicker": "Doporučené vozy",
-      "title": "Nejžádanější auta",
-      "titleHighlight": "v nabídce",
       "linkText": "Zobrazit všechny vozy",
+      "mobileCount": 3,
       "desktopCount": 4,
-      "mobileCount": 3
+      "titleHighlight": "v nabídce"
     },
-    "search": {
-      "kicker": "Rychlé vyhledávání",
-      "description": "Zadejte pár údajů a zobrazíme vám nejvhodnější vozy.",
-      "buttonText": "Vyhledat"
-    },
-    "stats": [
-      {
-        "value": "24 h",
-        "label": "předběžné schválení"
-      },
-      {
-        "value": "100%",
-        "label": "ověřený původ"
-      }
-    ],
     "features": {
-      "kicker": "Proč lidé volí Mika Auto",
-      "title": "Jasný původ, férový proces,",
-      "titleHighlight": "rychlá domluva",
       "items": [
         {
           "title": "Prověřený technický stav",
@@ -74,158 +309,127 @@
           "title": "Rychlý výkup a protiúčet",
           "description": "Váš současný vůz férově oceníme a můžete ho pohodlně započítat proti novému."
         }
-      ]
-    },
-    "reviews": {
-      "kicker": "Zkušenosti zákazníků",
-      "title": "Důvěra nevzniká sloganem",
-      "items": [
-        {
-          "author": "Daniel Š.",
-          "text": "I přes to, že jsem zde nakonec vyhlédnuté auto nekoupil, musím pochválit přístup v tomto autobazaru. Férové jednání, nezatajení žádných informací a milý přístup. Kdyby všechny autobazary fungovaly takto, bylo by na světě krásně."
-        },
-        {
-          "author": "Petr N.",
-          "text": "Díky chlapům z MIKA AUTO s.r.o. jsem zcela přehodnotil názor na autobazary! Naprosto profesionální a korektní přístup včetně nabídky prověření vozidla diagnostikou. Seriózní komunikace a dodržení všeho domluveného. Ještě jednou díky"
-        },
-        {
-          "author": "David P.",
-          "text": "Pánové milí, mají tam pěkná auta a za dobrou cenu. Se mnou vybraným autem jsem hned odjel, vše potřebné vyřídili za mě, maximální spokojenost."
-        }
-      ]
+      ],
+      "title": "Transparentní jednání, férový proces,",
+      "kicker": "Proč zákazníci volí MikaAuto",
+      "titleHighlight": "rychlé vyřízení"
     }
   },
-  "onas": {
-    "_layout": [
-      "header",
-      "history",
-      "stats",
-      "approach"
+  "footer_en": {
+    "brand": "Mika Auto",
+    "tagline": "Prague 9 • verified vehicles • personal service",
+    "partners": [
+      "GE Money",
+      "Sauto Leasing",
+      "Essox",
+      "Home Credit",
+      "Česká pojišťovna",
+      "Defend Insurance",
+      "Cebia"
     ],
-    "header": {
-      "kicker": "O nás",
-      "title": "O nás – Autobazar MIKA",
-      "description": "Společnost MIKAAUTO s.r.o. se od roku 2007 zabývá výkupem a prodejem použitých a zánovních vozidel všech značek."
-    },
-    "history": {
-      "title": "Naše historie a poslání",
-      "text1": "Našim zákazníkům nabízíme vždy bohatou nabídku kvalitních vozů nejrůznějších značek a typů, které vždy projdou důkladnou kontrolou, čímž stoprocentně garantujeme jejich původ.",
-      "text2": "Naším hlavním cílem je spokojený zákazník, a proto vám nabízíme ty nejkvalitnější služby na nejvyšší úrovni. Autobazar MIKA vám přináší: bohatou nabídku kvalitních vozů, 100% garanci původu, individuální a profesionální přístup ke každému zákazníkovi.",
-      "milestones": [
-        "Od roku 2007 vybíráme vozy s důrazem na původ, stav a reálnou použitelnost pro běžný život.",
-        "Každý obchod řešíme osobně, ne přes anonymní formuláře bez kontextu.",
-        "Dlouhodobě stavíme na doporučení zákazníků a transparentním procesu bez nátlaku."
-      ]
-    },
-    "stats": [
-      {
-        "value": "18+ let",
-        "label": "na trhu"
-      },
-      {
-        "value": "1000+",
-        "label": "spokojených klientů"
-      },
-      {
-        "value": "100%",
-        "label": "garance původu vozu"
-      }
-    ],
-    "approach": [
-      {
-        "kicker": "Přístup",
-        "title": "Bez nátlaku a bez nejasností",
-        "description": "Naším cílem není jen vůz prodat, ale doporučit auto, které bude dávat smysl i po několika letech provozu."
-      },
-      {
-        "kicker": "Výběr",
-        "title": "Prověřená nabídka místo přemíry kusů",
-        "description": "Raději menší a kvalitnější výběr než sklad plný aut, za která nechceme ručit."
-      },
-      {
-        "kicker": "Servis",
-        "title": "Pomoc i po podpisu smlouvy",
-        "description": "Umíme dotáhnout pojištění, financování i převod tak, aby byl celý proces pro vás jednoduchý."
-      }
-    ]
+    "copyright": "© 2026 Mika Auto – fair dealing and personal approach to every customer.",
+    "description": "We help people safely and comfortably buy a quality used car that fits their lifestyle and budget."
   },
-  "sluzby": {
+  "inventory": {
+    "title": "Nabídka vozů",
+    "kicker": "",
+    "subtitle": ""
+  },
+  "sluzby_en": {
+    "header": {
+      "title": "Our Services",
+      "kicker": "Services",
+      "description": "Comprehensive services for buying, selling and financing vehicles"
+    },
     "_layout": [
       "header",
       "summaryCards",
       "services"
     ],
-    "header": {
-      "kicker": "Služby",
-      "title": "Naše služby",
-      "description": "Komplexní služby pro nákup, prodej a financování vozidel"
-    },
-    "summaryCards": [
-      {
-        "kicker": "Financování",
-        "title": "Rychlé schválení a jasné podmínky"
-      },
-      {
-        "kicker": "Pojištění",
-        "title": "Povinné ručení i havarijní pojištění"
-      },
-      {
-        "kicker": "Výkup",
-        "title": "Hotově, komisně i na protiúčet"
-      }
-    ],
     "services": [
       {
         "icon": "CreditCard",
-        "title": "Financování vozu",
-        "shortDesc": "Nabízíme různé možnosti financování vašeho nového vozu za nejlepších podmínek. Zahrnuje nákup na úvěr, výpočet splátek a podmínky pro fyzické osoby, firmy a OSVČ.",
-        "longDesc": "Financování vašeho nového vozu za nejlepších možných podmínek od profesionálů z MIKAAUTO. Nabízíme nákup vozu na úvěr, výpočet splátek a obecné podmínky pro fyzické osoby, firmy a OSVČ. Dokumenty ke stažení jsou k dispozici."
+        "title": "Vehicle Financing",
+        "longDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals. We offer credit vehicle purchase, instalment calculation and general conditions for individuals, companies and self-employed. Documents are available for download.",
+        "shortDesc": "We offer various financing options for your new vehicle at the best terms. Includes credit purchase, instalment calculation and conditions for individuals, companies and self-employed."
       },
       {
         "icon": "ShieldCheck",
-        "title": "Pojištění",
-        "shortDesc": "Zajistíme kompletní pojištění vašeho vozu včetně povinného ručení a havarijního pojištění. Individuální posouzení, výběr nejvhodnějšího pojištění a sleva až 25% při kompletním pojištění.",
-        "longDesc": "Našim zákazníkům nabízíme možnost sjednat si přímo v našem autobazaru pojištění odpovědnosti z provozu vozidla a havarijní pojištění. Povinné ručení je zákonem stanovená povinnost. Výhody: individuální posouzení, výběr nejvhodnějšího pojištění dle potřeb klienta, při uzavření kompletního pojištění sleva až 25%."
+        "title": "Insurance",
+        "longDesc": "We offer our customers the possibility to arrange vehicle liability and comprehensive insurance directly at our dealership. Third-party liability insurance is a legal requirement. Benefits: individual assessment, selection of the most suitable insurance according to client needs, up to 25% discount when taking out complete insurance.",
+        "shortDesc": "We arrange complete vehicle insurance including liability and comprehensive coverage. Individual assessment, selection of the most suitable insurance and up to 25% discount with complete insurance."
       },
       {
         "icon": "Car",
-        "title": "Výkup vozů za hotové",
-        "shortDesc": "Jsme připraveni nabídnout nejvyšší možnou nabídku za váš starý vůz. Možnost prodeje za hotové nebo na protiúčet.",
-        "longDesc": "Jsme připraveni Vám nabídnout nejvyšší možnou nabídku za Váš starý vůz. Nabízíme výkup vozů za hotové, zprostředkování prodeje a prodej na protiúčet."
+        "title": "Vehicle Purchase for Cash",
+        "longDesc": "We are ready to offer you the highest possible price for your old vehicle. We offer cash purchase, sales mediation and trade-in.",
+        "shortDesc": "We are ready to offer the highest possible price for your old vehicle. Option to sell for cash or trade-in."
       },
       {
         "icon": "Car",
-        "title": "Zprostředkování prodeje",
-        "shortDesc": "Pokud chcete prodat svůj starý vůz a nepotřebujete neprodleně hotovost, zprostředkujeme prodej za vás.",
-        "longDesc": "Pokud chcete prodat svůj starý vůz a nepotřebujete neprodleně hotovost, zprostředkujeme prodej za vás. Dokumenty ke stažení, ocenění vašeho vozu a kupóny jsou k dispozici."
+        "title": "Sales Mediation",
+        "longDesc": "If you want to sell your old car and don't need immediate cash, we'll mediate the sale for you. Documents for download, vehicle valuation and coupons are available.",
+        "shortDesc": "If you want to sell your old car and don't need immediate cash, we'll mediate the sale for you."
       },
       {
         "icon": "Car",
-        "title": "Nákup na protiúčet",
-        "shortDesc": "Pokud jste se rozhodli prodat svůj starý vůz za hotovost nebo jej vyměnit za jiný nabízený vůz.",
-        "longDesc": "Pokud jste se rozhodli prodat svůj starý vůz za hotovost nebo jej vyměnit za jiný Námi nabízený vůz. Nabízíme kompletní vyčištění vozidel a převody vozidel na městském úřadě."
+        "title": "Trade-In Purchase",
+        "longDesc": "If you've decided to sell your old car for cash or exchange it for another vehicle we offer. We provide complete vehicle cleaning and registration transfers at the municipal office.",
+        "shortDesc": "If you've decided to sell your old car for cash or exchange it for another vehicle we offer."
       },
       {
         "icon": "Car",
-        "title": "Nákup za hotové",
-        "shortDesc": "Pokud jste si vybrali vůz z naší nabídky, kontaktujte naše prodejce pro informace o vozidle.",
-        "longDesc": "Pokud jste si vybrali vůz z naší aktuální nabídky, neváhejte kontaktovat naše prodejce a informujte se o konkrétním vozidle. Doklady ke koupi, dokumenty ke stažení a poptávkový formulář jsou k dispozici."
+        "title": "Cash Purchase",
+        "longDesc": "If you've chosen a vehicle from our current offer, don't hesitate to contact our sales team for details. Purchase documents, downloads and enquiry form are available.",
+        "shortDesc": "If you've chosen a vehicle from our offer, contact our sales team for vehicle information."
       },
       {
         "icon": "Car",
-        "title": "Nákup na úvěr",
-        "shortDesc": "Financování vašeho nového vozu za nejlepších možných podmínek od profesionálů z MIKAAUTO.",
-        "longDesc": "Financování vašeho nové vozu za nejlepších možných podmínek od profesionálů z MIKAAUTO. Nabízíme nákup na úvěr s výpočtem splátek."
+        "title": "Credit Purchase",
+        "longDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals. We offer credit purchase with instalment calculation.",
+        "shortDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals."
       },
       {
         "icon": "Car",
-        "title": "Převody vozidel na městském úřadě",
-        "shortDesc": "Zprostředkujeme převody vozidel.",
-        "longDesc": "Zprostředkujeme převody vozidel na městském úřadě. Kompletní vyčištění vozidel je také součástí našich služeb."
+        "title": "Vehicle Registration Transfers",
+        "longDesc": "We mediate vehicle registration transfers at the municipal office. Complete vehicle cleaning is also part of our services.",
+        "shortDesc": "We mediate vehicle registration transfers."
+      }
+    ],
+    "summaryCards": [
+      {
+        "title": "Quick Approval & Clear Terms",
+        "kicker": "Financing"
+      },
+      {
+        "title": "Liability & Comprehensive Insurance",
+        "kicker": "Insurance"
+      },
+      {
+        "title": "Cash, Commission or Trade-In",
+        "kicker": "Purchase"
       }
     ]
   },
-  "kontakt": {
+  "kontakt_en": {
+    "bank": {
+      "csob": "216 326 472 / 0300",
+      "sporitelna": "248 841 7369 / 0800"
+    },
+    "email": "info@mikaauto.cz",
+    "hours": {
+      "note": "Outside opening hours by arrangement",
+      "sunday": "Sunday: closed",
+      "saturday": "Saturday: 9:00 - 13:00",
+      "weekdays": "Monday to Friday: 9:00 - 17:00"
+    },
+    "phone": "+420 774 333 774",
+    "header": {
+      "title": "Contact",
+      "kicker": "Contact",
+      "description": "Have a question about a specific vehicle, financing, or just want some no-obligation advice? Get in touch and together we'll find a solution that suits you."
+    },
+    "mapUrl": "https://mapy.com/s/meludoreha",
     "_layout": [
       "header",
       "reasons",
@@ -236,70 +440,54 @@
       "form",
       "map"
     ],
-    "header": {
-      "kicker": "Kontakt",
-      "title": "Kontakt",
-      "description": "Máte dotaz k vybranému vozu, financování nebo chcete jen nezávazně poradit? Ozvěte se nám a společně najdeme řešení, které vám bude vyhovovat."
-    },
-    "reasons": [
-      "Chci rezervovat prohlídku konkrétního vozu",
-      "Potřebuji kalkulaci financování nebo pojištění",
-      "Mám zájem o výkup nebo protiúčet"
-    ],
-    "phone": "+420 774 333 774",
-    "phoneNote": "Odpovídáme rychle během provozní doby a umíme připravit i nezávaznou kalkulaci.",
     "address": {
-      "name": "Autobazar MIKA",
-      "street": "Kostelecká 1144/85",
-      "city": "196 00 Praha 9 - Čakovice",
-      "note1": "Areál nákupního centra Globus",
-      "note2": "Vedle pneuservisu PROCHAZKA"
-    },
-    "email": "info@mikaauto.cz",
-    "hours": {
-      "weekdays": "Pondělí až pátek: 9:00 - 17:00",
-      "saturday": "Sobota: 9:00 - 13:00",
-      "sunday": "Neděle: zavřeno",
-      "note": "Mimo otevírací hodiny dle dohody"
+      "city": "196 00 Prague 9 - Čakovice",
+      "name": "MIKA Auto Dealership",
+      "note1": "Globus Shopping Centre area",
+      "note2": "Next to PROCHAZKA tyre service",
+      "street": "Kostelecká 1144/85"
     },
     "billing": {
-      "ico": "27941523",
-      "dic": "CZ27941523"
-    },
-    "bank": {
-      "csob": "216 326 472 / 0300",
-      "sporitelna": "248 841 7369 / 0800"
+      "dic": "CZ27941523",
+      "ico": "27941523"
     },
     "process": [
-      "Nejprve si upřesníme, o jaký vůz nebo službu máte zájem.",
-      "Připravíme termín prohlídky, rezervaci a orientační kalkulaci.",
-      "Pokud chcete, navážeme rovnou výkupem nebo protiúčtem vašeho vozu."
+      "First, we'll clarify which vehicle or service you're interested in.",
+      "We'll prepare a viewing appointment, reservation and indicative calculation.",
+      "If you want, we'll follow up directly with a purchase or trade-in of your vehicle."
     ],
-    "formTitle": "Napište nám zprávu",
-    "formNote": "Ozveme se vám zpět co nejdříve s odpovědí nebo nezávaznou nabídkou.",
-    "mapUrl": "https://mapy.com/s/meludoreha"
-  },
-  "inventory": {
-    "kicker": "",
-    "title": "Nabídka vozů",
-    "subtitle": ""
-  },
-  "footer": {
-    "brand": "Mika Auto",
-    "description": "Pomáháme lidem bezpečně a pohodlně koupit kvalitní ojetý vůz, který sedne jejich životnímu stylu i rozpočtu.",
-    "copyright": "© 2026 Mika Auto – férové jednání a osobní přístup ke každému zákazníkovi.",
-    "tagline": "Praha 9 • prověřené vozy • osobní servis",
-    "partners": [
-      "GE Money",
-      "Sauto Leasing",
-      "Essox",
-      "Home Credit",
-      "Česká pojišťovna",
-      "Defend Insurance",
-      "Cebia"
-    ]
+    "reasons": [
+      "I want to book a viewing of a specific vehicle",
+      "I need a financing or insurance calculation",
+      "I'm interested in a purchase or trade-in"
+    ],
+    "formNote": "We'll get back to you as soon as possible with a reply or non-binding offer.",
+    "formTitle": "Send Us a Message",
+    "phoneNote": "We respond quickly during business hours and can prepare a non-binding calculation."
   },
   "homepage_en": {
+    "hero": {
+      "title": "Verified Vehicles",
+      "kicker": "Mika Auto Dealership",
+      "ctaPrimary": "Browse Vehicles",
+      "ctaSecondary": "Book a Viewing",
+      "titleHighlight": "stress-free."
+    },
+    "stats": [
+      {
+        "label": "preliminary approval",
+        "value": "24 h"
+      },
+      {
+        "label": "verified origin",
+        "value": "100%"
+      }
+    ],
+    "search": {
+      "kicker": "Quick Search",
+      "buttonText": "Search",
+      "description": "Enter a few details and we'll show you the best matching vehicles."
+    },
     "_layout": [
       "hero",
       "featured",
@@ -307,38 +495,31 @@
       "features",
       "reviews"
     ],
-    "hero": {
-      "kicker": "Mika Auto Dealership",
-      "title": "Verified Vehicles",
-      "titleHighlight": "stress-free.",
-      "ctaPrimary": "Browse Vehicles",
-      "ctaSecondary": "Book a Viewing"
+    "reviews": {
+      "items": [
+        {
+          "text": "I přes to, že jsem zde nakonec vyhlédnuté auto nekoupil, musím pochválit přístup v tomto autobazaru. Férové jednání, nezatajení žádných informací a milý přístup. Kdyby všechny autobazary fungovaly takto, bylo by na světě krásně.",
+          "author": "Daniel Š."
+        },
+        {
+          "text": "Díky chlapům z MIKA AUTO s.r.o. jsem zcela přehodnotil názor na autobazary! Naprosto profesionální a korektní přístup včetně nabídky prověření vozidla diagnostikou. Seriózní komunikace a dodržení všeho domluveného. Ještě jednou díky",
+          "author": "Petr N."
+        },
+        {
+          "text": "Pánové milí, mají tam pěkná auta a za dobrou cenu. Se mnou vybraným autem jsem hned odjel, vše potřebné vyřídili za mě, maximální spokojenost.",
+          "author": "David P."
+        }
+      ],
+      "title": "Trust Isn't Built on Slogans",
+      "kicker": "Customer Reviews"
     },
     "featured": {
-      "kicker": "Featured Vehicles",
       "title": "Most Popular Cars",
-      "titleHighlight": "in Stock",
-      "linkText": "View All Vehicles"
+      "kicker": "Featured Vehicles",
+      "linkText": "View All Vehicles",
+      "titleHighlight": "in Stock"
     },
-    "search": {
-      "kicker": "Quick Search",
-      "description": "Enter a few details and we'll show you the best matching vehicles.",
-      "buttonText": "Search"
-    },
-    "stats": [
-      {
-        "value": "24 h",
-        "label": "preliminary approval"
-      },
-      {
-        "value": "100%",
-        "label": "verified origin"
-      }
-    ],
     "features": {
-      "kicker": "Why People Choose Mika Auto",
-      "title": "Clear origin, fair process,",
-      "titleHighlight": "quick agreement",
       "items": [
         {
           "title": "Verified Technical Condition",
@@ -352,229 +533,30 @@
           "title": "Quick Purchase & Trade-In",
           "description": "We'll fairly value your current car and you can conveniently offset it against a new one."
         }
-      ]
-    },
-    "reviews": {
-      "kicker": "Customer Reviews",
-      "title": "Trust Isn't Built on Slogans",
-      "items": [
-        {
-          "author": "Daniel Š.",
-          "text": "I přes to, že jsem zde nakonec vyhlédnuté auto nekoupil, musím pochválit přístup v tomto autobazaru. Férové jednání, nezatajení žádných informací a milý přístup. Kdyby všechny autobazary fungovaly takto, bylo by na světě krásně."
-        },
-        {
-          "author": "Petr N.",
-          "text": "Díky chlapům z MIKA AUTO s.r.o. jsem zcela přehodnotil názor na autobazary! Naprosto profesionální a korektní přístup včetně nabídky prověření vozidla diagnostikou. Seriózní komunikace a dodržení všeho domluveného. Ještě jednou díky"
-        },
-        {
-          "author": "David P.",
-          "text": "Pánové milí, mají tam pěkná auta a za dobrou cenu. Se mnou vybraným autem jsem hned odjel, vše potřebné vyřídili za mě, maximální spokojenost."
-        }
-      ]
+      ],
+      "title": "Clear origin, fair process,",
+      "kicker": "Why People Choose Mika Auto",
+      "titleHighlight": "quick agreement"
     }
   },
-  "onas_en": {
-    "_layout": [
-      "header",
-      "history",
-      "stats",
-      "approach"
-    ],
-    "header": {
-      "kicker": "About Us",
-      "title": "About Us – MIKA Auto Dealership",
-      "description": "MIKAAUTO s.r.o. has been buying and selling used and nearly-new vehicles of all makes since 2007."
-    },
-    "history": {
-      "title": "Our History & Mission",
-      "text1": "We always offer our customers a rich selection of quality vehicles of various makes and types, all of which undergo thorough inspection, thus guaranteeing 100% provenance.",
-      "text2": "Our main goal is a satisfied customer, which is why we offer the highest quality services. MIKA Auto Dealership brings you: a rich selection of quality vehicles, 100% origin guarantee, individual and professional approach to every customer.",
-      "milestones": [
-        "Since 2007, we have been selecting vehicles with emphasis on origin, condition and real usability for everyday life.",
-        "We handle every deal personally, not through anonymous forms without context.",
-        "We rely on long-term customer recommendations and a transparent, pressure-free process."
-      ]
-    },
-    "stats": [
-      {
-        "value": "18+ years",
-        "label": "on the market"
-      },
-      {
-        "value": "1000+",
-        "label": "satisfied clients"
-      },
-      {
-        "value": "100%",
-        "label": "vehicle origin guarantee"
-      }
-    ],
-    "approach": [
-      {
-        "kicker": "Approach",
-        "title": "No Pressure, No Ambiguity",
-        "description": "Our goal is not just to sell a car, but to recommend one that will make sense even after several years of use."
-      },
-      {
-        "kicker": "Selection",
-        "title": "Verified Selection Instead of Overflow",
-        "description": "We prefer a smaller, higher-quality selection over a warehouse full of cars we don't want to vouch for."
-      },
-      {
-        "kicker": "Service",
-        "title": "Support Even After Signing",
-        "description": "We can handle insurance, financing and transfer to make the whole process simple for you."
-      }
-    ]
-  },
-  "sluzby_en": {
-    "_layout": [
-      "header",
-      "summaryCards",
-      "services"
-    ],
-    "header": {
-      "kicker": "Services",
-      "title": "Our Services",
-      "description": "Comprehensive services for buying, selling and financing vehicles"
-    },
-    "summaryCards": [
-      {
-        "kicker": "Financing",
-        "title": "Quick Approval & Clear Terms"
-      },
-      {
-        "kicker": "Insurance",
-        "title": "Liability & Comprehensive Insurance"
-      },
-      {
-        "kicker": "Purchase",
-        "title": "Cash, Commission or Trade-In"
-      }
-    ],
-    "services": [
-      {
-        "icon": "CreditCard",
-        "title": "Vehicle Financing",
-        "shortDesc": "We offer various financing options for your new vehicle at the best terms. Includes credit purchase, instalment calculation and conditions for individuals, companies and self-employed.",
-        "longDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals. We offer credit vehicle purchase, instalment calculation and general conditions for individuals, companies and self-employed. Documents are available for download."
-      },
-      {
-        "icon": "ShieldCheck",
-        "title": "Insurance",
-        "shortDesc": "We arrange complete vehicle insurance including liability and comprehensive coverage. Individual assessment, selection of the most suitable insurance and up to 25% discount with complete insurance.",
-        "longDesc": "We offer our customers the possibility to arrange vehicle liability and comprehensive insurance directly at our dealership. Third-party liability insurance is a legal requirement. Benefits: individual assessment, selection of the most suitable insurance according to client needs, up to 25% discount when taking out complete insurance."
-      },
-      {
-        "icon": "Car",
-        "title": "Vehicle Purchase for Cash",
-        "shortDesc": "We are ready to offer the highest possible price for your old vehicle. Option to sell for cash or trade-in.",
-        "longDesc": "We are ready to offer you the highest possible price for your old vehicle. We offer cash purchase, sales mediation and trade-in."
-      },
-      {
-        "icon": "Car",
-        "title": "Sales Mediation",
-        "shortDesc": "If you want to sell your old car and don't need immediate cash, we'll mediate the sale for you.",
-        "longDesc": "If you want to sell your old car and don't need immediate cash, we'll mediate the sale for you. Documents for download, vehicle valuation and coupons are available."
-      },
-      {
-        "icon": "Car",
-        "title": "Trade-In Purchase",
-        "shortDesc": "If you've decided to sell your old car for cash or exchange it for another vehicle we offer.",
-        "longDesc": "If you've decided to sell your old car for cash or exchange it for another vehicle we offer. We provide complete vehicle cleaning and registration transfers at the municipal office."
-      },
-      {
-        "icon": "Car",
-        "title": "Cash Purchase",
-        "shortDesc": "If you've chosen a vehicle from our offer, contact our sales team for vehicle information.",
-        "longDesc": "If you've chosen a vehicle from our current offer, don't hesitate to contact our sales team for details. Purchase documents, downloads and enquiry form are available."
-      },
-      {
-        "icon": "Car",
-        "title": "Credit Purchase",
-        "shortDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals.",
-        "longDesc": "Financing your new vehicle at the best possible terms from MIKAAUTO professionals. We offer credit purchase with instalment calculation."
-      },
-      {
-        "icon": "Car",
-        "title": "Vehicle Registration Transfers",
-        "shortDesc": "We mediate vehicle registration transfers.",
-        "longDesc": "We mediate vehicle registration transfers at the municipal office. Complete vehicle cleaning is also part of our services."
-      }
-    ]
-  },
-  "kontakt_en": {
-    "_layout": [
-      "header",
-      "reasons",
-      "contactInfo",
-      "billing",
-      "bank",
-      "process",
-      "form",
-      "map"
-    ],
-    "header": {
-      "kicker": "Contact",
-      "title": "Contact",
-      "description": "Have a question about a specific vehicle, financing, or just want some no-obligation advice? Get in touch and together we'll find a solution that suits you."
-    },
-    "reasons": [
-      "I want to book a viewing of a specific vehicle",
-      "I need a financing or insurance calculation",
-      "I'm interested in a purchase or trade-in"
-    ],
-    "phone": "+420 774 333 774",
-    "phoneNote": "We respond quickly during business hours and can prepare a non-binding calculation.",
-    "address": {
-      "name": "MIKA Auto Dealership",
-      "street": "Kostelecká 1144/85",
-      "city": "196 00 Prague 9 - Čakovice",
-      "note1": "Globus Shopping Centre area",
-      "note2": "Next to PROCHAZKA tyre service"
-    },
-    "email": "info@mikaauto.cz",
-    "hours": {
-      "weekdays": "Monday to Friday: 9:00 - 17:00",
-      "saturday": "Saturday: 9:00 - 13:00",
-      "sunday": "Sunday: closed",
-      "note": "Outside opening hours by arrangement"
-    },
-    "billing": {
-      "ico": "27941523",
-      "dic": "CZ27941523"
-    },
-    "bank": {
-      "csob": "216 326 472 / 0300",
-      "sporitelna": "248 841 7369 / 0800"
-    },
-    "process": [
-      "First, we'll clarify which vehicle or service you're interested in.",
-      "We'll prepare a viewing appointment, reservation and indicative calculation.",
-      "If you want, we'll follow up directly with a purchase or trade-in of your vehicle."
-    ],
-    "formTitle": "Send Us a Message",
-    "formNote": "We'll get back to you as soon as possible with a reply or non-binding offer.",
-    "mapUrl": "https://mapy.com/s/meludoreha"
-  },
   "inventory_en": {
-    "kicker": "Stock Offer",
     "title": "Verified Vehicle Offer",
+    "kicker": "Stock Offer",
     "subtitle": "Browse our current stock of vehicles ready for immediate pickup. Every unit has a clear history and carefully traced origin."
   },
-  "footer_en": {
-    "brand": "Mika Auto",
-    "description": "We help people safely and comfortably buy a quality used car that fits their lifestyle and budget.",
-    "copyright": "© 2026 Mika Auto – fair dealing and personal approach to every customer.",
-    "tagline": "Prague 9 • verified vehicles • personal service",
-    "partners": [
-      "GE Money",
-      "Sauto Leasing",
-      "Essox",
-      "Home Credit",
-      "Česká pojišťovna",
-      "Defend Insurance",
-      "Cebia"
+  "homepage_settings": {
+    "mode": "default",
+    "banners": [
+      {
+        "alt": "",
+        "linkUrl": "",
+        "imageUrl": "/images/uploads/1776027689942-d328348d-4746-44f9-8105-a60aaa574595-gemini-reklama1.png"
+      },
+      {
+        "alt": "",
+        "linkUrl": "",
+        "imageUrl": "/images/uploads/1776027704801-adfc0361-567c-4b6e-9ac3-9672fbd0caca-Mika-reklama-test1.png"
+      }
     ]
   }
 }

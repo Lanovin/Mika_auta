@@ -3,6 +3,9 @@
 import { useRef, useState, type FormEvent, type ChangeEvent } from "react";
 import { useLanguage } from "@/src/lib/LanguageContext";
 import { t } from "@/src/lib/translations";
+import { carCatalog } from "@/src/data/car-catalog";
+
+const OTHER_VALUE = "__other__";
 
 export function VehiclePurchaseForm() {
   const { lang } = useLanguage();
@@ -15,7 +18,10 @@ export function VehiclePurchaseForm() {
     name: "",
     email: "",
     phone: "",
-    makeModel: "",
+    brand: "",
+    brandOther: "",
+    model: "",
+    modelOther: "",
     body: "",
     fuel: "",
     year: "",
@@ -35,6 +41,15 @@ export function VehiclePurchaseForm() {
   const set = (field: string, value: string | boolean | string[] | FileList | null) =>
     setForm((prev) => ({ ...prev, [field]: value }));
 
+  const setBrand = (value: string) =>
+    setForm((prev) => ({ ...prev, brand: value, brandOther: "", model: "", modelOther: "" }));
+
+  const selectedBrand = carCatalog.find((b) => b.brand === form.brand);
+  const brandLabel = form.brand === OTHER_VALUE ? form.brandOther : form.brand;
+  const modelLabel = form.brand === OTHER_VALUE || form.model === OTHER_VALUE
+    ? form.modelOther
+    : form.model;
+
   const toggleEquipment = (item: string) => {
     setForm((prev) => ({
       ...prev,
@@ -50,7 +65,8 @@ export function VehiclePurchaseForm() {
     setError("");
 
     const lines = [
-      `Značka/Model: ${form.makeModel}`,
+      `Značka: ${brandLabel}`,
+      `Model: ${modelLabel}`,
       `Karoserie: ${form.body}`,
       `Palivo: ${form.fuel}`,
       `Rok: ${form.year}`,
@@ -249,18 +265,90 @@ export function VehiclePurchaseForm() {
           <div style={{ display: "grid", gap: "16px", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))" }}>
           <div>
             <label style={labelStyle}>
-              {t("vykup.makeModel", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>
+              {t("vykup.brand", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>
             </label>
-            <input
-              type="text"
+            <select
               required
-              value={form.makeModel}
-              onChange={(e) => set("makeModel", e.target.value)}
+              value={form.brand}
+              onChange={(e) => setBrand(e.target.value)}
               style={inputStyle}
               onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
               onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
-            />
+            >
+              <option value="">{t("vykup.selectBrand", lang)}</option>
+              {carCatalog.map((b) => (
+                <option key={b.brand} value={b.brand}>{b.brand}</option>
+              ))}
+              <option value={OTHER_VALUE}>{t("vykup.otherBrand", lang)}</option>
+            </select>
           </div>
+          {form.brand === OTHER_VALUE && (
+            <div>
+              <label style={labelStyle}>
+                {t("vykup.enterBrand", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={form.brandOther}
+                onChange={(e) => set("brandOther", e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
+              />
+            </div>
+          )}
+          <div>
+            <label style={labelStyle}>
+              {t("vykup.model", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>
+            </label>
+            {form.brand === OTHER_VALUE ? (
+              <input
+                type="text"
+                required
+                placeholder={t("vykup.enterModel", lang)}
+                value={form.modelOther}
+                onChange={(e) => set("modelOther", e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
+              />
+            ) : (
+              <select
+                required
+                disabled={!selectedBrand}
+                value={form.model}
+                onChange={(e) => set("model", e.target.value)}
+                style={{ ...inputStyle, opacity: selectedBrand ? 1 : 0.55 }}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
+              >
+                <option value="">
+                  {selectedBrand ? t("vykup.selectModel", lang) : t("vykup.selectBrand", lang)}
+                </option>
+                {selectedBrand?.models.map((m) => (
+                  <option key={m} value={m}>{m}</option>
+                ))}
+                {selectedBrand && <option value={OTHER_VALUE}>{t("vykup.otherModel", lang)}</option>}
+              </select>
+            )}
+          </div>
+          {form.brand !== OTHER_VALUE && form.model === OTHER_VALUE && (
+            <div>
+              <label style={labelStyle}>
+                {t("vykup.enterModel", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>
+              </label>
+              <input
+                type="text"
+                required
+                value={form.modelOther}
+                onChange={(e) => set("modelOther", e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
+              />
+            </div>
+          )}
           <div>
             <label style={labelStyle}>
               {t("vykup.body", lang)} <span style={{ color: "var(--gold-light)" }}>*</span>

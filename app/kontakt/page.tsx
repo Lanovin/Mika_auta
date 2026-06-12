@@ -2,6 +2,15 @@ import type { Metadata } from "next";
 import { readContent } from "@/src/lib/content-store";
 import { ContactPageClient } from "@/src/components/ContactPageClient";
 
+function slugify(text: string): string {
+  return text
+    .normalize("NFD")
+    .replace(/[̀-ͯ]/g, "")
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
 export const metadata: Metadata = {
   title: "Kontakt – Autobazar Mika Auto Brno",
   description: "Kontaktujte autobazar Mika Auto – telefon, e-mail, adresa, otevírací doba. Vídeňská 297/99, Brno. Rádi vám poradíme s výběrem vozu.",
@@ -32,5 +41,20 @@ export default async function ContactPage() {
   };
   const en = (content.kontakt_en ?? cs) as typeof cs;
 
-  return <ContactPageClient cs={cs} en={en} />;
+  // Service titles are editable in the CMS, so resolve the target links from
+  // the live content instead of hardcoding slugs.
+  const services = (content.sluzby as { services?: { title: string }[] } | undefined)?.services ?? [];
+  const findServiceHref = (keyword: string) => {
+    const service = services.find((s) => slugify(s.title).includes(keyword));
+    return service ? `/sluzby/${slugify(service.title)}` : "/sluzby";
+  };
+
+  return (
+    <ContactPageClient
+      cs={cs}
+      en={en}
+      financingHref={findServiceHref("financovani")}
+      buyoutHref={findServiceHref("vykup")}
+    />
+  );
 }

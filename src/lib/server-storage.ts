@@ -78,9 +78,17 @@ function getPool() {
   }
 
   if (!globalThis.__mikaStoragePool) {
+    // Without these timeouts an unreachable/suspended database makes
+    // pool.connect()/query() wait forever, which hangs every dynamic page
+    // (black screen) and the contact API. With them the error path kicks in
+    // and readStoredJson falls back to the bundled JSON files.
     globalThis.__mikaStoragePool = new Pool({
       connectionString: databaseUrl,
       max: 3,
+      connectionTimeoutMillis: 8000,
+      idleTimeoutMillis: 30000,
+      query_timeout: 10000,
+      statement_timeout: 10000,
       ssl: databaseUrl.includes("sslmode=require")
         ? { rejectUnauthorized: false }
         : undefined,

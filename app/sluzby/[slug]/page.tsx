@@ -26,6 +26,20 @@ interface SluzbyContent {
   services: ServiceItem[];
 }
 
+// Service titles are editable in the CMS, so links generated from an older
+// content version (stale menu, search engines, hardcoded links) may use a
+// different slug than the current title. Fall back to a prefix match so e.g.
+// "vykup-vozu-za-hotove" still opens the service now slugged "vykup-vozu".
+function findServiceIndex(services: ServiceItem[], slug: string): number {
+  const exact = services.findIndex((s) => slugify(s.title) === slug);
+  if (exact !== -1) return exact;
+
+  return services.findIndex((s) => {
+    const candidate = slugify(s.title);
+    return candidate.length > 0 && (candidate.startsWith(slug) || slug.startsWith(candidate));
+  });
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -34,7 +48,7 @@ export async function generateMetadata({
   const { slug } = params;
   const content = await readContent();
   const cs = content.sluzby as SluzbyContent;
-  const service = cs.services.find((s) => slugify(s.title) === slug);
+  const service = cs.services[findServiceIndex(cs.services, slug)];
   if (!service) return {};
   return {
     title: `${service.title} – Služby`,
@@ -57,18 +71,22 @@ export default async function ServiceDetailPage({
   const cs = content.sluzby as SluzbyContent;
   const en = (content.sluzby_en ?? cs) as SluzbyContent;
 
-  const serviceIndex = cs.services.findIndex((s) => slugify(s.title) === slug);
+  const serviceIndex = findServiceIndex(cs.services, slug);
   if (serviceIndex === -1) return notFound();
   const service = cs.services[serviceIndex];
   const serviceEn = en.services[serviceIndex] ?? service;
 
   const others = cs.services
     .map((s, i) => ({ ...s, idx: i }))
-    .filter((s) => slugify(s.title) !== slug);
+    .filter((s) => s.idx !== serviceIndex);
   // Include csTitle so the client can always generate the correct (Czech-based) slug
   const othersEn = en.services
     .map((s, i) => ({ ...s, idx: i, csTitle: cs.services[i]?.title ?? s.title }))
-    .filter((_, i) => slugify(cs.services[i]?.title ?? "") !== slug);
+    .filter((s) => s.idx !== serviceIndex);
 
-  return <ServiceDetailClient service={service} serviceEn={serviceEn} others={others} othersEn={othersEn} slug={slug} serviceIndex={serviceIndex} />;
+  // Pass the canonical slug so slug-based logic in the client matches even
+  // when the visitor arrived through an older slug variant.
+  const canonicalSlug = slugify(cs.services[serviceIndex]?.title ?? "") || slug;
+
+  return <ServiceDetailClient service={service} serviceEn={serviceEn} others={others} othersEn={othersEn} slug={canonicalSlug} serviceIndex={serviceIndex} />;
 }
