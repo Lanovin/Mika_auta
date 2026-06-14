@@ -231,8 +231,9 @@ export async function POST(request: Request) {
     }
 
     console.error("[contact] Error:", error);
+    const detail = error instanceof Error ? error.message : String(error);
     return NextResponse.json(
-      { error: "Internal server error" },
+      { error: "Internal server error", detail },
       { status: 500 }
     );
   }
