@@ -32,6 +32,10 @@ export function VehiclePurchaseForm() {
     equipmentNote: "",
     photos: null as FileList | null,
     owners: "",
+    origin: "",
+    crashed: "",
+    transmission: "",
+    vin: "",
     stkDay: "",
     stkMonth: "",
     stkYear: "",
@@ -74,6 +78,10 @@ export function VehiclePurchaseForm() {
       `Objem ccm: ${form.engineCC}`,
       `Výkon kW: ${form.powerKw}`,
       form.owners ? `Počet majitelů: ${form.owners}` : "",
+      form.origin ? `Původ vozu: ${form.origin}` : "",
+      form.crashed ? `Havarováno: ${form.crashed}` : "",
+      form.transmission ? `Převodovka: ${form.transmission}` : "",
+      form.vin ? `VIN: ${form.vin}` : "",
       form.stkDay || form.stkMonth || form.stkYear
         ? `STK do: ${form.stkDay}.${form.stkMonth}.${form.stkYear}`
         : "",
@@ -126,6 +134,10 @@ export function VehiclePurchaseForm() {
     { value: "benzin", label: t("fuel.benzin", lang) },
     { value: "nafta", label: t("fuel.nafta", lang) },
     { value: "hybrid", label: t("fuel.hybrid", lang) },
+    { value: "hybrid_nafta", label: t("fuel.hybrid_nafta", lang) },
+    { value: "plug_in_hybrid", label: t("fuel.plug_in_hybrid", lang) },
+    { value: "lpg", label: t("fuel.lpg", lang) },
+    { value: "cng", label: t("fuel.cng", lang) },
     { value: "elektro", label: t("fuel.elektro", lang) },
   ];
 
@@ -488,8 +500,13 @@ export function VehiclePurchaseForm() {
         </div>
 
         {/* Equipment note */}
-        <div style={sectionStyle}>
-          <label style={labelStyle}>{t("vykup.equipmentNote", lang)}</label>
+        <div style={{ ...sectionStyle, border: "1px solid rgba(201, 168, 76, 0.5)", background: "linear-gradient(180deg, rgba(201, 168, 76, 0.13) 0%, rgba(255, 255, 255, 0.03) 100%)" }}>
+          <label style={{ ...labelStyle, fontSize: "12px", color: "var(--gold-light)" }}>
+            {t("vykup.equipmentNote", lang)}
+            <span style={{ fontWeight: 400, textTransform: "none", letterSpacing: "0", marginLeft: "6px", color: "var(--cream-muted)" }}>
+              {lang === "cs" ? "(zde uveďte další prvky výbavy vašeho vozu)" : "(list any additional vehicle equipment here)"}
+            </span>
+          </label>
           <textarea
             rows={3}
             value={form.equipmentNote}
@@ -563,7 +580,101 @@ export function VehiclePurchaseForm() {
                 onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
               />
             </div>
+            <div>
+              <label style={{ ...labelStyle, fontSize: "10px", color: "var(--cream-muted)" }}>
+                {t("vykup.origin", lang)}
+              </label>
+              <input
+                type="text"
+                value={form.origin}
+                onChange={(e) => set("origin", e.target.value)}
+                style={inputStyle}
+                onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+                onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
+              />
+            </div>
           </div>
+        </div>
+
+        {/* Crashed */}
+        <div style={sectionStyle}>
+          <label style={labelStyle}>{t("vykup.crashed", lang)}</label>
+          <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
+            {[{ value: t("vykup.yes", lang), label: t("vykup.yes", lang) }, { value: t("vykup.no", lang), label: t("vykup.no", lang) }].map((opt) => (
+              <label
+                key={opt.value}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "10px 20px",
+                  fontSize: "14px",
+                  border: `1px solid ${form.crashed === opt.value ? "var(--gold-dim)" : "var(--black-border)"}`,
+                  background: form.crashed === opt.value ? "rgba(201,168,76,0.08)" : "var(--black-card)",
+                  color: form.crashed === opt.value ? "var(--gold)" : "var(--cream-muted)",
+                  cursor: "pointer",
+                  transition: "all 0.15s",
+                }}
+              >
+                <input
+                  type="radio"
+                  name="crashed"
+                  value={opt.value}
+                  checked={form.crashed === opt.value}
+                  onChange={() => set("crashed", opt.value)}
+                  style={{ display: "none" }}
+                />
+                {opt.label}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* Transmission */}
+        <div style={sectionStyle}>
+          <label style={labelStyle}>{t("vykup.transmission", lang)}</label>
+          <div style={{ display: "flex", gap: "12px", marginTop: "8px" }}>
+            {[{ value: t("vykup.automatic", lang), label: t("vykup.automatic", lang) }, { value: t("vykup.manual", lang), label: t("vykup.manual", lang) }].map((opt) => (
+              <label
+                key={opt.value}
+                style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "8px",
+                  padding: "10px 20px",
+                  fontSize: "14px",
+                  border: `1px solid ${form.transmission === opt.value ? "var(--gold-dim)" : "var(--black-border)"}`,
+                  background: form.transmission === opt.value ? "rgba(201,168,76,0.08)" : "var(--black-card)",
+                  color: form.transmission === opt.value ? "var(--gold)" : "var(--cream-muted)",
+                  cursor: "pointer",
+                  transition: "all 0.15s",
+                }}
+              >
+                <input
+                  type="radio"
+                  name="transmission"
+                  value={opt.value}
+                  checked={form.transmission === opt.value}
+                  onChange={() => set("transmission", opt.value)}
+                  style={{ display: "none" }}
+                />
+                {opt.label}
+              </label>
+            ))}
+          </div>
+        </div>
+
+        {/* VIN */}
+        <div style={sectionStyle}>
+          <label style={labelStyle}>{t("vykup.vin", lang)}</label>
+          <input
+            type="text"
+            value={form.vin}
+            onChange={(e) => set("vin", e.target.value)}
+            style={inputStyle}
+            onFocus={(e) => setFieldFocusState(e.currentTarget, true)}
+            onBlur={(e) => setFieldFocusState(e.currentTarget, false)}
+          />
         </div>
 
         {/* STK validity */}

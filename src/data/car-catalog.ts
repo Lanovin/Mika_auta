@@ -107,4 +107,108 @@ export const carCatalog: CarBrand[] = [
     brand: "Volvo",
     models: ["V40", "V60", "V90", "S60", "S90", "XC40", "XC60", "XC90", "C40"],
   },
+  {
+    brand: "Alfa Romeo",
+    models: ["Giulia", "Giulietta", "Stelvio", "Tonale", "147", "156", "159", "166", "Brera", "MiTo", "Spider"],
+  },
+  {
+    brand: "Chevrolet",
+    models: ["Aveo", "Cruze", "Captiva", "Trax", "Spark", "Orlando", "Lacetti", "Kalos"],
+  },
+  {
+    brand: "Cupra",
+    models: ["Formentor", "Born", "Leon", "Ateca", "Terramar"],
+  },
+  {
+    brand: "DS Automobiles",
+    models: ["DS 3", "DS 3 Crossback", "DS 4", "DS 5", "DS 7", "DS 9"],
+  },
+  {
+    brand: "Infiniti",
+    models: ["Q30", "Q50", "Q60", "QX30", "QX50", "QX70", "QX80"],
+  },
+  {
+    brand: "Jaguar",
+    models: ["XE", "XF", "XJ", "F-Type", "E-Pace", "F-Pace", "I-Pace"],
+  },
+  {
+    brand: "Jeep",
+    models: ["Renegade", "Compass", "Cherokee", "Grand Cherokee", "Wrangler", "Avenger"],
+  },
+  {
+    brand: "Lexus",
+    models: ["CT", "IS", "ES", "GS", "LS", "NX", "RX", "UX", "LC", "LX", "RC"],
+  },
+  {
+    brand: "MG",
+    models: ["3", "4", "5", "ZS", "HS", "Marvel R"],
+  },
+  {
+    brand: "MINI",
+    models: ["One", "Cooper", "Cooper S", "Clubman", "Countryman", "Paceman", "Roadster", "Convertible", "Coupe"],
+  },
+  {
+    brand: "Polestar",
+    models: ["1", "2", "3", "4"],
+  },
+  {
+    brand: "Saab",
+    models: ["9-3", "9-5"],
+  },
+  {
+    brand: "Smart",
+    models: ["ForTwo", "ForFour", "#1", "#3"],
+  },
+  {
+    brand: "Subaru",
+    models: ["Impreza", "Forester", "Outback", "Legacy", "XV", "Levorg", "BRZ", "WRX"],
+  },
+  {
+    brand: "Bentley",
+    models: ["Continental", "Bentayga", "Flying Spur", "Mulsanne"],
+  },
+  {
+    brand: "Ferrari",
+    models: ["Roma", "Portofino", "SF90", "F8", "812", "296", "Purosangue"],
+  },
+  {
+    brand: "Lamborghini",
+    models: ["Huracán", "Urus", "Revuelto"],
+  },
+  {
+    brand: "Maserati",
+    models: ["Ghibli", "Levante", "Quattroporte", "Grecale", "GranTurismo"],
+  },
+  {
+    brand: "Rolls-Royce",
+    models: ["Ghost", "Phantom", "Wraith", "Dawn", "Cullinan", "Spectre"],
+  },
+  {
+    brand: "Lada",
+    models: ["Niva", "Granta", "Vesta", "2105", "2106", "2107"],
+  },
+  {
+    brand: "Dodge",
+    models: ["Challenger", "Charger", "Durango", "Journey", "RAM"],
+  },
+  {
+    brand: "Chrysler",
+    models: ["300", "Pacifica", "Voyager"],
+  },
+  {
+    brand: "Cadillac",
+    models: ["Escalade", "CT4", "CT5", "XT4", "XT5", "XT6"],
+  },
+  {
+    brand: "BYD",
+    models: ["Atto 3", "Han", "Tang", "Seal", "Dolphin", "Seagull"],
+  },
+  {
+    brand: "Lynk & Co",
+    models: ["01", "02", "03"],
+  },
+  {
+    brand: "Genesis",
+    models: ["G70", "G80", "G90", "GV70", "GV80"],
+  },
 ];
